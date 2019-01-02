@@ -1,0 +1,210 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "Thrend axis",
+            "name": "category",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Value",
+            "name": "value",
+            "kind": "Measure"
+        }
+        ,
+        {
+            "displayName": "Target",
+            "name": "target",
+            "kind": "Measure"
+        }
+    ],
+    "sorting": {
+        "implicit": {
+            "clauses": [
+                {
+                    "role": "category",
+                    "direction": 1
+                }
+            ]
+        }
+    },
+    "objects": {
+        "visualOptions":{
+            "displayName":"KPImg Options"
+            , "properties":{
+                "urlImgOk":{
+                    "displayName": "Image OK"
+                    , "type":{
+                        "text":true
+                    }
+                }
+                ,"urlImgKo":{
+                    "displayName": "Image KO"
+                    , "type":{
+                        "text":true
+                    }
+                }
+                , "koPercentValue":{
+                    "displayName":"KO Percent Value"
+                    , "type":{
+                        "numeric":true
+                    }
+                }
+                , "kpiColor":{
+                    "displayName":"Font Color"
+                    , "type":{
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+                , "kpiTransparency":{
+                    "displayName":"Font Transparency"
+                    , "type":{
+                        "numeric":true
+                    }
+                }
+                , "kpiVerticalAlign":{
+                    "displayName":"Indicator Vertical Align"
+                    , "type":{
+                        "enumeration":[
+                            {
+                                "value":"top"
+                                ,"displayName": "Top"
+                            }
+                            ,{
+                                "value":"middle"
+                                ,"displayName": "Middle"
+                            }
+                            ,{
+                                "value":"bottom"
+                                ,"displayName": "Bottom"
+                            }
+                        ]
+
+                        
+                    }
+                }
+                , "serieColorOk":{
+                    "displayName":"Serie Color Ok"
+                    , "type":{
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+                , "serieColorKo":{
+                    "displayName":"Serie Color Ko"
+                    , "type":{
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+                , "serieColorNeutral":{
+                    "displayName":"Serie Color Neutral"
+                    , "type":{
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+                , "seriesTransparency":{
+                    "displayName":"Series Transparency"
+                    , "type":{
+                        "numeric":true
+                    }
+                }
+
+            }
+        },
+        "dataPoint": {
+            "displayName": "Data colors",
+            "properties": {
+                "defaultColor": {
+                    "displayName": "Default color",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "showAllDataPoints": {
+                    "displayName": "Show all",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "fill": {
+                    "displayName": "Fill",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "fillRule": {
+                    "displayName": "Color saturation",
+                    "type": {
+                        "fill": {}
+                    }
+                },
+                 "fontSize": {
+                    "displayName": "Text Size",
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "dataViewMappings": [
+        {
+            "conditions": [
+                { "category":{"max":1}, "value": { "max": 1 }   , "target": { "max": 1 } }
+                
+            ],
+            "categorical": {
+                "categories": {
+                    "for": {
+                        "in": "category"
+                    },
+                    "dataReductionAlgorithm": {
+                        "top": { "count":100}
+                    }
+                },
+                "values": {
+                    "group":{
+                        "by":"series",
+                        "select": [
+                            {
+                                "for": {
+                                    "in": "value"
+                                }
+                                
+                            }
+                            ,{
+                                "for": {
+                                    "in": "target"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    ]
+}
