@@ -103,12 +103,12 @@ module powerbi.extensibility.visual {
                 }
                 myimg.setAttribute("src",mysrc);
             
-            }
+            } else myimg.setAttribute("src","data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=");
 
             
             myimg.onload = (function(mysettings){
                 return function(){
-
+                    debugger;
                     let mycan : HTMLCanvasElement = document.getElementsByTagName("canvas").item(0);
                     let myCanCtx : CanvasRenderingContext2D = mycan.getContext("2d");
                     
