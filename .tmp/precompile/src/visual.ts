@@ -32,6 +32,7 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41  {
         public target:number;
         public color:string;
         public percent:number;
+        public realPercent:number;
                 
     }
     export class Visual implements IVisual {
@@ -82,6 +83,8 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41  {
                         myelement.target = parseFloat(options.dataViews[0].categorical.values[1].values[i].valueOf().toString());
                         myelement.percent=0;
                         if(myelement.target!=0) myelement.percent=myelement.value/myelement.target;
+                        myelement.realPercent=myelement.percent;
+                        
                         if(myelement.percent>1)myelement.percent=1;
                         if(myelement.percent<0)myelement.percent=0;
                         series.push(myelement);
@@ -131,7 +134,8 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41  {
                         
                         while (mytextwidth>mycan.width){
                             fontSize--;
-                            myCanCtx.font=(fontSize).toString()+"px sans-serif";
+                            
+                            myCanCtx.font=(fontSize).toString()+"px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
                             mytextwidth = myCanCtx.measureText(mytext).width;
                         }
 
@@ -151,9 +155,31 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41  {
                             myCanCtx.closePath();
                             myCanCtx.stroke();
                             myCanCtx.fillStyle = mysettings.visualOptions.serieColorNeutral.valueOf().toString();
+                            
+                            
+
                             if (series.length>1){
+                                //Calculate thend: minimun squares
+                                var totalY = 0;
+                                var totalX = 0;
+                                var totalXY = 0;
+                                var totalX2 = 0;
+                                var totalN = series.length;
+                                for(var numSer=0;numSer<series.length;numSer++){                    
+                                    var x=numSer+1;
+                                    var y=series[numSer].realPercent;
+                                    totalY+=y;
+                                    totalX+=x;
+                                    totalXY+=x*y;
+                                    totalX2+=x*x;                                    
+                                }
+                                var avgX=totalX/totalN;
+                                var avgY=totalY/totalN;
+                                //regression line: f(x)=a+bx. Calculate the factor b
+                                var b=(totalXY-totalN*avgX*avgY)/(totalX2-totalN*avgX*avgX);
+
                                 myCanCtx.fillStyle=mysettings.visualOptions.serieColorOk.valueOf().toString();
-                                if (series[series.length-1].percent<series[series.length-2].percent) myCanCtx.fillStyle=mysettings.visualOptions.serieColorKo.valueOf().toString();
+                                if (b<0) myCanCtx.fillStyle=mysettings.visualOptions.serieColorKo.valueOf().toString();
                             }
                             myCanCtx.fill();
                         }

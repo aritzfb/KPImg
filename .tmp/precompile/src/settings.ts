@@ -29,23 +29,40 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41  {
     import DataViewObjectsParser = powerbi.extensibility.utils.dataview.DataViewObjectsParser;
 
     export class VisualSettings extends DataViewObjectsParser {
-      public dataPoint: dataPointSettings = new dataPointSettings();
       public visualOptions: visualOptions = new visualOptions();
       }
+    
 
-    export class dataPointSettings {
-     // Default color
-      public defaultColor: string = "";
-     // Show all
-      public showAllDataPoints: boolean = true;
-     // Fill
-      public fill: string = "";
-     // Color saturation
-      public fillRule: string = "";
-     // Text Size
-      public fontSize: number = 12;
+    
+
+     export enum kpiFontFamilyOptions {
+       default = "helvetica, arial, sans-serif" as any
+       , arial = "Arial" as any
+       , arialBlack = "\"Arial Black\"" as any
+       , arialUnicodeMS = "\"Arial Unicode MS\"" as any
+       , calibri = "Calibri" as any
+       , cambria = "Cambria" as any
+       , cambriaMath = "\"Cambria Math\"" as any
+       , candara = "Candara" as any
+       , comicSansMS = "\"Comic Sans MS\"" as any
+       , consolas = "Consolas" as any
+       , constantia = "Constantia" as any
+       , corbel = "Corbel" as any
+       , corbelNew = "\"Courier New\"" as any
+       , georgia = "Georgia" as any
+       , lucidaSansUnicode = "\"Lucida Sans Unicode\"" as any
+       , segoeUIBold = "\"Segoe UI Bold\", wf_segoe-ui_bold, helvetica, arial, sans-serif" as any
+       , segoeUI = "\"Segoe UI\", wf_segoe-ui_normal, helvetica, arial, sans-serif" as any
+       , segoeUILight = "\"Segoe UI Light\", wf_segoe-ui_bold, helvetica, arial, sans-serif" as any
+       , symbol = "Symbol" as any
+       , tahoma = "Tahoma" as any
+       , timesNewRoman = "\"Times New Roman\"" as any
+       , trebuchetMS = "\"Trebuchet MS\"" as any
+       , verdana = "Verdana" as any
+       , wingdings = "Wingdings" as any
+       
+
      }
-
      export enum alignOptions {
       top = "top" as any
       , middle = "middle" as any
@@ -62,6 +79,7 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41  {
        */
        public koPercentValue: number=0.5;
        public kpiColor: string = "#000000";
+       public kpifontFamily: kpiFontFamilyOptions = kpiFontFamilyOptions.default;
        public kpiTransparency: number=1;
        public kpiVerticalAlign: alignOptions=alignOptions.middle;
        public serieColorOk: string="#008000";

@@ -550,29 +550,39 @@ var powerbi;
                     __extends(VisualSettings, _super);
                     function VisualSettings() {
                         var _this = _super !== null && _super.apply(this, arguments) || this;
-                        _this.dataPoint = new dataPointSettings();
                         _this.visualOptions = new visualOptions();
                         return _this;
                     }
                     return VisualSettings;
                 }(DataViewObjectsParser));
                 kPImg0051F6D5AD8348148E01E9E4B31C9F41.VisualSettings = VisualSettings;
-                var dataPointSettings = (function () {
-                    function dataPointSettings() {
-                        // Default color
-                        this.defaultColor = "";
-                        // Show all
-                        this.showAllDataPoints = true;
-                        // Fill
-                        this.fill = "";
-                        // Color saturation
-                        this.fillRule = "";
-                        // Text Size
-                        this.fontSize = 12;
-                    }
-                    return dataPointSettings;
-                }());
-                kPImg0051F6D5AD8348148E01E9E4B31C9F41.dataPointSettings = dataPointSettings;
+                var kpiFontFamilyOptions;
+                (function (kpiFontFamilyOptions) {
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["default"] = "helvetica, arial, sans-serif"] = "default";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["arial"] = "Arial"] = "arial";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["arialBlack"] = "\"Arial Black\""] = "arialBlack";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["arialUnicodeMS"] = "\"Arial Unicode MS\""] = "arialUnicodeMS";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["calibri"] = "Calibri"] = "calibri";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["cambria"] = "Cambria"] = "cambria";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["cambriaMath"] = "\"Cambria Math\""] = "cambriaMath";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["candara"] = "Candara"] = "candara";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["comicSansMS"] = "\"Comic Sans MS\""] = "comicSansMS";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["consolas"] = "Consolas"] = "consolas";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["constantia"] = "Constantia"] = "constantia";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["corbel"] = "Corbel"] = "corbel";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["corbelNew"] = "\"Courier New\""] = "corbelNew";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["georgia"] = "Georgia"] = "georgia";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["lucidaSansUnicode"] = "\"Lucida Sans Unicode\""] = "lucidaSansUnicode";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["segoeUIBold"] = "\"Segoe UI Bold\", wf_segoe-ui_bold, helvetica, arial, sans-serif"] = "segoeUIBold";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["segoeUI"] = "\"Segoe UI\", wf_segoe-ui_normal, helvetica, arial, sans-serif"] = "segoeUI";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["segoeUILight"] = "\"Segoe UI Light\", wf_segoe-ui_bold, helvetica, arial, sans-serif"] = "segoeUILight";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["symbol"] = "Symbol"] = "symbol";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["tahoma"] = "Tahoma"] = "tahoma";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["timesNewRoman"] = "\"Times New Roman\""] = "timesNewRoman";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["trebuchetMS"] = "\"Trebuchet MS\""] = "trebuchetMS";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["verdana"] = "Verdana"] = "verdana";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["wingdings"] = "Wingdings"] = "wingdings";
+                })(kpiFontFamilyOptions = kPImg0051F6D5AD8348148E01E9E4B31C9F41.kpiFontFamilyOptions || (kPImg0051F6D5AD8348148E01E9E4B31C9F41.kpiFontFamilyOptions = {}));
                 var alignOptions;
                 (function (alignOptions) {
                     alignOptions[alignOptions["top"] = "top"] = "top";
@@ -589,6 +599,7 @@ var powerbi;
                         */
                         this.koPercentValue = 0.5;
                         this.kpiColor = "#000000";
+                        this.kpifontFamily = kpiFontFamilyOptions.default;
                         this.kpiTransparency = 1;
                         this.kpiVerticalAlign = alignOptions.middle;
                         this.serieColorOk = "#008000";
@@ -693,6 +704,7 @@ var powerbi;
                                     myelement.percent = 0;
                                     if (myelement.target != 0)
                                         myelement.percent = myelement.value / myelement.target;
+                                    myelement.realPercent = myelement.percent;
                                     if (myelement.percent > 1)
                                         myelement.percent = 1;
                                     if (myelement.percent < 0)
@@ -742,7 +754,7 @@ var powerbi;
                                     var mytextwidth = myCanCtx.measureText(mytext).width;
                                     while (mytextwidth > mycan.width) {
                                         fontSize--;
-                                        myCanCtx.font = (fontSize).toString() + "px sans-serif";
+                                        myCanCtx.font = (fontSize).toString() + "px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
                                         mytextwidth = myCanCtx.measureText(mytext).width;
                                     }
                                     if (series.length > 0) {
@@ -762,8 +774,26 @@ var powerbi;
                                         myCanCtx.stroke();
                                         myCanCtx.fillStyle = mysettings.visualOptions.serieColorNeutral.valueOf().toString();
                                         if (series.length > 1) {
+                                            //Calculate thend: minimun squares
+                                            var totalY = 0;
+                                            var totalX = 0;
+                                            var totalXY = 0;
+                                            var totalX2 = 0;
+                                            var totalN = series.length;
+                                            for (var numSer = 0; numSer < series.length; numSer++) {
+                                                var x = numSer + 1;
+                                                var y = series[numSer].realPercent;
+                                                totalY += y;
+                                                totalX += x;
+                                                totalXY += x * y;
+                                                totalX2 += x * x;
+                                            }
+                                            var avgX = totalX / totalN;
+                                            var avgY = totalY / totalN;
+                                            //regression line: f(x)=a+bx. Calculate the factor b
+                                            var b = (totalXY - totalN * avgX * avgY) / (totalX2 - totalN * avgX * avgX);
                                             myCanCtx.fillStyle = mysettings.visualOptions.serieColorOk.valueOf().toString();
-                                            if (series[series.length - 1].percent < series[series.length - 2].percent)
+                                            if (b < 0)
                                                 myCanCtx.fillStyle = mysettings.visualOptions.serieColorKo.valueOf().toString();
                                         }
                                         myCanCtx.fill();
