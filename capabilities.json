@@ -49,6 +49,12 @@
                         "numeric":true
                     }
                 }
+                , "kpiFontWeight":{
+                    "displayName":"Font Weight"
+                    , "type":{
+                        "numeric":true
+                    }
+                }
                 , "kpiColor":{
                     "displayName":"Font Color"
                     , "type":{

@@ -2,9 +2,9 @@
   "visual": {
     "name": "kPImg",
     "displayName": "KPImg",
-    "guid": "kPImg0051F6D5AD8348148E01E9E4B31C9F41",
+    "guid": "kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG",
     "visualClassName": "Visual",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Shows a KPI with configurable images",
     "supportUrl": "http://www.aritzfb.com",
     "gitHubUrl": "https://github.com/aritzfb/KPImg"

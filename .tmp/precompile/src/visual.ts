@@ -24,7 +24,7 @@
  *  THE SOFTWARE.
  */
 
-module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41  {
+module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG  {
     "use strict";
     export class myElementSerie {
         public name:string;
@@ -138,6 +138,12 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41  {
                             myCanCtx.font=(fontSize).toString()+"px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
                             mytextwidth = myCanCtx.measureText(mytext).width;
                         }
+                        var myfontWeight = mysettings.visualOptions.kpiFontWeight;
+                        if (myfontWeight<0) myfontWeight=0;
+                        else if (myfontWeight>1)myfontWeight=1;
+                        myfontWeight = myfontWeight*fontSize;
+                        myCanCtx.font=(myfontWeight).toString()+"px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
+                            
 
                         if(series.length>0){
                             myCanCtx.beginPath();
@@ -184,7 +190,7 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41  {
                             myCanCtx.fill();
                         }
 
-                        var moveHeight = mycan.height/2+fontSize/4;
+                        var moveHeight = mycan.height/2+myfontWeight/4;
                         myCanCtx.fillStyle = mysettings.visualOptions.kpiColor.valueOf().toString();
                         myCanCtx.globalAlpha = parseFloat(mysettings.visualOptions.kpiTransparency.valueOf().toString());
                         if(mysettings.visualOptions.kpiVerticalAlign.valueOf().toString()=="middle")
@@ -192,7 +198,7 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41  {
                         myCanCtx.fillText(mytext,mycan.width/2,moveHeight);  
                         else if(mysettings.visualOptions.kpiVerticalAlign.valueOf().toString()=="top")
                         //top align
-                        myCanCtx.fillText(mytext,mycan.width/2,fontSize/1.3);  
+                        myCanCtx.fillText(mytext,mycan.width/2,myfontWeight/1.3);  
                         else if(mysettings.visualOptions.kpiVerticalAlign.valueOf().toString()=="bottom")
                         //bottom align
                         myCanCtx.fillText(mytext,mycan.width/2,mycan.height-5); 

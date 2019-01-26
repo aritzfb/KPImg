@@ -542,8 +542,8 @@ var powerbi;
     (function (extensibility) {
         var visual;
         (function (visual) {
-            var kPImg0051F6D5AD8348148E01E9E4B31C9F41;
-            (function (kPImg0051F6D5AD8348148E01E9E4B31C9F41) {
+            var kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG;
+            (function (kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG) {
                 "use strict";
                 var DataViewObjectsParser = powerbi.extensibility.utils.dataview.DataViewObjectsParser;
                 var VisualSettings = (function (_super) {
@@ -555,7 +555,7 @@ var powerbi;
                     }
                     return VisualSettings;
                 }(DataViewObjectsParser));
-                kPImg0051F6D5AD8348148E01E9E4B31C9F41.VisualSettings = VisualSettings;
+                kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.VisualSettings = VisualSettings;
                 var kpiFontFamilyOptions;
                 (function (kpiFontFamilyOptions) {
                     kpiFontFamilyOptions[kpiFontFamilyOptions["default"] = "helvetica, arial, sans-serif"] = "default";
@@ -582,13 +582,13 @@ var powerbi;
                     kpiFontFamilyOptions[kpiFontFamilyOptions["trebuchetMS"] = "\"Trebuchet MS\""] = "trebuchetMS";
                     kpiFontFamilyOptions[kpiFontFamilyOptions["verdana"] = "Verdana"] = "verdana";
                     kpiFontFamilyOptions[kpiFontFamilyOptions["wingdings"] = "Wingdings"] = "wingdings";
-                })(kpiFontFamilyOptions = kPImg0051F6D5AD8348148E01E9E4B31C9F41.kpiFontFamilyOptions || (kPImg0051F6D5AD8348148E01E9E4B31C9F41.kpiFontFamilyOptions = {}));
+                })(kpiFontFamilyOptions = kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.kpiFontFamilyOptions || (kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.kpiFontFamilyOptions = {}));
                 var alignOptions;
                 (function (alignOptions) {
                     alignOptions[alignOptions["top"] = "top"] = "top";
                     alignOptions[alignOptions["middle"] = "middle"] = "middle";
                     alignOptions[alignOptions["bottom"] = "bottom"] = "bottom";
-                })(alignOptions = kPImg0051F6D5AD8348148E01E9E4B31C9F41.alignOptions || (kPImg0051F6D5AD8348148E01E9E4B31C9F41.alignOptions = {}));
+                })(alignOptions = kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.alignOptions || (kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.alignOptions = {}));
                 var visualOptions = (function () {
                     function visualOptions() {
                         this.urlImgOk = "";
@@ -598,6 +598,7 @@ var powerbi;
                         public urlImgKo: string="https://s4.eestatic.com/2017/10/10/espana/Espana_253237967_49932740_1706x960.jpg";
                         */
                         this.koPercentValue = 0.5;
+                        this.kpiFontWeight = 1;
                         this.kpiColor = "#000000";
                         this.kpifontFamily = kpiFontFamilyOptions.default;
                         this.kpiTransparency = 1;
@@ -609,8 +610,8 @@ var powerbi;
                     }
                     return visualOptions;
                 }());
-                kPImg0051F6D5AD8348148E01E9E4B31C9F41.visualOptions = visualOptions;
-            })(kPImg0051F6D5AD8348148E01E9E4B31C9F41 = visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41 || (visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41 = {}));
+                kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.visualOptions = visualOptions;
+            })(kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG = visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG || (visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG = {}));
         })(visual = extensibility.visual || (extensibility.visual = {}));
     })(extensibility = powerbi.extensibility || (powerbi.extensibility = {}));
 })(powerbi || (powerbi = {}));
@@ -645,15 +646,15 @@ var powerbi;
     (function (extensibility) {
         var visual;
         (function (visual) {
-            var kPImg0051F6D5AD8348148E01E9E4B31C9F41;
-            (function (kPImg0051F6D5AD8348148E01E9E4B31C9F41) {
+            var kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG;
+            (function (kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG) {
                 "use strict";
                 var myElementSerie = (function () {
                     function myElementSerie() {
                     }
                     return myElementSerie;
                 }());
-                kPImg0051F6D5AD8348148E01E9E4B31C9F41.myElementSerie = myElementSerie;
+                kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.myElementSerie = myElementSerie;
                 var Visual = (function () {
                     function Visual(options) {
                         this.target = options.element;
@@ -757,6 +758,13 @@ var powerbi;
                                         myCanCtx.font = (fontSize).toString() + "px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
                                         mytextwidth = myCanCtx.measureText(mytext).width;
                                     }
+                                    var myfontWeight = mysettings.visualOptions.kpiFontWeight;
+                                    if (myfontWeight < 0)
+                                        myfontWeight = 0;
+                                    else if (myfontWeight > 1)
+                                        myfontWeight = 1;
+                                    myfontWeight = myfontWeight * fontSize;
+                                    myCanCtx.font = (myfontWeight).toString() + "px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
                                     if (series.length > 0) {
                                         myCanCtx.beginPath();
                                         myCanCtx.moveTo(0, mycan.height);
@@ -798,7 +806,7 @@ var powerbi;
                                         }
                                         myCanCtx.fill();
                                     }
-                                    var moveHeight = mycan.height / 2 + fontSize / 4;
+                                    var moveHeight = mycan.height / 2 + myfontWeight / 4;
                                     myCanCtx.fillStyle = mysettings.visualOptions.kpiColor.valueOf().toString();
                                     myCanCtx.globalAlpha = parseFloat(mysettings.visualOptions.kpiTransparency.valueOf().toString());
                                     if (mysettings.visualOptions.kpiVerticalAlign.valueOf().toString() == "middle")
@@ -806,7 +814,7 @@ var powerbi;
                                         myCanCtx.fillText(mytext, mycan.width / 2, moveHeight);
                                     else if (mysettings.visualOptions.kpiVerticalAlign.valueOf().toString() == "top")
                                         //top align
-                                        myCanCtx.fillText(mytext, mycan.width / 2, fontSize / 1.3);
+                                        myCanCtx.fillText(mytext, mycan.width / 2, myfontWeight / 1.3);
                                     else if (mysettings.visualOptions.kpiVerticalAlign.valueOf().toString() == "bottom")
                                         //bottom align
                                         myCanCtx.fillText(mytext, mycan.width / 2, mycan.height - 5);
@@ -823,7 +831,7 @@ var powerbi;
                         //end load ok image
                     };
                     Visual.parseSettings = function (dataView) {
-                        return kPImg0051F6D5AD8348148E01E9E4B31C9F41.VisualSettings.parse(dataView);
+                        return kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.VisualSettings.parse(dataView);
                     };
                     /**
                      * This function gets called for each of the objects defined in the capabilities files and allows you to select which of the
@@ -831,12 +839,12 @@ var powerbi;
                      *
                      */
                     Visual.prototype.enumerateObjectInstances = function (options) {
-                        return kPImg0051F6D5AD8348148E01E9E4B31C9F41.VisualSettings.enumerateObjectInstances(this.settings || kPImg0051F6D5AD8348148E01E9E4B31C9F41.VisualSettings.getDefault(), options);
+                        return kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.VisualSettings.enumerateObjectInstances(this.settings || kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.VisualSettings.getDefault(), options);
                     };
                     return Visual;
                 }());
-                kPImg0051F6D5AD8348148E01E9E4B31C9F41.Visual = Visual;
-            })(kPImg0051F6D5AD8348148E01E9E4B31C9F41 = visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41 || (visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41 = {}));
+                kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.Visual = Visual;
+            })(kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG = visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG || (visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG = {}));
         })(visual = extensibility.visual || (extensibility.visual = {}));
     })(extensibility = powerbi.extensibility || (powerbi.extensibility = {}));
 })(powerbi || (powerbi = {}));
@@ -846,13 +854,13 @@ var powerbi;
     (function (visuals) {
         var plugins;
         (function (plugins) {
-            plugins.kPImg0051F6D5AD8348148E01E9E4B31C9F41 = {
-                name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41',
+            plugins.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG = {
+                name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG',
                 displayName: 'KPImg',
                 class: 'Visual',
-                version: '1.0.1',
+                version: '1.0.2',
                 apiVersion: '2.2.0',
-                create: function (options) { return new powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41.Visual(options); },
+                create: function (options) { return new powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.Visual(options); },
                 custom: true
             };
         })(plugins = visuals.plugins || (visuals.plugins = {}));
