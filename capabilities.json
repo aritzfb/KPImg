@@ -49,8 +49,20 @@
                         "numeric":true
                     }
                 }
+                , "showTrendLine":{
+                    "displayName": "Show Trend Line"
+                    , "type":{
+                        "bool":true
+                    }
+                }
+                , "widthTrendLine":{
+                    "displayName" : "Width Trend Line"
+                    , "type":{
+                        "numeric":true
+                    }
+                }
                 , "kpiFontWeight":{
-                    "displayName":"Font Weight"
+                   "displayName":"Font Weight"
                     , "type":{
                         "numeric":true
                     }

@@ -598,6 +598,8 @@ var powerbi;
                         public urlImgKo: string="https://s4.eestatic.com/2017/10/10/espana/Espana_253237967_49932740_1706x960.jpg";
                         */
                         this.koPercentValue = 0.5;
+                        this.showTrendLine = true;
+                        this.widthTrendLine = 5;
                         this.kpiFontWeight = 1;
                         this.kpiColor = "#000000";
                         this.kpifontFamily = kpiFontFamilyOptions.default;
@@ -697,6 +699,16 @@ var powerbi;
                                 globalTarget = parseFloat(options.dataViews[0].categorical.values[1].values[0].valueOf().toString());
                             }
                             else {
+                                debugger;
+                                var minLocal, maxLocal;
+                                if (options.dataViews[0].categorical.values[0].source.roles.value) {
+                                    minLocal = options.dataViews[0].categorical.values[0].minLocal;
+                                    maxLocal = options.dataViews[0].categorical.values[0].maxLocal;
+                                }
+                                else {
+                                    minLocal = options.dataViews[0].categorical.values[1].minLocal;
+                                    maxLocal = options.dataViews[0].categorical.values[1].maxLocal;
+                                }
                                 for (var i = 0; i < options.dataViews[0].categorical.categories[0].values.length; i++) {
                                     var myelement = new myElementSerie();
                                     myelement.name = options.dataViews[0].categorical.categories[0].values[i].valueOf().toString();
@@ -705,6 +717,7 @@ var powerbi;
                                     myelement.percent = 0;
                                     if (myelement.target != 0)
                                         myelement.percent = myelement.value / myelement.target;
+                                    //if(myelement.target!=0) myelement.percent=(myelement.value-minLocal)/(maxLocal-minLocal);
                                     myelement.realPercent = myelement.percent;
                                     if (myelement.percent > 1)
                                         myelement.percent = 1;
@@ -736,7 +749,6 @@ var powerbi;
                             myimg.setAttribute("src", "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=");
                         myimg.onload = (function (mysettings) {
                             return function () {
-                                debugger;
                                 var mycan = document.getElementsByTagName("canvas").item(0);
                                 var myCanCtx = mycan.getContext("2d");
                                 //myCanCtx.filter = "none";            
@@ -768,6 +780,8 @@ var powerbi;
                                     if (series.length > 0) {
                                         myCanCtx.beginPath();
                                         myCanCtx.moveTo(0, mycan.height);
+                                        myCanCtx.lineWidth = 1;
+                                        myCanCtx.fillStyle = mysettings.visualOptions.serieColorNeutral.valueOf().toString();
                                         if (series.length == 1) {
                                             myCanCtx.lineTo(0, mycan.height - series[0].percent * mycan.height);
                                             myCanCtx.lineTo(mycan.width, mycan.height - series[1].percent * mycan.height);
@@ -780,7 +794,6 @@ var powerbi;
                                         myCanCtx.globalAlpha = parseFloat(mysettings.visualOptions.seriesTransparency.valueOf().toString());
                                         myCanCtx.closePath();
                                         myCanCtx.stroke();
-                                        myCanCtx.fillStyle = mysettings.visualOptions.serieColorNeutral.valueOf().toString();
                                         if (series.length > 1) {
                                             //Calculate thend: minimun squares
                                             var totalY = 0;
@@ -800,11 +813,33 @@ var powerbi;
                                             var avgY = totalY / totalN;
                                             //regression line: f(x)=a+bx. Calculate the factor b
                                             var b = (totalXY - totalN * avgX * avgY) / (totalX2 - totalN * avgX * avgX);
-                                            myCanCtx.fillStyle = mysettings.visualOptions.serieColorOk.valueOf().toString();
-                                            if (b < 0)
-                                                myCanCtx.fillStyle = mysettings.visualOptions.serieColorKo.valueOf().toString();
+                                            // Calculate de a value for regression line: a=avgX
+                                            this.bRegressionLine = b;
+                                            this.aRegressionLine = avgY;
+                                            if (!mysettings.visualOptions.showTrendLine) {
+                                                myCanCtx.fillStyle = mysettings.visualOptions.serieColorOk.valueOf().toString();
+                                                if (b < 0)
+                                                    myCanCtx.fillStyle = mysettings.visualOptions.serieColorKo.valueOf().toString();
+                                            }
+                                            myCanCtx.fill();
                                         }
-                                        myCanCtx.fill();
+                                        //regression line
+                                        if (this.bRegressionLine && mysettings.visualOptions.showTrendLine) {
+                                            myCanCtx.beginPath();
+                                            myCanCtx.lineWidth = mysettings.visualOptions.widthTrendLine;
+                                            myCanCtx.globalAlpha = parseFloat(mysettings.visualOptions.seriesTransparency.valueOf().toString());
+                                            myCanCtx.strokeStyle = mysettings.visualOptions.serieColorNeutral.valueOf().toString();
+                                            if (this.bRegressionLine > 0)
+                                                myCanCtx.strokeStyle = mysettings.visualOptions.serieColorOk.valueOf().toString();
+                                            if (this.bRegressionLine < 0)
+                                                myCanCtx.strokeStyle = mysettings.visualOptions.serieColorKo.valueOf().toString();
+                                            myCanCtx.moveTo(0, mycan.height * (1 - this.aRegressionLine));
+                                            myCanCtx.lineTo(mycan.width, -this.bRegressionLine * mycan.width + mycan.height * (1 - this.aRegressionLine));
+                                            myCanCtx.closePath();
+                                            myCanCtx.stroke();
+                                            myCanCtx.fill();
+                                            myCanCtx.strokeStyle = mysettings.visualOptions.serieColorNeutral.valueOf().toString();
+                                        }
                                     }
                                     var moveHeight = mycan.height / 2 + myfontWeight / 4;
                                     myCanCtx.fillStyle = mysettings.visualOptions.kpiColor.valueOf().toString();
@@ -831,7 +866,10 @@ var powerbi;
                         //end load ok image
                     };
                     Visual.parseSettings = function (dataView) {
+                        //let parsedSettings : VisualSettings = VisualSettings.parse(dataView) as VisualSettings;
                         return kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.VisualSettings.parse(dataView);
+                        //debugger;
+                        //return parsedSettings;
                     };
                     /**
                      * This function gets called for each of the objects defined in the capabilities files and allows you to select which of the
@@ -854,8 +892,8 @@ var powerbi;
     (function (visuals) {
         var plugins;
         (function (plugins) {
-            plugins.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG = {
-                name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG',
+            plugins.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG_DEBUG = {
+                name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG_DEBUG',
                 displayName: 'KPImg',
                 class: 'Visual',
                 version: '1.0.2',

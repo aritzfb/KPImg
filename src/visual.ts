@@ -33,6 +33,8 @@ module powerbi.extensibility.visual {
         public color:string;
         public percent:number;
         public realPercent:number;
+        public aRegressionLine:number;
+        public bRegressionLine:number;
                 
     }
     export class Visual implements IVisual {
@@ -76,6 +78,15 @@ module powerbi.extensibility.visual {
                     globalValue = parseFloat(options.dataViews[0].categorical.values[0].values[0].valueOf().toString());
                     globalTarget = parseFloat(options.dataViews[0].categorical.values[1].values[0].valueOf().toString());
                 } else {
+                    debugger;
+                    var minLocal,maxLocal;
+                    if(options.dataViews[0].categorical.values[0].source.roles.value){
+                        minLocal=options.dataViews[0].categorical.values[0].minLocal;
+                        maxLocal=options.dataViews[0].categorical.values[0].maxLocal;
+                    } else {
+                        minLocal=options.dataViews[0].categorical.values[1].minLocal;
+                        maxLocal=options.dataViews[0].categorical.values[1].maxLocal;
+                    }
                     for(var i=0;i<options.dataViews[0].categorical.categories[0].values.length;i++){
                         var myelement  = new myElementSerie();
                         myelement.name = options.dataViews[0].categorical.categories[0].values[i].valueOf().toString();
@@ -83,6 +94,7 @@ module powerbi.extensibility.visual {
                         myelement.target = parseFloat(options.dataViews[0].categorical.values[1].values[i].valueOf().toString());
                         myelement.percent=0;
                         if(myelement.target!=0) myelement.percent=myelement.value/myelement.target;
+                        //if(myelement.target!=0) myelement.percent=(myelement.value-minLocal)/(maxLocal-minLocal);
                         myelement.realPercent=myelement.percent;
                         
                         if(myelement.percent>1)myelement.percent=1;
@@ -111,7 +123,6 @@ module powerbi.extensibility.visual {
             
             myimg.onload = (function(mysettings){
                 return function(){
-                    debugger;
                     let mycan : HTMLCanvasElement = document.getElementsByTagName("canvas").item(0);
                     let myCanCtx : CanvasRenderingContext2D = mycan.getContext("2d");
                     
@@ -148,7 +159,8 @@ module powerbi.extensibility.visual {
                         if(series.length>0){
                             myCanCtx.beginPath();
                             myCanCtx.moveTo(0,mycan.height);  
-
+                            myCanCtx.lineWidth=1;
+                            myCanCtx.fillStyle = mysettings.visualOptions.serieColorNeutral.valueOf().toString();
                             if (series.length==1){
                                 myCanCtx.lineTo(0,mycan.height-series[0].percent*mycan.height); 
                                 myCanCtx.lineTo(mycan.width,mycan.height-series[1].percent*mycan.height); 
@@ -160,7 +172,7 @@ module powerbi.extensibility.visual {
                             myCanCtx.globalAlpha = parseFloat(mysettings.visualOptions.seriesTransparency.valueOf().toString());
                             myCanCtx.closePath();
                             myCanCtx.stroke();
-                            myCanCtx.fillStyle = mysettings.visualOptions.serieColorNeutral.valueOf().toString();
+                            
                             
                             
 
@@ -183,12 +195,41 @@ module powerbi.extensibility.visual {
                                 var avgY=totalY/totalN;
                                 //regression line: f(x)=a+bx. Calculate the factor b
                                 var b=(totalXY-totalN*avgX*avgY)/(totalX2-totalN*avgX*avgX);
+                                // Calculate de a value for regression line: a=avgX
+                                this.bRegressionLine = b;
+                                this.aRegressionLine = avgY;
+                                if (!mysettings.visualOptions.showTrendLine){
+                                    myCanCtx.fillStyle=mysettings.visualOptions.serieColorOk.valueOf().toString();
+                                    if (b<0) myCanCtx.fillStyle=mysettings.visualOptions.serieColorKo.valueOf().toString();
+                            
+                                }
 
-                                myCanCtx.fillStyle=mysettings.visualOptions.serieColorOk.valueOf().toString();
-                                if (b<0) myCanCtx.fillStyle=mysettings.visualOptions.serieColorKo.valueOf().toString();
+                                myCanCtx.fill();
+                            
                             }
-                            myCanCtx.fill();
+                            
+
+                            //regression line
+                            if (this.bRegressionLine && mysettings.visualOptions.showTrendLine) {
+                                myCanCtx.beginPath();
+                                myCanCtx.lineWidth=mysettings.visualOptions.widthTrendLine;
+                                myCanCtx.globalAlpha = parseFloat(mysettings.visualOptions.seriesTransparency.valueOf().toString());
+                                myCanCtx.strokeStyle=mysettings.visualOptions.serieColorNeutral.valueOf().toString();
+                                if (this.bRegressionLine>0) myCanCtx.strokeStyle=mysettings.visualOptions.serieColorOk.valueOf().toString();
+                                if (this.bRegressionLine<0) myCanCtx.strokeStyle=mysettings.visualOptions.serieColorKo.valueOf().toString();
+                                myCanCtx.moveTo(0,mycan.height*(1-this.aRegressionLine));
+                                myCanCtx.lineTo(mycan.width,-this.bRegressionLine*mycan.width + mycan.height*(1-this.aRegressionLine));                            
+                                myCanCtx.closePath();
+                                myCanCtx.stroke();
+                                myCanCtx.fill();
+
+                                myCanCtx.strokeStyle=mysettings.visualOptions.serieColorNeutral.valueOf().toString();
+                                
+                            }
+                        
                         }
+
+                        
 
                         var moveHeight = mycan.height/2+myfontWeight/4;
                         myCanCtx.fillStyle = mysettings.visualOptions.kpiColor.valueOf().toString();
@@ -203,6 +244,8 @@ module powerbi.extensibility.visual {
                         //bottom align
                         myCanCtx.fillText(mytext,mycan.width/2,mycan.height-5); 
                         else myCanCtx.fillText(mytext,mycan.width/2,moveHeight); 
+
+                        
                         
                     }
 
@@ -232,7 +275,11 @@ module powerbi.extensibility.visual {
         }
 
         private static parseSettings(dataView: DataView): VisualSettings {
+            //let parsedSettings : VisualSettings = VisualSettings.parse(dataView) as VisualSettings;
             return VisualSettings.parse(dataView) as VisualSettings;
+            //debugger;
+            
+            //return parsedSettings;
         }
 
         /** 

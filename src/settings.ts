@@ -78,6 +78,9 @@ module powerbi.extensibility.visual {
        public urlImgKo: string="https://s4.eestatic.com/2017/10/10/espana/Espana_253237967_49932740_1706x960.jpg";
        */
        public koPercentValue: number=0.5;
+       public showTrendLine: boolean=true;
+       public widthTrendLine: number=5;
+       
        public kpiFontWeight:number=1;
        public kpiColor: string = "#000000";
        public kpifontFamily: kpiFontFamilyOptions = kpiFontFamilyOptions.default;
