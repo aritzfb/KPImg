@@ -93,8 +93,8 @@ module powerbi.extensibility.visual {
                         myelement.value = parseFloat(options.dataViews[0].categorical.values[0].values[i].valueOf().toString());
                         myelement.target = parseFloat(options.dataViews[0].categorical.values[1].values[i].valueOf().toString());
                         myelement.percent=0;
-                        if(myelement.target!=0) myelement.percent=myelement.value/myelement.target;
-                        //if(myelement.target!=0) myelement.percent=(myelement.value-minLocal)/(maxLocal-minLocal);
+                        //if(myelement.target!=0) myelement.percent=myelement.value/myelement.target;
+                        if(myelement.target!=0) myelement.percent=(myelement.value-minLocal)/(maxLocal-minLocal);
                         myelement.realPercent=myelement.percent;
                         
                         if(myelement.percent>1)myelement.percent=1;
