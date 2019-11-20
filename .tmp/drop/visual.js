@@ -716,8 +716,10 @@ var powerbi;
                                     myelement.target = parseFloat(options.dataViews[0].categorical.values[1].values[i].valueOf().toString());
                                     myelement.percent = 0;
                                     //if(myelement.target!=0) myelement.percent=myelement.value/myelement.target;
-                                    if (myelement.target != 0)
+                                    if ((maxLocal - minLocal) != 0)
                                         myelement.percent = (myelement.value - minLocal) / (maxLocal - minLocal);
+                                    else
+                                        myelement.percent = 0.5;
                                     myelement.realPercent = myelement.percent;
                                     if (myelement.percent > 1)
                                         myelement.percent = 1;
@@ -802,7 +804,8 @@ var powerbi;
                                             var totalX2 = 0;
                                             var totalN = series.length;
                                             for (var numSer = 0; numSer < series.length; numSer++) {
-                                                var x = numSer + 1;
+                                                //var x=numSer+1;
+                                                var x = numSer * (mycan.width / series.length);
                                                 var y = series[numSer].realPercent;
                                                 totalY += y;
                                                 totalX += x;
@@ -815,7 +818,7 @@ var powerbi;
                                             var b = (totalXY - totalN * avgX * avgY) / (totalX2 - totalN * avgX * avgX);
                                             // Calculate de a value for regression line: a=avgX
                                             this.bRegressionLine = b;
-                                            this.aRegressionLine = avgY;
+                                            this.aRegressionLine = avgY - this.bRegressionLine * avgX;
                                             if (!mysettings.visualOptions.showTrendLine) {
                                                 myCanCtx.fillStyle = mysettings.visualOptions.serieColorOk.valueOf().toString();
                                                 if (b < 0)
@@ -833,8 +836,10 @@ var powerbi;
                                                 myCanCtx.strokeStyle = mysettings.visualOptions.serieColorOk.valueOf().toString();
                                             if (this.bRegressionLine < 0)
                                                 myCanCtx.strokeStyle = mysettings.visualOptions.serieColorKo.valueOf().toString();
+                                            //myCanCtx.moveTo(0,mycan.height*(1-this.aRegressionLine));
                                             myCanCtx.moveTo(0, mycan.height * (1 - this.aRegressionLine));
-                                            myCanCtx.lineTo(mycan.width, -this.bRegressionLine * mycan.width + mycan.height * (1 - this.aRegressionLine));
+                                            //myCanCtx.lineTo(mycan.width,-this.bRegressionLine*mycan.width + mycan.height*(1-this.aRegressionLine));                            
+                                            myCanCtx.lineTo(mycan.width, mycan.height * (1 - this.bRegressionLine * mycan.width - this.aRegressionLine));
                                             myCanCtx.closePath();
                                             myCanCtx.stroke();
                                             myCanCtx.fill();
@@ -892,8 +897,8 @@ var powerbi;
     (function (visuals) {
         var plugins;
         (function (plugins) {
-            plugins.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG_DEBUG = {
-                name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG_DEBUG',
+            plugins.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG = {
+                name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG',
                 displayName: 'KPImg',
                 class: 'Visual',
                 version: '1.0.2',
