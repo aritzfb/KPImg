@@ -40,12 +40,13 @@ module powerbi.extensibility.visual {
     export class Visual implements IVisual {
         private target: HTMLElement;
         private settings: VisualSettings;
-        
+        private host: IVisualHost;
         constructor(options: VisualConstructorOptions) {
             this.target = options.element;
             const mycanvas : HTMLElement = document.createElement("canvas");
             //mycanvas.id="mycanvas";
             this.target.appendChild(mycanvas);
+            this.host = options.host;
             
         }
 
@@ -153,7 +154,8 @@ module powerbi.extensibility.visual {
                         var indicator :number = 0;
                         if(globalTarget!=0) indicator=globalValue/globalTarget;
                         else indicator=globalValue;
-                        var mytext = indicator.toLocaleString();
+                        debugger;
+                        var mytext = parseFloat(globalValue.toFixed(2) as any).toLocaleString("es-US");
                         if(globalTarget!=0) mytext = (indicator*100).toFixed(2) + "%";
 
                         myCanCtx.textAlign="center";

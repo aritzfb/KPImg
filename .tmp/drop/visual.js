@@ -663,6 +663,7 @@ var powerbi;
                         var mycanvas = document.createElement("canvas");
                         //mycanvas.id="mycanvas";
                         this.target.appendChild(mycanvas);
+                        this.host = options.host;
                     }
                     Visual.prototype.update = function (options) {
                         this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
@@ -784,7 +785,8 @@ var powerbi;
                                         indicator = globalValue / globalTarget;
                                     else
                                         indicator = globalValue;
-                                    var mytext = indicator.toLocaleString();
+                                    debugger;
+                                    var mytext = parseFloat(globalValue.toFixed(2)).toLocaleString("es-US");
                                     if (globalTarget != 0)
                                         mytext = (indicator * 100).toFixed(2) + "%";
                                     myCanCtx.textAlign = "center";
@@ -924,8 +926,8 @@ var powerbi;
     (function (visuals) {
         var plugins;
         (function (plugins) {
-            plugins.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG_DEBUG = {
-                name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG_DEBUG',
+            plugins.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG = {
+                name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG',
                 displayName: 'KPImg',
                 class: 'Visual',
                 version: '1.0.2',
