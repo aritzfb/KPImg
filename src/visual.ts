@@ -58,40 +58,56 @@ module powerbi.extensibility.visual {
             let hasTarget : boolean = false;
             let hasCategories : boolean = false;
 
+            let catValueIndex, catTargetIndex:number;
+
             if(options) if(options.dataViews) if (options.dataViews[0]) if(options.dataViews[0].categorical.categories) hasCategories=true;
             if(options) if(options.dataViews) if (options.dataViews[0]) if(options.dataViews[0].categorical.values){
                 if(options.dataViews[0].categorical.values.length==2) {
                     hasValue=true;
                     hasTarget=true;
+                    if(options.dataViews[0].categorical.values[0].source.roles.value){
+                        catValueIndex=0;
+                        catTargetIndex=1;
+                    }else{
+                        catValueIndex=1;
+                        catTargetIndex=0;
+                    }
                 } else if(options.dataViews[0].categorical.values.length==1){
-                    if(options.dataViews[0].categorical.values[0].source.roles.value) hasValue=true;
-                    else hasTarget=true;
+                    if(options.dataViews[0].categorical.values[0].source.roles.value) {
+                        hasValue=true;
+                        catValueIndex=0;
+                    } else {
+                        hasTarget=true;
+                        catTargetIndex=0;
+                    }
                 }
             }
 
             let globalValue : number = 0;
             let globalTarget : number = 0;
             let series : Array<myElementSerie> = new Array();
-            
-            if(hasTarget && hasValue){
+            debugger;
+            if(/*hasTarget &&*/ hasValue){
                 if(!hasCategories){
-                    globalValue = parseFloat(options.dataViews[0].categorical.values[0].values[0].valueOf().toString());
-                    globalTarget = parseFloat(options.dataViews[0].categorical.values[1].values[0].valueOf().toString());
+                    globalValue = parseFloat(options.dataViews[0].categorical.values[catValueIndex].values[0].valueOf().toString());
+                    if(hasTarget) globalTarget = parseFloat(options.dataViews[0].categorical.values[catTargetIndex].values[0].valueOf().toString());
                 } else {
                     debugger;
                     var minLocal,maxLocal;
-                    if(options.dataViews[0].categorical.values[0].source.roles.value){
+                    minLocal=options.dataViews[0].categorical.values[catValueIndex].minLocal;
+                    maxLocal=options.dataViews[0].categorical.values[catValueIndex].maxLocal;
+                    /*if(options.dataViews[0].categorical.values[0].source.roles.value){
                         minLocal=options.dataViews[0].categorical.values[0].minLocal;
                         maxLocal=options.dataViews[0].categorical.values[0].maxLocal;
                     } else {
                         minLocal=options.dataViews[0].categorical.values[1].minLocal;
                         maxLocal=options.dataViews[0].categorical.values[1].maxLocal;
-                    }
+                    }*/
                     for(var i=0;i<options.dataViews[0].categorical.categories[0].values.length;i++){
                         var myelement  = new myElementSerie();
                         myelement.name = options.dataViews[0].categorical.categories[0].values[i].valueOf().toString();
                         myelement.value = parseFloat(options.dataViews[0].categorical.values[0].values[i].valueOf().toString());
-                        myelement.target = parseFloat(options.dataViews[0].categorical.values[1].values[i].valueOf().toString());
+                        if(hasTarget) myelement.target = parseFloat(options.dataViews[0].categorical.values[1].values[i].valueOf().toString());
                         myelement.percent=0;
                         //if(myelement.target!=0) myelement.percent=myelement.value/myelement.target;
                         if((maxLocal-minLocal)!=0) myelement.percent=(myelement.value-minLocal)/(maxLocal-minLocal);
@@ -102,7 +118,7 @@ module powerbi.extensibility.visual {
                         if(myelement.percent<0)myelement.percent=0;
                         series.push(myelement);
                         globalValue += myelement.value;
-                        globalTarget += myelement.target;
+                        if(hasTarget) globalTarget += myelement.target;
                     }
                 }
             }
@@ -113,7 +129,9 @@ module powerbi.extensibility.visual {
                 var mysrc = "";
                 if(globalTarget==0 || globalValue==0) mysrc = this.settings.visualOptions.urlImgKo.valueOf().toString();
                 else {
-                    var currentPercent = globalValue/globalTarget;
+                    var currentPercent;
+                    if(hasTarget) currentPercent = globalValue/globalTarget;
+                    else currentPercent=globalValue;
                     if(currentPercent>= this.settings.visualOptions.koPercentValue) mysrc = this.settings.visualOptions.urlImgOk.valueOf().toString();
                     else mysrc=this.settings.visualOptions.urlImgKo.valueOf().toString();
                 }
@@ -130,10 +148,13 @@ module powerbi.extensibility.visual {
                     //myCanCtx.filter = "none";            
                     myCanCtx.drawImage(myimg,0,0,mycan.width,mycan.height);
 
-                    if(hasValue && hasTarget){
+                    if(hasValue /*&& hasTarget*/){
+                        debugger;
                         var indicator :number = 0;
                         if(globalTarget!=0) indicator=globalValue/globalTarget;
-                        var mytext = (indicator*100).toFixed(2) + "%";
+                        else indicator=globalValue;
+                        var mytext = indicator.toLocaleString();
+                        if(globalTarget!=0) mytext = (indicator*100).toFixed(2) + "%";
 
                         myCanCtx.textAlign="center";
                                         

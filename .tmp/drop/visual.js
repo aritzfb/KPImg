@@ -670,6 +670,7 @@ var powerbi;
                         var hasValue = false;
                         var hasTarget = false;
                         var hasCategories = false;
+                        var catValueIndex, catTargetIndex;
                         if (options)
                             if (options.dataViews)
                                 if (options.dataViews[0])
@@ -682,38 +683,54 @@ var powerbi;
                                         if (options.dataViews[0].categorical.values.length == 2) {
                                             hasValue = true;
                                             hasTarget = true;
+                                            if (options.dataViews[0].categorical.values[0].source.roles.value) {
+                                                catValueIndex = 0;
+                                                catTargetIndex = 1;
+                                            }
+                                            else {
+                                                catValueIndex = 1;
+                                                catTargetIndex = 0;
+                                            }
                                         }
                                         else if (options.dataViews[0].categorical.values.length == 1) {
-                                            if (options.dataViews[0].categorical.values[0].source.roles.value)
+                                            if (options.dataViews[0].categorical.values[0].source.roles.value) {
                                                 hasValue = true;
-                                            else
+                                                catValueIndex = 0;
+                                            }
+                                            else {
                                                 hasTarget = true;
+                                                catTargetIndex = 0;
+                                            }
                                         }
                                     }
                         var globalValue = 0;
                         var globalTarget = 0;
                         var series = new Array();
-                        if (hasTarget && hasValue) {
+                        debugger;
+                        if (hasValue) {
                             if (!hasCategories) {
-                                globalValue = parseFloat(options.dataViews[0].categorical.values[0].values[0].valueOf().toString());
-                                globalTarget = parseFloat(options.dataViews[0].categorical.values[1].values[0].valueOf().toString());
+                                globalValue = parseFloat(options.dataViews[0].categorical.values[catValueIndex].values[0].valueOf().toString());
+                                if (hasTarget)
+                                    globalTarget = parseFloat(options.dataViews[0].categorical.values[catTargetIndex].values[0].valueOf().toString());
                             }
                             else {
                                 debugger;
                                 var minLocal, maxLocal;
-                                if (options.dataViews[0].categorical.values[0].source.roles.value) {
-                                    minLocal = options.dataViews[0].categorical.values[0].minLocal;
-                                    maxLocal = options.dataViews[0].categorical.values[0].maxLocal;
-                                }
-                                else {
-                                    minLocal = options.dataViews[0].categorical.values[1].minLocal;
-                                    maxLocal = options.dataViews[0].categorical.values[1].maxLocal;
-                                }
+                                minLocal = options.dataViews[0].categorical.values[catValueIndex].minLocal;
+                                maxLocal = options.dataViews[0].categorical.values[catValueIndex].maxLocal;
+                                /*if(options.dataViews[0].categorical.values[0].source.roles.value){
+                                    minLocal=options.dataViews[0].categorical.values[0].minLocal;
+                                    maxLocal=options.dataViews[0].categorical.values[0].maxLocal;
+                                } else {
+                                    minLocal=options.dataViews[0].categorical.values[1].minLocal;
+                                    maxLocal=options.dataViews[0].categorical.values[1].maxLocal;
+                                }*/
                                 for (var i = 0; i < options.dataViews[0].categorical.categories[0].values.length; i++) {
                                     var myelement = new myElementSerie();
                                     myelement.name = options.dataViews[0].categorical.categories[0].values[i].valueOf().toString();
                                     myelement.value = parseFloat(options.dataViews[0].categorical.values[0].values[i].valueOf().toString());
-                                    myelement.target = parseFloat(options.dataViews[0].categorical.values[1].values[i].valueOf().toString());
+                                    if (hasTarget)
+                                        myelement.target = parseFloat(options.dataViews[0].categorical.values[1].values[i].valueOf().toString());
                                     myelement.percent = 0;
                                     //if(myelement.target!=0) myelement.percent=myelement.value/myelement.target;
                                     if ((maxLocal - minLocal) != 0)
@@ -727,7 +744,8 @@ var powerbi;
                                         myelement.percent = 0;
                                     series.push(myelement);
                                     globalValue += myelement.value;
-                                    globalTarget += myelement.target;
+                                    if (hasTarget)
+                                        globalTarget += myelement.target;
                                 }
                             }
                         }
@@ -739,7 +757,11 @@ var powerbi;
                             if (globalTarget == 0 || globalValue == 0)
                                 mysrc = this.settings.visualOptions.urlImgKo.valueOf().toString();
                             else {
-                                var currentPercent = globalValue / globalTarget;
+                                var currentPercent;
+                                if (hasTarget)
+                                    currentPercent = globalValue / globalTarget;
+                                else
+                                    currentPercent = globalValue;
                                 if (currentPercent >= this.settings.visualOptions.koPercentValue)
                                     mysrc = this.settings.visualOptions.urlImgOk.valueOf().toString();
                                 else
@@ -755,11 +777,16 @@ var powerbi;
                                 var myCanCtx = mycan.getContext("2d");
                                 //myCanCtx.filter = "none";            
                                 myCanCtx.drawImage(myimg, 0, 0, mycan.width, mycan.height);
-                                if (hasValue && hasTarget) {
+                                if (hasValue /*&& hasTarget*/) {
+                                    debugger;
                                     var indicator = 0;
                                     if (globalTarget != 0)
                                         indicator = globalValue / globalTarget;
-                                    var mytext = (indicator * 100).toFixed(2) + "%";
+                                    else
+                                        indicator = globalValue;
+                                    var mytext = indicator.toLocaleString();
+                                    if (globalTarget != 0)
+                                        mytext = (indicator * 100).toFixed(2) + "%";
                                     myCanCtx.textAlign = "center";
                                     var maxSize = mycan.height;
                                     if (maxSize > mycan.width)
@@ -897,8 +924,8 @@ var powerbi;
     (function (visuals) {
         var plugins;
         (function (plugins) {
-            plugins.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG = {
-                name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG',
+            plugins.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG_DEBUG = {
+                name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG_DEBUG',
                 displayName: 'KPImg',
                 class: 'Visual',
                 version: '1.0.2',
