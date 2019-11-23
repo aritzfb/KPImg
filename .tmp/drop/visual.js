@@ -774,6 +774,21 @@ var powerbi;
                             myimg.setAttribute("src", "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=");
                         myimg.onload = (function (mysettings) {
                             return function () {
+                                function calcMaxFontSize(can, strText, fontFamily) {
+                                    var canCtx = can.getContext("2d");
+                                    var maxSize = can.height;
+                                    if (can.width > maxSize)
+                                        maxSize = can.width;
+                                    var fontSize = maxSize;
+                                    canCtx.font = fontSize.toString() + "px " + fontFamily;
+                                    var myTextWidth = canCtx.measureText(strText).width;
+                                    while (myTextWidth > can.width) {
+                                        fontSize--;
+                                        canCtx.font = fontSize.toString() + "px " + fontFamily;
+                                        myTextWidth = canCtx.measureText(strText).width;
+                                    }
+                                    return fontSize;
+                                }
                                 var mycan = document.getElementsByTagName("canvas").item(0);
                                 var myCanCtx = mycan.getContext("2d");
                                 //myCanCtx.filter = "none";            
@@ -790,17 +805,25 @@ var powerbi;
                                     if (globalTarget != 0)
                                         mytext = (indicator * 100).toFixed(2) + "%";
                                     myCanCtx.textAlign = "center";
+                                    /*
                                     var maxSize = mycan.height;
-                                    if (maxSize > mycan.width)
-                                        maxSize = mycan.height;
+                                    if (maxSize>mycan.width) maxSize=mycan.height;
                                     var fontSize = maxSize;
-                                    myCanCtx.font = (fontSize).toString() + "px sans-serif";
+                                    myCanCtx.font=(fontSize).toString()+"px sans-serif";
                                     var mytextwidth = myCanCtx.measureText(mytext).width;
-                                    while (mytextwidth > mycan.width) {
+                                    while (mytextwidth>mycan.width){
                                         fontSize--;
-                                        myCanCtx.font = (fontSize).toString() + "px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
+                                        
+                                        myCanCtx.font=(fontSize).toString()+"px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
                                         mytextwidth = myCanCtx.measureText(mytext).width;
                                     }
+                                    
+                                    var myfontWeight = mysettings.visualOptions.kpiFontWeight;
+                                    if (myfontWeight<0) myfontWeight=0;
+                                    else if (myfontWeight>1)myfontWeight=1;
+                                    myfontWeight = myfontWeight*fontSize;
+                                    */
+                                    var fontSize = calcMaxFontSize(mycan, mytext, mysettings.visualOptions.kpifontFamily.valueOf().toString());
                                     var myfontWeight = mysettings.visualOptions.kpiFontWeight;
                                     if (myfontWeight < 0)
                                         myfontWeight = 0;
@@ -926,8 +949,8 @@ var powerbi;
     (function (visuals) {
         var plugins;
         (function (plugins) {
-            plugins.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG = {
-                name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG',
+            plugins.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG_DEBUG = {
+                name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG_DEBUG',
                 displayName: 'KPImg',
                 class: 'Visual',
                 version: '1.0.2',

@@ -50,6 +50,8 @@ module powerbi.extensibility.visual {
             
         }
 
+        
+
         public update(options: VisualUpdateOptions) {
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
             
@@ -143,6 +145,21 @@ module powerbi.extensibility.visual {
             
             myimg.onload = (function(mysettings){
                 return function(){
+                    function calcMaxFontSize (can : HTMLCanvasElement,strText:string, fontFamily:string) :number {
+                        let canCtx : CanvasRenderingContext2D = can.getContext("2d");                    
+                        let maxSize : number = can.height;
+                        if(can.width>maxSize) maxSize=can.width;
+                        let fontSize:number = maxSize;
+                        canCtx.font = fontSize.toString() + "px " + fontFamily;
+                        let myTextWidth :number = canCtx.measureText(strText).width;
+                        while (myTextWidth>can.width){
+                            fontSize--;
+                            canCtx.font = fontSize.toString() + "px " + fontFamily;
+                            myTextWidth = canCtx.measureText(strText).width;
+                        }            
+                        return fontSize;
+                    }
+
                     let mycan : HTMLCanvasElement = document.getElementsByTagName("canvas").item(0);
                     let myCanCtx : CanvasRenderingContext2D = mycan.getContext("2d");
                     
@@ -159,24 +176,31 @@ module powerbi.extensibility.visual {
                         if(globalTarget!=0) mytext = (indicator*100).toFixed(2) + "%";
 
                         myCanCtx.textAlign="center";
-                                        
-                        var maxSize = mycan.height;
-                        if (maxSize>mycan.width) maxSize=mycan.height;
                         
+                        /*
+                        var maxSize = mycan.height;
+                        if (maxSize>mycan.width) maxSize=mycan.height;                        
                         var fontSize = maxSize;
                         myCanCtx.font=(fontSize).toString()+"px sans-serif";
                         var mytextwidth = myCanCtx.measureText(mytext).width;
-                        
                         while (mytextwidth>mycan.width){
                             fontSize--;
                             
                             myCanCtx.font=(fontSize).toString()+"px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
                             mytextwidth = myCanCtx.measureText(mytext).width;
                         }
+                        
                         var myfontWeight = mysettings.visualOptions.kpiFontWeight;
                         if (myfontWeight<0) myfontWeight=0;
                         else if (myfontWeight>1)myfontWeight=1;
                         myfontWeight = myfontWeight*fontSize;
+                        */
+                        let fontSize:number = calcMaxFontSize(mycan,mytext,mysettings.visualOptions.kpifontFamily.valueOf().toString()); 
+                        var myfontWeight = mysettings.visualOptions.kpiFontWeight;
+                        if (myfontWeight<0) myfontWeight=0;
+                        else if (myfontWeight>1)myfontWeight=1;
+                        myfontWeight = myfontWeight*fontSize;
+                        
                         myCanCtx.font=(myfontWeight).toString()+"px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
                             
 
