@@ -601,6 +601,8 @@ var powerbi;
                         this.showTrendLine = true;
                         this.widthTrendLine = 5;
                         this.kpiFontWeight = 1;
+                        this.valueLocale = "en-US";
+                        this.numberDecimals = 2;
                         this.kpiColor = "#000000";
                         this.kpifontFamily = kpiFontFamilyOptions.default;
                         this.kpiTransparency = 1;
@@ -801,9 +803,9 @@ var powerbi;
                                     else
                                         indicator = globalValue;
                                     debugger;
-                                    var mytext = parseFloat(globalValue.toFixed(2)).toLocaleString("es-US");
+                                    var mytext = parseFloat(globalValue.toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString());
                                     if (globalTarget != 0)
-                                        mytext = (indicator * 100).toFixed(2) + "%";
+                                        mytext = (indicator * 100).toFixed(mysettings.visualOptions.numberDecimals) + "%";
                                     myCanCtx.textAlign = "center";
                                     /*
                                     var maxSize = mycan.height;
@@ -949,8 +951,8 @@ var powerbi;
     (function (visuals) {
         var plugins;
         (function (plugins) {
-            plugins.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG_DEBUG = {
-                name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG_DEBUG',
+            plugins.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG = {
+                name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG',
                 displayName: 'KPImg',
                 class: 'Visual',
                 version: '1.0.2',

@@ -172,8 +172,8 @@ module powerbi.extensibility.visual {
                         if(globalTarget!=0) indicator=globalValue/globalTarget;
                         else indicator=globalValue;
                         debugger;
-                        var mytext = parseFloat(globalValue.toFixed(2) as any).toLocaleString("es-US");
-                        if(globalTarget!=0) mytext = (indicator*100).toFixed(2) + "%";
+                        var mytext = parseFloat(globalValue.toFixed(mysettings.visualOptions.numberDecimals) as any).toLocaleString(mysettings.visualOptions.valueLocale.toString());
+                        if(globalTarget!=0) mytext = (indicator*100).toFixed(mysettings.visualOptions.numberDecimals) + "%";
 
                         myCanCtx.textAlign="center";
                         

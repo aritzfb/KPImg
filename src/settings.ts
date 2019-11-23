@@ -82,6 +82,8 @@ module powerbi.extensibility.visual {
        public widthTrendLine: number=5;
        
        public kpiFontWeight:number=1;
+       public valueLocale:string="en-US";
+       public numberDecimals:number=2;
        public kpiColor: string = "#000000";
        public kpifontFamily: kpiFontFamilyOptions = kpiFontFamilyOptions.default;
        public kpiTransparency: number=1;

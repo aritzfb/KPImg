@@ -67,6 +67,18 @@
                         "numeric":true
                     }
                 }
+                , "valueLocale":{
+                    "displayName":"Locale"
+                    , "type":{
+                        "text":true
+                    }
+                }
+                , "numberDecimals":{
+                    "displayName":"Decimal Positions"
+                    , "type":{
+                        "numeric":true
+                    }
+                }
                 , "kpiColor":{
                     "displayName":"Font Color"
                     , "type":{
