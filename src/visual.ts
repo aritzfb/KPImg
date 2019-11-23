@@ -148,7 +148,7 @@ module powerbi.extensibility.visual {
                     function calcMaxFontSize (can : HTMLCanvasElement,strText:string, fontFamily:string) :number {
                         let canCtx : CanvasRenderingContext2D = can.getContext("2d");                    
                         let maxSize : number = can.height;
-                        if(can.width>maxSize) maxSize=can.width;
+                        if(can.width<maxSize) maxSize=can.width;
                         let fontSize:number = maxSize;
                         canCtx.font = fontSize.toString() + "px " + fontFamily;
                         let myTextWidth :number = canCtx.measureText(strText).width;
@@ -246,13 +246,16 @@ module powerbi.extensibility.visual {
                         }
                         //end draw series
 
-                        debugger;
-                        var indicator :number = 0;
+                        
+
+                        //show values
+                        var indicator :number = globalValue;
+                        /*
                         if(globalTarget!=0) indicator=globalValue/globalTarget;
                         else indicator=globalValue;
-                        debugger;
+                        */
                         var mytext = parseFloat(globalValue.toFixed(mysettings.visualOptions.numberDecimals) as any).toLocaleString(mysettings.visualOptions.valueLocale.toString());
-                        if(globalTarget!=0) mytext = (indicator*100).toFixed(mysettings.visualOptions.numberDecimals) + "%";
+                        //if(globalTarget!=0) mytext = parseFloat((indicator*100).toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "%";
 
                         myCanCtx.textAlign="center";
                         
@@ -278,6 +281,24 @@ module powerbi.extensibility.visual {
                         //bottom align
                         myCanCtx.fillText(mytext,mycan.width/2,mycan.height-5); 
                         else myCanCtx.fillText(mytext,mycan.width/2,moveHeight); 
+                        //end show values
+
+                        //show percentage
+                        if (globalTarget) if (globalTarget!=0) {
+                            var targetIndicator : number = globalValue/globalTarget;
+                            mytext = parseFloat((indicator*100).toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "%";
+                            myCanCtx.textAlign="center";
+                        
+                            fontSize = calcMaxFontSize(mycan,mytext,mysettings.visualOptions.kpifontFamily.valueOf().toString()); 
+                            myfontWeight = mysettings.visualOptions.kpiFontWeight;
+                            if (myfontWeight<0) myfontWeight=0;
+                            else if (myfontWeight>1)myfontWeight=1;
+                            myfontWeight = myfontWeight*fontSize;
+                            
+                            myCanCtx.font=(myfontWeight).toString()+"px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
+                            myCanCtx.fillText(mytext,mycan.width/2,mycan.height-5); 
+                            
+                        }
 
                         
                         

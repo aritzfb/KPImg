@@ -836,7 +836,7 @@ var powerbi;
                                 function calcMaxFontSize(can, strText, fontFamily) {
                                     var canCtx = can.getContext("2d");
                                     var maxSize = can.height;
-                                    if (can.width > maxSize)
+                                    if (can.width < maxSize)
                                         maxSize = can.width;
                                     var fontSize = maxSize;
                                     canCtx.font = fontSize.toString() + "px " + fontFamily;
@@ -922,16 +922,14 @@ var powerbi;
                                         }
                                     }
                                     //end draw series
-                                    debugger;
-                                    var indicator = 0;
-                                    if (globalTarget != 0)
-                                        indicator = globalValue / globalTarget;
-                                    else
-                                        indicator = globalValue;
-                                    debugger;
+                                    //show values
+                                    var indicator = globalValue;
+                                    /*
+                                    if(globalTarget!=0) indicator=globalValue/globalTarget;
+                                    else indicator=globalValue;
+                                    */
                                     var mytext = parseFloat(globalValue.toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString());
-                                    if (globalTarget != 0)
-                                        mytext = (indicator * 100).toFixed(mysettings.visualOptions.numberDecimals) + "%";
+                                    //if(globalTarget!=0) mytext = parseFloat((indicator*100).toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "%";
                                     myCanCtx.textAlign = "center";
                                     var fontSize = calcMaxFontSize(mycan, mytext, mysettings.visualOptions.kpifontFamily.valueOf().toString());
                                     var myfontWeight = mysettings.visualOptions.kpiFontWeight;
@@ -955,6 +953,23 @@ var powerbi;
                                         myCanCtx.fillText(mytext, mycan.width / 2, mycan.height - 5);
                                     else
                                         myCanCtx.fillText(mytext, mycan.width / 2, moveHeight);
+                                    //end show values
+                                    //show percentage
+                                    if (globalTarget)
+                                        if (globalTarget != 0) {
+                                            var targetIndicator = globalValue / globalTarget;
+                                            mytext = parseFloat((indicator * 100).toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "%";
+                                            myCanCtx.textAlign = "center";
+                                            fontSize = calcMaxFontSize(mycan, mytext, mysettings.visualOptions.kpifontFamily.valueOf().toString());
+                                            myfontWeight = mysettings.visualOptions.kpiFontWeight;
+                                            if (myfontWeight < 0)
+                                                myfontWeight = 0;
+                                            else if (myfontWeight > 1)
+                                                myfontWeight = 1;
+                                            myfontWeight = myfontWeight * fontSize;
+                                            myCanCtx.font = (myfontWeight).toString() + "px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
+                                            myCanCtx.fillText(mytext, mycan.width / 2, mycan.height - 5);
+                                        }
                                 }
                                 //end load indicator and series
                             };
@@ -992,8 +1007,8 @@ var powerbi;
     (function (visuals) {
         var plugins;
         (function (plugins) {
-            plugins.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG = {
-                name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG',
+            plugins.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG_DEBUG = {
+                name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG_DEBUG',
                 displayName: 'KPImg',
                 class: 'Visual',
                 version: '1.0.2',
