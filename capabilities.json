@@ -70,7 +70,221 @@
                 , "valueLocale":{
                     "displayName":"Locale"
                     , "type":{
-                        "text":true
+                        "enumeration":[
+                            {
+                                "displayName": "US English",
+                                "value": "en-US"
+                            },
+                            {
+                                "displayName": "Arabic (Saudi Arabia)",
+                                "value": "ar-SA"
+                            },
+                            {
+                                "displayName": "Bangla (Bangladesh)",
+                                "value": "bn-BD"
+                            },
+                            {
+                                "displayName": "Bangla (India)",
+                                "value": "bn-IN"
+                            },
+                            {
+                                "displayName": "Czech (Czech Republic)",
+                                "value": "cs-CZ"
+                            },
+                            {
+                                "displayName": "Danish (Denmark)",
+                                "value": "da-DK"
+                            },
+                            {
+                                "displayName": "Austrian German",
+                                "value": "de-AT"
+                            },
+                            {
+                                "displayName": "\"Swiss\" German",
+                                "value": "de-CH"
+                            },
+                            {
+                                "displayName": "Standard German",
+                                "value": "de-DE"
+                            },
+                            {
+                                "displayName": "Modern Greek",
+                                "value": "el-GR"
+                            },
+                            {
+                                "displayName": "Australian English",
+                                "value": "en-AU"
+                            },
+                            {
+                                "displayName": "Canadian English",
+                                "value": "en-CA"
+                            },
+                            {
+                                "displayName": "British English",
+                                "value": "en-GB"
+                            },
+                            {
+                                "displayName": "Irish English",
+                                "value": "en-IE"
+                            },
+                            {
+                                "displayName": "Indian English",
+                                "value": "en-IN"
+                            },
+                            {
+                                "displayName": "New Zealand English",
+                                "value": "en-NZ"
+                            },
+                            {
+                                "displayName": "English (South Africa)",
+                                "value": "en-ZA"
+                            },
+                            {
+                                "displayName": "Argentine Spanish",
+                                "value": "es-AR"
+                            },
+                            {
+                                "displayName": "Chilean Spanish",
+                                "value": "es-CL"
+                            },
+                            {
+                                "displayName": "Colombian Spanish",
+                                "value": "es-CO"
+                            },
+                            {
+                                "displayName": "Castilian Spanish",
+                                "value": "es-ES"
+                            },
+                            {
+                                "displayName": "Mexican Spanish",
+                                "value": "es-MX"
+                            },
+                            {
+                                "displayName": "American Spanish",
+                                "value": "es-US"
+                            },
+                            {
+                                "displayName": "Finnish (Finland)",
+                                "value": "fi-FI"
+                            },
+                            {
+                                "displayName": "Belgian French",
+                                "value": "fr-BE"
+                            },
+                            {
+                                "displayName": "Canadian French",
+                                "value": "fr-CA"
+                            },
+                            {
+                                "displayName": "\"Swiss\" French",
+                                "value": "fr-CH"
+                            },
+                            {
+                                "displayName": "Standard French",
+                                "value": "fr-FR"
+                            },
+                            {
+                                "displayName": "Hebrew (Israel)",
+                                "value": "he-IL"
+                            },
+                            {
+                                "displayName": "Hindi (India)",
+                                "value": "hi-IN"
+                            },
+                            {
+                                "displayName": "Hungarian (Hungary)",
+                                "value": "hu-HU"
+                            },
+                            {
+                                "displayName": "Indonesian (Indonesia)",
+                                "value": "id-ID"
+                            },
+                            {
+                                "displayName": "\"Swiss\" Italian",
+                                "value": "it-CH"
+                            },
+                            {
+                                "displayName": "Standard Italian",
+                                "value": "it-IT"
+                            },
+                            {
+                                "displayName": "Japanese (Japan)",
+                                "value": "jp-JP"
+                            },
+                            {
+                                "displayName": "Korean (Republic of Korea)",
+                                "value": "ko-KR"
+                            },
+                            {
+                                "displayName": "Belgian Dutch",
+                                "value": "nl-BE"
+                            },
+                            {
+                                "displayName": "Standard Dutch",
+                                "value": "nl-NL"
+                            },
+                            {
+                                "displayName": "Norwegian (Norway)",
+                                "value": "no-NO"
+                            },
+                            {
+                                "displayName": "Polish (Poland)",
+                                "value": "pl-PL"
+                            },
+                            {
+                                "displayName": "Brazilian Portuguese",
+                                "value": "pt-BR"
+                            },
+                            {
+                                "displayName": "European Portuguese",
+                                "value": "pt-PT"
+                            },
+                            {
+                                "displayName": "Romanian (Romania)",
+                                "value": "ro-RO"
+                            },
+                            {
+                                "displayName": "Russian (Russian Federation)",
+                                "value": "ru-RU"
+                            },
+                            {
+                                "displayName": "Slovak (Slovakia)",
+                                "value": "sk-SK"
+                            },
+                            {
+                                "displayName": "Swedish (Sweden)",
+                                "value": "sv-SE"
+                            },
+                            {
+                                "displayName": "Indian Tamil",
+                                "value": "ta-IN"
+                            },
+                            {
+                                "displayName": "Sri Lankan Tamil",
+                                "value": "ta-LK"
+                            },
+                            {
+                                "displayName": "Thai (Thailand)",
+                                "value": "th-TH"
+                            },
+                            {
+                                "displayName": "Turkish (Turkey)",
+                                "value": "tr-TR"
+                            },
+                            {
+                                "displayName": "Mainland China",
+                                "value": "zh-CN"
+                            },
+                            {
+                                "displayName": "Hong Kong",
+                                "value": "zh-HK"
+                            },
+                            {
+                                "displayName": "Taiwan",
+                                "value": "zh-TW"
+                            }
+
+                        ]
                     }
                 }
                 , "numberDecimals":{

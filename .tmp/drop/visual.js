@@ -556,6 +556,62 @@ var powerbi;
                     return VisualSettings;
                 }(DataViewObjectsParser));
                 kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.VisualSettings = VisualSettings;
+                var localeValues;
+                (function (localeValues) {
+                    localeValues[localeValues["arabic"] = "ar-SA"] = "arabic"; // Arabic (Saudi Arabia)
+                    localeValues[localeValues["bangladesh"] = "bn-BD"] = "bangladesh"; // Bangla (Bangladesh)
+                    localeValues[localeValues["india"] = "bn-IN"] = "india"; // Bangla (India)
+                    localeValues[localeValues["czech"] = "cs-CZ"] = "czech"; // Czech (Czech Republic)
+                    localeValues[localeValues["denmark"] = "da-DK"] = "denmark"; // Danish (Denmark)
+                    localeValues[localeValues["german"] = "de-AT"] = "german"; // Austrian German
+                    localeValues[localeValues["swiss"] = "de-CH"] = "swiss"; // "Swiss" German
+                    localeValues[localeValues["standardGerman"] = "de-DE"] = "standardGerman"; // Standard German (as spoken in Germany)
+                    localeValues[localeValues["greek"] = "el-GR"] = "greek"; //Modern Greek
+                    localeValues[localeValues["australian"] = "en-AU"] = "australian"; // Australian English
+                    localeValues[localeValues["canadian"] = "en-CA"] = "canadian"; // Canadian English
+                    localeValues[localeValues["british"] = "en-GB"] = "british"; // British English
+                    localeValues[localeValues["irish"] = "en-IE"] = "irish"; // Irish English
+                    localeValues[localeValues["indian"] = "en-IN"] = "indian"; // Indian English
+                    localeValues[localeValues["newZealand"] = "en-NZ"] = "newZealand"; // New Zealand English
+                    localeValues[localeValues["usEnglish"] = "en-US"] = "usEnglish"; // US English
+                    localeValues[localeValues["southAfrica"] = "en-ZA"] = "southAfrica"; // English (South Africa)
+                    localeValues[localeValues["argentine"] = "es-AR"] = "argentine"; // Argentine Spanish
+                    localeValues[localeValues["chilean"] = "es-CL"] = "chilean"; // Chilean Spanish
+                    localeValues[localeValues["colombian"] = "es-CO"] = "colombian"; // Colombian Spanish
+                    localeValues[localeValues["spanish"] = "es-ES"] = "spanish"; // Castilian Spanish (as spoken in Central-Northern Spain)
+                    localeValues[localeValues["mexican"] = "es-MX"] = "mexican"; // Mexican Spanish
+                    localeValues[localeValues["americanSpanish"] = "es-US"] = "americanSpanish"; // American Spanish
+                    localeValues[localeValues["finland"] = "fi-FI"] = "finland"; // Finnish (Finland)
+                    localeValues[localeValues["belgian"] = "fr-BE"] = "belgian"; // Belgian French
+                    localeValues[localeValues["canadianFrench"] = "fr-CA"] = "canadianFrench"; // Canadian French
+                    localeValues[localeValues["swissFrench"] = "fr-CH"] = "swissFrench"; // "Swiss" French
+                    localeValues[localeValues["french"] = "fr-FR"] = "french"; // Standard French (especially in France)
+                    localeValues[localeValues["israel"] = "he-IL"] = "israel"; // Hebrew (Israel)
+                    localeValues[localeValues["hindi"] = "hi-IN"] = "hindi"; // Hindi (India)
+                    localeValues[localeValues["hungarian"] = "hu-HU"] = "hungarian"; // Hungarian (Hungary)
+                    localeValues[localeValues["indonesian"] = "id-ID"] = "indonesian"; // Indonesian (Indonesia)
+                    localeValues[localeValues["italianSwiss"] = "it-CH"] = "italianSwiss"; // "Swiss" Italian
+                    localeValues[localeValues["italian"] = "it-IT"] = "italian"; // Standard Italian (as spoken in Italy)
+                    localeValues[localeValues["japanese"] = "jp-JP"] = "japanese"; // Japanese (Japan)
+                    localeValues[localeValues["korean"] = "ko-KR"] = "korean"; // Korean (Republic of Korea)
+                    localeValues[localeValues["belgianDutch"] = "nl-BE"] = "belgianDutch"; // Belgian Dutch
+                    localeValues[localeValues["dutch"] = "nl-NL"] = "dutch"; // Standard Dutch (as spoken in The Netherlands)
+                    localeValues[localeValues["norwegian"] = "no-NO"] = "norwegian"; // Norwegian (Norway)
+                    localeValues[localeValues["polish"] = "pl-PL"] = "polish"; // Polish (Poland)
+                    localeValues[localeValues["brazilianPortuguese"] = "pt-BR"] = "brazilianPortuguese"; // Brazilian Portuguese
+                    localeValues[localeValues["portuguese"] = "pt-PT"] = "portuguese"; // European Portuguese (as written and spoken in Portugal)
+                    localeValues[localeValues["romanian"] = "ro-RO"] = "romanian"; // Romanian (Romania)
+                    localeValues[localeValues["russian"] = "ru-RU"] = "russian"; // Russian (Russian Federation)
+                    localeValues[localeValues["slovak"] = "sk-SK"] = "slovak"; // Slovak (Slovakia)
+                    localeValues[localeValues["swedish"] = "sv-SE"] = "swedish"; // Swedish (Sweden)
+                    localeValues[localeValues["indianTamil"] = "ta-IN"] = "indianTamil"; // Indian Tamil
+                    localeValues[localeValues["sriLankan"] = "ta-LK"] = "sriLankan"; // Sri Lankan Tamil
+                    localeValues[localeValues["thai"] = "th-TH"] = "thai"; // Thai (Thailand)
+                    localeValues[localeValues["turkish"] = "tr-TR"] = "turkish"; // Turkish (Turkey)
+                    localeValues[localeValues["mainlandChina"] = "zh-CN"] = "mainlandChina"; // Mainland China, simplified characters
+                    localeValues[localeValues["hongKong"] = "zh-HK"] = "hongKong"; // Hong Kong, traditional characters
+                    localeValues[localeValues["taiwan"] = "zh-TW"] = "taiwan"; // Taiwan, traditional characters
+                })(localeValues = kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.localeValues || (kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.localeValues = {}));
                 var kpiFontFamilyOptions;
                 (function (kpiFontFamilyOptions) {
                     kpiFontFamilyOptions[kpiFontFamilyOptions["default"] = "helvetica, arial, sans-serif"] = "default";
@@ -601,7 +657,8 @@ var powerbi;
                         this.showTrendLine = true;
                         this.widthTrendLine = 5;
                         this.kpiFontWeight = 1;
-                        this.valueLocale = "en-US";
+                        //public valueLocale:string="en-US";
+                        this.valueLocale = localeValues.usEnglish;
                         this.numberDecimals = 2;
                         this.kpiColor = "#000000";
                         this.kpifontFamily = kpiFontFamilyOptions.default;
@@ -796,43 +853,7 @@ var powerbi;
                                 //myCanCtx.filter = "none";            
                                 myCanCtx.drawImage(myimg, 0, 0, mycan.width, mycan.height);
                                 if (hasValue /*&& hasTarget*/) {
-                                    debugger;
-                                    var indicator = 0;
-                                    if (globalTarget != 0)
-                                        indicator = globalValue / globalTarget;
-                                    else
-                                        indicator = globalValue;
-                                    debugger;
-                                    var mytext = parseFloat(globalValue.toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString());
-                                    if (globalTarget != 0)
-                                        mytext = (indicator * 100).toFixed(mysettings.visualOptions.numberDecimals) + "%";
-                                    myCanCtx.textAlign = "center";
-                                    /*
-                                    var maxSize = mycan.height;
-                                    if (maxSize>mycan.width) maxSize=mycan.height;
-                                    var fontSize = maxSize;
-                                    myCanCtx.font=(fontSize).toString()+"px sans-serif";
-                                    var mytextwidth = myCanCtx.measureText(mytext).width;
-                                    while (mytextwidth>mycan.width){
-                                        fontSize--;
-                                        
-                                        myCanCtx.font=(fontSize).toString()+"px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
-                                        mytextwidth = myCanCtx.measureText(mytext).width;
-                                    }
-                                    
-                                    var myfontWeight = mysettings.visualOptions.kpiFontWeight;
-                                    if (myfontWeight<0) myfontWeight=0;
-                                    else if (myfontWeight>1)myfontWeight=1;
-                                    myfontWeight = myfontWeight*fontSize;
-                                    */
-                                    var fontSize = calcMaxFontSize(mycan, mytext, mysettings.visualOptions.kpifontFamily.valueOf().toString());
-                                    var myfontWeight = mysettings.visualOptions.kpiFontWeight;
-                                    if (myfontWeight < 0)
-                                        myfontWeight = 0;
-                                    else if (myfontWeight > 1)
-                                        myfontWeight = 1;
-                                    myfontWeight = myfontWeight * fontSize;
-                                    myCanCtx.font = (myfontWeight).toString() + "px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
+                                    //draw series
                                     if (series.length > 0) {
                                         myCanCtx.beginPath();
                                         myCanCtx.moveTo(0, mycan.height);
@@ -900,6 +921,26 @@ var powerbi;
                                             myCanCtx.strokeStyle = mysettings.visualOptions.serieColorNeutral.valueOf().toString();
                                         }
                                     }
+                                    //end draw series
+                                    debugger;
+                                    var indicator = 0;
+                                    if (globalTarget != 0)
+                                        indicator = globalValue / globalTarget;
+                                    else
+                                        indicator = globalValue;
+                                    debugger;
+                                    var mytext = parseFloat(globalValue.toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString());
+                                    if (globalTarget != 0)
+                                        mytext = (indicator * 100).toFixed(mysettings.visualOptions.numberDecimals) + "%";
+                                    myCanCtx.textAlign = "center";
+                                    var fontSize = calcMaxFontSize(mycan, mytext, mysettings.visualOptions.kpifontFamily.valueOf().toString());
+                                    var myfontWeight = mysettings.visualOptions.kpiFontWeight;
+                                    if (myfontWeight < 0)
+                                        myfontWeight = 0;
+                                    else if (myfontWeight > 1)
+                                        myfontWeight = 1;
+                                    myfontWeight = myfontWeight * fontSize;
+                                    myCanCtx.font = (myfontWeight).toString() + "px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
                                     var moveHeight = mycan.height / 2 + myfontWeight / 4;
                                     myCanCtx.fillStyle = mysettings.visualOptions.kpiColor.valueOf().toString();
                                     myCanCtx.globalAlpha = parseFloat(mysettings.visualOptions.kpiTransparency.valueOf().toString());

@@ -167,43 +167,8 @@ module powerbi.extensibility.visual {
                     myCanCtx.drawImage(myimg,0,0,mycan.width,mycan.height);
 
                     if(hasValue /*&& hasTarget*/){
-                        debugger;
-                        var indicator :number = 0;
-                        if(globalTarget!=0) indicator=globalValue/globalTarget;
-                        else indicator=globalValue;
-                        debugger;
-                        var mytext = parseFloat(globalValue.toFixed(mysettings.visualOptions.numberDecimals) as any).toLocaleString(mysettings.visualOptions.valueLocale.toString());
-                        if(globalTarget!=0) mytext = (indicator*100).toFixed(mysettings.visualOptions.numberDecimals) + "%";
-
-                        myCanCtx.textAlign="center";
-                        
-                        /*
-                        var maxSize = mycan.height;
-                        if (maxSize>mycan.width) maxSize=mycan.height;                        
-                        var fontSize = maxSize;
-                        myCanCtx.font=(fontSize).toString()+"px sans-serif";
-                        var mytextwidth = myCanCtx.measureText(mytext).width;
-                        while (mytextwidth>mycan.width){
-                            fontSize--;
                             
-                            myCanCtx.font=(fontSize).toString()+"px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
-                            mytextwidth = myCanCtx.measureText(mytext).width;
-                        }
-                        
-                        var myfontWeight = mysettings.visualOptions.kpiFontWeight;
-                        if (myfontWeight<0) myfontWeight=0;
-                        else if (myfontWeight>1)myfontWeight=1;
-                        myfontWeight = myfontWeight*fontSize;
-                        */
-                        let fontSize:number = calcMaxFontSize(mycan,mytext,mysettings.visualOptions.kpifontFamily.valueOf().toString()); 
-                        var myfontWeight = mysettings.visualOptions.kpiFontWeight;
-                        if (myfontWeight<0) myfontWeight=0;
-                        else if (myfontWeight>1)myfontWeight=1;
-                        myfontWeight = myfontWeight*fontSize;
-                        
-                        myCanCtx.font=(myfontWeight).toString()+"px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
-                            
-
+                        //draw series
                         if(series.length>0){
                             myCanCtx.beginPath();
                             myCanCtx.moveTo(0,mycan.height);  
@@ -279,7 +244,25 @@ module powerbi.extensibility.visual {
                             }
                         
                         }
+                        //end draw series
 
+                        debugger;
+                        var indicator :number = 0;
+                        if(globalTarget!=0) indicator=globalValue/globalTarget;
+                        else indicator=globalValue;
+                        debugger;
+                        var mytext = parseFloat(globalValue.toFixed(mysettings.visualOptions.numberDecimals) as any).toLocaleString(mysettings.visualOptions.valueLocale.toString());
+                        if(globalTarget!=0) mytext = (indicator*100).toFixed(mysettings.visualOptions.numberDecimals) + "%";
+
+                        myCanCtx.textAlign="center";
+                        
+                        let fontSize:number = calcMaxFontSize(mycan,mytext,mysettings.visualOptions.kpifontFamily.valueOf().toString()); 
+                        var myfontWeight = mysettings.visualOptions.kpiFontWeight;
+                        if (myfontWeight<0) myfontWeight=0;
+                        else if (myfontWeight>1)myfontWeight=1;
+                        myfontWeight = myfontWeight*fontSize;
+                        
+                        myCanCtx.font=(myfontWeight).toString()+"px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
                         
 
                         var moveHeight = mycan.height/2+myfontWeight/4;
