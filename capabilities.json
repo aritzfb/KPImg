@@ -55,6 +55,25 @@
                         "bool":true
                     }
                 }
+                , "showMode":{
+                    "displayName":"Display values"
+                    , "type":{
+                        "enumeration":[
+                            {
+                                "displayName":"Only % Compilance"
+                                , "value":"comp"
+                            }
+                            , {
+                                "displayName":"Only Indicator"
+                                , "value":"indi"
+                            }
+                            , {
+                                "displayName":"Indicator and % Compilance"
+                                , "value":"both"
+                            }
+                        ]
+                    }
+                }
                 , "widthTrendLine":{
                     "displayName" : "Width Trend Line"
                     , "type":{

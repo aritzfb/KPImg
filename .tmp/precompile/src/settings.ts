@@ -123,6 +123,11 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
       , bottom = "bottom" as any
       
     }
+    export enum showModes {
+      comp = "comp" as any
+      , indi = "indi" as any
+      , both = "both" as any
+    }
 
      export class visualOptions {
        public urlImgOk: string="";
@@ -133,6 +138,7 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
        */
        public koPercentValue: number=0.5;
        public showTrendLine: boolean=true;
+       public showMode: showModes = showModes.both;
        public widthTrendLine: number=5;
        
        public kpiFontWeight:number=1;

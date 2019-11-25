@@ -145,9 +145,9 @@ module powerbi.extensibility.visual {
             
             myimg.onload = (function(mysettings){
                 return function(){
-                    function calcMaxFontSize (can : HTMLCanvasElement,strText:string, fontFamily:string) :number {
+                    function calcMaxFontSize (can : HTMLCanvasElement,strText:string, fontFamily:string, numIndicators:number) :number {
                         let canCtx : CanvasRenderingContext2D = can.getContext("2d");                    
-                        let maxSize : number = can.height;
+                        let maxSize : number = can.height/numIndicators;
                         if(can.width<maxSize) maxSize=can.width;
                         let fontSize:number = maxSize;
                         canCtx.font = fontSize.toString() + "px " + fontFamily;
@@ -165,6 +165,12 @@ module powerbi.extensibility.visual {
                     
                     //myCanCtx.filter = "none";            
                     myCanCtx.drawImage(myimg,0,0,mycan.width,mycan.height);
+
+                    let numberOfIndicators :number = 0;
+                    if (hasValue) numberOfIndicators=1;
+                    if (hasValue && hasTarget) numberOfIndicators=2;
+                    if (mysettings.visualOptions.showMode.valueOf().toString() == "indi") numberOfIndicators=1;
+                    if (mysettings.visualOptions.showMode.valueOf().toString() == "comp") numberOfIndicators=1;
 
                     if(hasValue /*&& hasTarget*/){
                             
@@ -245,7 +251,6 @@ module powerbi.extensibility.visual {
                         
                         }
                         //end draw series
-
                         
 
                         //show values
@@ -259,7 +264,7 @@ module powerbi.extensibility.visual {
 
                         myCanCtx.textAlign="center";
                         
-                        let fontSize:number = calcMaxFontSize(mycan,mytext,mysettings.visualOptions.kpifontFamily.valueOf().toString()); 
+                        let fontSize:number = calcMaxFontSize(mycan,mytext,mysettings.visualOptions.kpifontFamily.valueOf().toString(),numberOfIndicators); 
                         var myfontWeight = mysettings.visualOptions.kpiFontWeight;
                         if (myfontWeight<0) myfontWeight=0;
                         else if (myfontWeight>1)myfontWeight=1;
@@ -267,56 +272,68 @@ module powerbi.extensibility.visual {
                         
                         myCanCtx.font=(myfontWeight).toString()+"px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
                         
-
                         var moveHeight = mycan.height/2+myfontWeight/4;
                         myCanCtx.fillStyle = mysettings.visualOptions.kpiColor.valueOf().toString();
                         myCanCtx.globalAlpha = parseFloat(mysettings.visualOptions.kpiTransparency.valueOf().toString());
-                        if(mysettings.visualOptions.kpiVerticalAlign.valueOf().toString()=="middle")
-                        //middle align
-                        myCanCtx.fillText(mytext,mycan.width/2,moveHeight);  
-                        else if(mysettings.visualOptions.kpiVerticalAlign.valueOf().toString()=="top")
-                        //top align
-                        myCanCtx.fillText(mytext,mycan.width/2,myfontWeight/1.3);  
-                        else if(mysettings.visualOptions.kpiVerticalAlign.valueOf().toString()=="bottom")
-                        //bottom align
-                        myCanCtx.fillText(mytext,mycan.width/2,mycan.height-5); 
-                        else myCanCtx.fillText(mytext,mycan.width/2,moveHeight); 
+                        if (mysettings.visualOptions.showMode.valueOf().toString()=="indi"){
+                            if(mysettings.visualOptions.kpiVerticalAlign.valueOf().toString()=="middle")
+                            //middle align
+                            myCanCtx.fillText(mytext,mycan.width/2,moveHeight);  
+                            else if(mysettings.visualOptions.kpiVerticalAlign.valueOf().toString()=="top")
+                            //top align
+                            myCanCtx.fillText(mytext,mycan.width/2,myfontWeight/1.3);  
+                            else if(mysettings.visualOptions.kpiVerticalAlign.valueOf().toString()=="bottom")
+                            //bottom align
+                            myCanCtx.fillText(mytext,mycan.width/2,mycan.height-5); 
+                            else myCanCtx.fillText(mytext,mycan.width/2,moveHeight);
+                        } else if (mysettings.visualOptions.showMode.valueOf().toString()=="both"){
+                            //top align
+                            myCanCtx.fillText(mytext,mycan.width/2,myfontWeight/1.3); 
+                        }
+                        
                         //end show values
+                        
+                        
 
                         //show percentage
                         if (globalTarget) if (globalTarget!=0) {
                             var targetIndicator : number = globalValue/globalTarget;
-                            mytext = parseFloat((indicator*100).toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "%";
+                            mytext = parseFloat((targetIndicator*100).toFixed(mysettings.visualOptions.numberDecimals) as any).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "%";
                             myCanCtx.textAlign="center";
                         
-                            fontSize = calcMaxFontSize(mycan,mytext,mysettings.visualOptions.kpifontFamily.valueOf().toString()); 
+                            fontSize = calcMaxFontSize(mycan,mytext,mysettings.visualOptions.kpifontFamily.valueOf().toString(),numberOfIndicators); 
                             myfontWeight = mysettings.visualOptions.kpiFontWeight;
                             if (myfontWeight<0) myfontWeight=0;
                             else if (myfontWeight>1)myfontWeight=1;
                             myfontWeight = myfontWeight*fontSize;
                             
                             myCanCtx.font=(myfontWeight).toString()+"px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
-                            myCanCtx.fillText(mytext,mycan.width/2,mycan.height-5); 
+                            
+                            if (mysettings.visualOptions.showMode.valueOf().toString()=="comp"){
+                                if(mysettings.visualOptions.kpiVerticalAlign.valueOf().toString()=="middle")
+                                //middle align
+                                myCanCtx.fillText(mytext,mycan.width/2,moveHeight);  
+                                else if(mysettings.visualOptions.kpiVerticalAlign.valueOf().toString()=="top")
+                                //top align
+                                myCanCtx.fillText(mytext,mycan.width/2,myfontWeight/1.3);  
+                                else if(mysettings.visualOptions.kpiVerticalAlign.valueOf().toString()=="bottom")
+                                //bottom align
+                                myCanCtx.fillText(mytext,mycan.width/2,mycan.height-5); 
+                                else myCanCtx.fillText(mytext,mycan.width/2,moveHeight);
+                            } else if (mysettings.visualOptions.showMode.valueOf().toString()=="both"){
+                                //bottom align
+                                myCanCtx.fillText(mytext,mycan.width/2,mycan.height-mycan.height*0.01);
+                            }
+                             
                             
                         }
-
-                        
                         
                     }
 
                     //end load indicator and series
 
-
-
-
-
-
                 }
             })(this.settings);
-
-
-
-
             
 
             let mycan : HTMLCanvasElement = this.target.getElementsByTagName("canvas").item(0);

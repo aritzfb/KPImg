@@ -645,6 +645,12 @@ var powerbi;
                     alignOptions[alignOptions["middle"] = "middle"] = "middle";
                     alignOptions[alignOptions["bottom"] = "bottom"] = "bottom";
                 })(alignOptions = kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.alignOptions || (kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.alignOptions = {}));
+                var showModes;
+                (function (showModes) {
+                    showModes[showModes["comp"] = "comp"] = "comp";
+                    showModes[showModes["indi"] = "indi"] = "indi";
+                    showModes[showModes["both"] = "both"] = "both";
+                })(showModes = kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.showModes || (kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.showModes = {}));
                 var visualOptions = (function () {
                     function visualOptions() {
                         this.urlImgOk = "";
@@ -655,6 +661,7 @@ var powerbi;
                         */
                         this.koPercentValue = 0.5;
                         this.showTrendLine = true;
+                        this.showMode = showModes.both;
                         this.widthTrendLine = 5;
                         this.kpiFontWeight = 1;
                         //public valueLocale:string="en-US";
@@ -833,9 +840,9 @@ var powerbi;
                             myimg.setAttribute("src", "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=");
                         myimg.onload = (function (mysettings) {
                             return function () {
-                                function calcMaxFontSize(can, strText, fontFamily) {
+                                function calcMaxFontSize(can, strText, fontFamily, numIndicators) {
                                     var canCtx = can.getContext("2d");
-                                    var maxSize = can.height;
+                                    var maxSize = can.height / numIndicators;
                                     if (can.width < maxSize)
                                         maxSize = can.width;
                                     var fontSize = maxSize;
@@ -852,6 +859,15 @@ var powerbi;
                                 var myCanCtx = mycan.getContext("2d");
                                 //myCanCtx.filter = "none";            
                                 myCanCtx.drawImage(myimg, 0, 0, mycan.width, mycan.height);
+                                var numberOfIndicators = 0;
+                                if (hasValue)
+                                    numberOfIndicators = 1;
+                                if (hasValue && hasTarget)
+                                    numberOfIndicators = 2;
+                                if (mysettings.visualOptions.showMode.valueOf().toString() == "indi")
+                                    numberOfIndicators = 1;
+                                if (mysettings.visualOptions.showMode.valueOf().toString() == "comp")
+                                    numberOfIndicators = 1;
                                 if (hasValue /*&& hasTarget*/) {
                                     //draw series
                                     if (series.length > 0) {
@@ -931,7 +947,7 @@ var powerbi;
                                     var mytext = parseFloat(globalValue.toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString());
                                     //if(globalTarget!=0) mytext = parseFloat((indicator*100).toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "%";
                                     myCanCtx.textAlign = "center";
-                                    var fontSize = calcMaxFontSize(mycan, mytext, mysettings.visualOptions.kpifontFamily.valueOf().toString());
+                                    var fontSize = calcMaxFontSize(mycan, mytext, mysettings.visualOptions.kpifontFamily.valueOf().toString(), numberOfIndicators);
                                     var myfontWeight = mysettings.visualOptions.kpiFontWeight;
                                     if (myfontWeight < 0)
                                         myfontWeight = 0;
@@ -942,25 +958,31 @@ var powerbi;
                                     var moveHeight = mycan.height / 2 + myfontWeight / 4;
                                     myCanCtx.fillStyle = mysettings.visualOptions.kpiColor.valueOf().toString();
                                     myCanCtx.globalAlpha = parseFloat(mysettings.visualOptions.kpiTransparency.valueOf().toString());
-                                    if (mysettings.visualOptions.kpiVerticalAlign.valueOf().toString() == "middle")
-                                        //middle align
-                                        myCanCtx.fillText(mytext, mycan.width / 2, moveHeight);
-                                    else if (mysettings.visualOptions.kpiVerticalAlign.valueOf().toString() == "top")
+                                    if (mysettings.visualOptions.showMode.valueOf().toString() == "indi") {
+                                        if (mysettings.visualOptions.kpiVerticalAlign.valueOf().toString() == "middle")
+                                            //middle align
+                                            myCanCtx.fillText(mytext, mycan.width / 2, moveHeight);
+                                        else if (mysettings.visualOptions.kpiVerticalAlign.valueOf().toString() == "top")
+                                            //top align
+                                            myCanCtx.fillText(mytext, mycan.width / 2, myfontWeight / 1.3);
+                                        else if (mysettings.visualOptions.kpiVerticalAlign.valueOf().toString() == "bottom")
+                                            //bottom align
+                                            myCanCtx.fillText(mytext, mycan.width / 2, mycan.height - 5);
+                                        else
+                                            myCanCtx.fillText(mytext, mycan.width / 2, moveHeight);
+                                    }
+                                    else if (mysettings.visualOptions.showMode.valueOf().toString() == "both") {
                                         //top align
                                         myCanCtx.fillText(mytext, mycan.width / 2, myfontWeight / 1.3);
-                                    else if (mysettings.visualOptions.kpiVerticalAlign.valueOf().toString() == "bottom")
-                                        //bottom align
-                                        myCanCtx.fillText(mytext, mycan.width / 2, mycan.height - 5);
-                                    else
-                                        myCanCtx.fillText(mytext, mycan.width / 2, moveHeight);
+                                    }
                                     //end show values
                                     //show percentage
                                     if (globalTarget)
                                         if (globalTarget != 0) {
                                             var targetIndicator = globalValue / globalTarget;
-                                            mytext = parseFloat((indicator * 100).toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "%";
+                                            mytext = parseFloat((targetIndicator * 100).toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "%";
                                             myCanCtx.textAlign = "center";
-                                            fontSize = calcMaxFontSize(mycan, mytext, mysettings.visualOptions.kpifontFamily.valueOf().toString());
+                                            fontSize = calcMaxFontSize(mycan, mytext, mysettings.visualOptions.kpifontFamily.valueOf().toString(), numberOfIndicators);
                                             myfontWeight = mysettings.visualOptions.kpiFontWeight;
                                             if (myfontWeight < 0)
                                                 myfontWeight = 0;
@@ -968,7 +990,23 @@ var powerbi;
                                                 myfontWeight = 1;
                                             myfontWeight = myfontWeight * fontSize;
                                             myCanCtx.font = (myfontWeight).toString() + "px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
-                                            myCanCtx.fillText(mytext, mycan.width / 2, mycan.height - 5);
+                                            if (mysettings.visualOptions.showMode.valueOf().toString() == "comp") {
+                                                if (mysettings.visualOptions.kpiVerticalAlign.valueOf().toString() == "middle")
+                                                    //middle align
+                                                    myCanCtx.fillText(mytext, mycan.width / 2, moveHeight);
+                                                else if (mysettings.visualOptions.kpiVerticalAlign.valueOf().toString() == "top")
+                                                    //top align
+                                                    myCanCtx.fillText(mytext, mycan.width / 2, myfontWeight / 1.3);
+                                                else if (mysettings.visualOptions.kpiVerticalAlign.valueOf().toString() == "bottom")
+                                                    //bottom align
+                                                    myCanCtx.fillText(mytext, mycan.width / 2, mycan.height - 5);
+                                                else
+                                                    myCanCtx.fillText(mytext, mycan.width / 2, moveHeight);
+                                            }
+                                            else if (mysettings.visualOptions.showMode.valueOf().toString() == "both") {
+                                                //bottom align
+                                                myCanCtx.fillText(mytext, mycan.width / 2, mycan.height - mycan.height * 0.01);
+                                            }
                                         }
                                 }
                                 //end load indicator and series
@@ -1007,8 +1045,8 @@ var powerbi;
     (function (visuals) {
         var plugins;
         (function (plugins) {
-            plugins.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG_DEBUG = {
-                name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG_DEBUG',
+            plugins.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG = {
+                name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG',
                 displayName: 'KPImg',
                 class: 'Visual',
                 version: '1.0.2',
