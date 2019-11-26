@@ -1,1 +1,1109 @@
-var powerbi;!function(e){var i;!function(e){var i;!function(e){var i;!function(e){var i;!function(e){function i(e,i,a){void 0===e&&(e=[]);var n=e;return t(n),i&&(n.identityFields=i),a&&(n.source=a),n}function t(e,i){e.grouped=i?function(){return i}:function(){return a(e)}}function a(e){for(var i,t=[],a=0,n=e.length;n>a;a++){var r=e[a];if(!i||i.identity!==r.identity){if(i={values:[]},r.identity){i.identity=r.identity;var o=r.source;void 0!==o.groupName?i.name=o.groupName:o.displayName&&(i.name=o.displayName)}t.push(i)}i.values.push(r)}return t}e.createValueColumns=i,e.setGrouped=t,e.groupValues=a}(i=e.DataViewTransform||(e.DataViewTransform={}))}(i=e.dataview||(e.dataview={}))}(i=e.utils||(e.utils={}))}(i=e.extensibility||(e.extensibility={}))}(powerbi||(powerbi={}));var powerbi;!function(e){var i;!function(e){var i;!function(e){var i;!function(e){var i;!function(e){function i(e,i){if(!e||!e.length)return-1;var t=e[0];if(t.values&&t.values.length>0)for(var n=0,r=t.values.length;r>n;++n){var o=t.values[n];if(o&&o.source&&a(o.source,i))return n}return-1}function t(e,i){if(e&&e.length)for(var t=0,n=e.length;n>t;t++)if(a(e[t].source,i))return t;return-1}function a(e,i){var t=e.roles;return t&&t[i]}function n(e,i){return null!=e&&null!=e.metadata&&e.metadata.columns&&e.metadata.columns.some(function(e){return e.roles&&void 0!==e.roles[i]})}function r(e,i){return e&&e.source&&e.source.roles&&e.source.roles[i]===!0}e.getMeasureIndexOfRole=i,e.getCategoryIndexOfRole=t,e.hasRole=a,e.hasRoleInDataView=n,e.hasRoleInValueColumn=r}(i=e.DataRoleHelper||(e.DataRoleHelper={}))}(i=e.dataview||(e.dataview={}))}(i=e.utils||(e.utils={}))}(i=e.extensibility||(e.extensibility={}))}(powerbi||(powerbi={}));var powerbi;!function(e){var i;!function(e){var i;!function(e){var i;!function(e){var i;!function(e){function i(e,i,t){if(!e)return t;var a=e[i];return void 0===a?t:a}function t(e,t,a){var n=i(e,t);return n&&n.solid?n.solid.color:a}e.getValue=i,e.getFillColorByPropertyName=t}(i=e.DataViewObject||(e.DataViewObject={}))}(i=e.dataview||(e.dataview={}))}(i=e.utils||(e.utils={}))}(i=e.extensibility||(e.extensibility={}))}(powerbi||(powerbi={}));var powerbi;!function(e){var i;!function(e){var i;!function(e){var i;!function(e){var i;!function(i){function t(i,t,a){return i?e.DataViewObject.getValue(i[t.objectName],t.propertyName,a):a}function a(e,i,t){return e&&e[i]?e[i]:t}function n(e,i,a){var n=t(e,i);return n&&n.solid?n.solid.color:a}function r(e,i,a){var n=t(e,i,a);return n&&n.solid?n.solid.color:void 0===n||null===n||"object"==typeof n&&!n.solid?a:n}i.getValue=t,i.getObject=a,i.getFillColor=n,i.getCommonValue=r}(i=e.DataViewObjects||(e.DataViewObjects={}))}(i=e.dataview||(e.dataview={}))}(i=e.utils||(e.utils={}))}(i=e.extensibility||(e.extensibility={}))}(powerbi||(powerbi={}));var powerbi;!function(e){var i;!function(i){var t;!function(i){var t;!function(i){var t,a=e.extensibility.utils.dataview.DataRoleHelper;!function(e){function i(e,i,t){if(e.categories&&e.categories.length>0){var n=e.categories[0];return n.source&&a.hasRole(n.source,i)&&a.hasRole(n.source,t)}return!1}function t(e){return void 0!==e.groupName?e.groupName:e.queryName}function n(e){var i=o(e);return null!=i&&i.imageUrl===!0}function r(e){var i=o(e);return null!=i&&i.webUrl===!0}function o(e){return e&&e.type&&e.type.misc}function s(e){return e&&e.metadata&&e.metadata.columns&&e.metadata.columns.length?e.metadata.columns.some(function(e){return n(e)===!0}):!1}e.categoryIsAlsoSeriesRole=i,e.getSeriesName=t,e.isImageUrlColumn=n,e.isWebUrlColumn=r,e.getMiscellaneousTypeDescriptor=o,e.hasImageUrlColumn=s}(t=i.converterHelper||(i.converterHelper={}))}(t=i.dataview||(i.dataview={}))}(t=i.utils||(i.utils={}))}(i=e.extensibility||(e.extensibility={}))}(powerbi||(powerbi={}));var powerbi;!function(e){var i;!function(e){var i;!function(e){var i;!function(e){var i=function(){function i(){}return i.getDefault=function(){return new this},i.createPropertyIdentifier=function(e,i){return{objectName:e,propertyName:i}},i.parse=function(i){var t,a=this.getDefault();if(!i||!i.metadata||!i.metadata.objects)return a;t=a.getProperties();for(var n in t)for(var r in t[n]){var o=a[n][r];a[n][r]=e.DataViewObjects.getCommonValue(i.metadata.objects,t[n][r],o)}return a},i.isPropertyEnumerable=function(e){return!i.InnumerablePropertyPrefix.test(e)},i.enumerateObjectInstances=function(e,i){var t=e&&e[i.objectName];if(!t)return[];var a={objectName:i.objectName,selector:null,properties:{}};for(var n in t)t.hasOwnProperty(n)&&(a.properties[n]=t[n]);return{instances:[a]}},i.prototype.getProperties=function(){var e=this,t={},a=Object.keys(this);return a.forEach(function(a){if(i.isPropertyEnumerable(a)){var n=Object.keys(e[a]);t[a]={},n.forEach(function(e){i.isPropertyEnumerable(a)&&(t[a][e]=i.createPropertyIdentifier(a,e))})}}),t},i}();i.InnumerablePropertyPrefix=/^_/,e.DataViewObjectsParser=i}(i=e.dataview||(e.dataview={}))}(i=e.utils||(e.utils={}))}(i=e.extensibility||(e.extensibility={}))}(powerbi||(powerbi={}));var __extends=this&&this.__extends||function(){var e=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(e,i){e.__proto__=i}||function(e,i){for(var t in i)i.hasOwnProperty(t)&&(e[t]=i[t])};return function(i,t){function a(){this.constructor=i}e(i,t),i.prototype=null===t?Object.create(t):(a.prototype=t.prototype,new a)}}(),powerbi;!function(e){var i;!function(i){var t;!function(i){var t;!function(i){"use strict";var t=e.extensibility.utils.dataview.DataViewObjectsParser,a=function(e){function i(){var i=null!==e&&e.apply(this,arguments)||this;return i.visualOptions=new l,i}return __extends(i,e),i}(t);i.VisualSettings=a;var n;!function(e){e[e.arabic="ar-SA"]="arabic",e[e.bangladesh="bn-BD"]="bangladesh",e[e.india="bn-IN"]="india",e[e.czech="cs-CZ"]="czech",e[e.denmark="da-DK"]="denmark",e[e.german="de-AT"]="german",e[e.swiss="de-CH"]="swiss",e[e.standardGerman="de-DE"]="standardGerman",e[e.greek="el-GR"]="greek",e[e.australian="en-AU"]="australian",e[e.canadian="en-CA"]="canadian",e[e.british="en-GB"]="british",e[e.irish="en-IE"]="irish",e[e.indian="en-IN"]="indian",e[e.newZealand="en-NZ"]="newZealand",e[e.usEnglish="en-US"]="usEnglish",e[e.southAfrica="en-ZA"]="southAfrica",e[e.argentine="es-AR"]="argentine",e[e.chilean="es-CL"]="chilean",e[e.colombian="es-CO"]="colombian",e[e.spanish="es-ES"]="spanish",e[e.mexican="es-MX"]="mexican",e[e.americanSpanish="es-US"]="americanSpanish",e[e.finland="fi-FI"]="finland",e[e.belgian="fr-BE"]="belgian",e[e.canadianFrench="fr-CA"]="canadianFrench",e[e.swissFrench="fr-CH"]="swissFrench",e[e.french="fr-FR"]="french",e[e.israel="he-IL"]="israel",e[e.hindi="hi-IN"]="hindi",e[e.hungarian="hu-HU"]="hungarian",e[e.indonesian="id-ID"]="indonesian",e[e.italianSwiss="it-CH"]="italianSwiss",e[e.italian="it-IT"]="italian",e[e.japanese="jp-JP"]="japanese",e[e.korean="ko-KR"]="korean",e[e.belgianDutch="nl-BE"]="belgianDutch",e[e.dutch="nl-NL"]="dutch",e[e.norwegian="no-NO"]="norwegian",e[e.polish="pl-PL"]="polish",e[e.brazilianPortuguese="pt-BR"]="brazilianPortuguese",e[e.portuguese="pt-PT"]="portuguese",e[e.romanian="ro-RO"]="romanian",e[e.russian="ru-RU"]="russian",e[e.slovak="sk-SK"]="slovak",e[e.swedish="sv-SE"]="swedish",e[e.indianTamil="ta-IN"]="indianTamil",e[e.sriLankan="ta-LK"]="sriLankan",e[e.thai="th-TH"]="thai",e[e.turkish="tr-TR"]="turkish",e[e.mainlandChina="zh-CN"]="mainlandChina",e[e.hongKong="zh-HK"]="hongKong",e[e.taiwan="zh-TW"]="taiwan"}(n=i.localeValues||(i.localeValues={}));var r;!function(e){e[e["default"]="helvetica, arial, sans-serif"]="default",e[e.arial="Arial"]="arial",e[e.arialBlack='"Arial Black"']="arialBlack",e[e.arialUnicodeMS='"Arial Unicode MS"']="arialUnicodeMS",e[e.calibri="Calibri"]="calibri",e[e.cambria="Cambria"]="cambria",e[e.cambriaMath='"Cambria Math"']="cambriaMath",e[e.candara="Candara"]="candara",e[e.comicSansMS='"Comic Sans MS"']="comicSansMS",e[e.consolas="Consolas"]="consolas",e[e.constantia="Constantia"]="constantia",e[e.corbel="Corbel"]="corbel",e[e.corbelNew='"Courier New"']="corbelNew",e[e.georgia="Georgia"]="georgia",e[e.lucidaSansUnicode='"Lucida Sans Unicode"']="lucidaSansUnicode",e[e.segoeUIBold='"Segoe UI Bold", wf_segoe-ui_bold, helvetica, arial, sans-serif']="segoeUIBold",e[e.segoeUI='"Segoe UI", wf_segoe-ui_normal, helvetica, arial, sans-serif']="segoeUI",e[e.segoeUILight='"Segoe UI Light", wf_segoe-ui_bold, helvetica, arial, sans-serif']="segoeUILight",e[e.symbol="Symbol"]="symbol",e[e.tahoma="Tahoma"]="tahoma",e[e.timesNewRoman='"Times New Roman"']="timesNewRoman",e[e.trebuchetMS='"Trebuchet MS"']="trebuchetMS",e[e.verdana="Verdana"]="verdana",e[e.wingdings="Wingdings"]="wingdings"}(r=i.kpiFontFamilyOptions||(i.kpiFontFamilyOptions={}));var o;!function(e){e[e.top="top"]="top",e[e.middle="middle"]="middle",e[e.bottom="bottom"]="bottom"}(o=i.alignOptions||(i.alignOptions={}));var s;!function(e){e[e.comp="comp"]="comp",e[e.indi="indi"]="indi",e[e.both="both"]="both"}(s=i.showModes||(i.showModes={}));var l=function(){function e(){this.urlImgOk="",this.urlImgKo="",this.koPercentValue=.5,this.showTrendLine=!0,this.showMode=s.both,this.widthTrendLine=5,this.kpiFontWeight=1,this.valueLocale=n.usEnglish,this.numberDecimals=2,this.kpiColor="#000000",this.kpifontFamily=r["default"],this.kpiTransparency=1,this.kpiVerticalAlign=o.middle,this.serieColorOk="#008000",this.serieColorKo="#FF0000",this.serieColorNeutral="#C0C0C0",this.seriesTransparency=.4}return e}();i.visualOptions=l}(t=i.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG||(i.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG={}))}(t=i.visual||(i.visual={}))}(i=e.extensibility||(e.extensibility={}))}(powerbi||(powerbi={}));var powerbi;!function(e){var i;!function(e){var i;!function(e){var i;!function(e){"use strict";var i=function(){function e(){}return e}();e.myElementSerie=i;var t=function(){function t(e){this.target=e.element;var i=document.createElement("canvas");this.target.appendChild(i),this.host=e.host}return t.prototype.update=function(e){this.settings=t.parseSettings(e&&e.dataViews&&e.dataViews[0]);var a,n,r=!1,o=!1,s=!1;e&&e.dataViews&&e.dataViews[0]&&e.dataViews[0].categorical.categories&&(s=!0),e&&e.dataViews&&e.dataViews[0]&&e.dataViews[0].categorical.values&&(2==e.dataViews[0].categorical.values.length?(r=!0,o=!0,e.dataViews[0].categorical.values[0].source.roles.value?(a=0,n=1):(a=1,n=0)):1==e.dataViews[0].categorical.values.length&&(e.dataViews[0].categorical.values[0].source.roles.value?(r=!0,a=0):(o=!0,n=0)));var l=0,u=0,c=new Array;if(r)if(s){var g,v;g=e.dataViews[0].categorical.values[a].minLocal,v=e.dataViews[0].categorical.values[a].maxLocal;for(var h=0;h<e.dataViews[0].categorical.categories[0].values.length;h++){var f=new i;f.name=e.dataViews[0].categorical.categories[0].values[h].valueOf().toString(),f.value=parseFloat(e.dataViews[0].categorical.values[0].values[h].valueOf().toString()),o&&(f.target=parseFloat(e.dataViews[0].categorical.values[1].values[h].valueOf().toString())),f.percent=0,v-g!=0?f.percent=(f.value-g)/(v-g):f.percent=.5,f.realPercent=f.percent,f.percent>1&&(f.percent=1),f.percent<0&&(f.percent=0),c.push(f),l+=f.value,o&&(u+=f.target)}}else l=parseFloat(e.dataViews[0].categorical.values[a].values[0].valueOf().toString()),o&&(u=parseFloat(e.dataViews[0].categorical.values[n].values[0].valueOf().toString()));var p=document.createElement("img");if(this.settings.visualOptions.urlImgOk&&this.settings.visualOptions.urlImgKo&&this.settings.visualOptions.koPercentValue&&r&&o){var d="";if(0==u||0==l)d=this.settings.visualOptions.urlImgKo.valueOf().toString();else{var m;m=o?l/u:l,d=m>=this.settings.visualOptions.koPercentValue?this.settings.visualOptions.urlImgOk.valueOf().toString():this.settings.visualOptions.urlImgKo.valueOf().toString()}p.setAttribute("src",d)}else p.setAttribute("src","data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=");p.onload=function(e){return function(){function i(e,i,t,a){var n=e.getContext("2d"),r=e.height/a;e.width<r&&(r=e.width);var o=r;n.font=o.toString()+"px "+t;for(var s=n.measureText(i).width;s>e.width;)o--,n.font=o.toString()+"px "+t,s=n.measureText(i).width;return o}var t=document.getElementsByTagName("canvas").item(0),a=t.getContext("2d");a.drawImage(p,0,0,t.width,t.height);var n=0;if(r&&(n=1),r&&o&&(n=2),"indi"==e.visualOptions.showMode.valueOf().toString()&&(n=1),"comp"==e.visualOptions.showMode.valueOf().toString()&&(n=1),r){if(c.length>0){if(a.beginPath(),a.moveTo(0,t.height),a.lineWidth=1,a.fillStyle=e.visualOptions.serieColorNeutral.valueOf().toString(),1==c.length)a.lineTo(0,t.height-c[0].percent*t.height),a.lineTo(t.width,t.height-c[1].percent*t.height);else for(var s=0;s<c.length;s++)a.lineTo(s*t.width/(c.length-1),t.height-c[s].percent*t.height);if(a.lineTo(t.width,t.height),a.globalAlpha=parseFloat(e.visualOptions.seriesTransparency.valueOf().toString()),a.closePath(),a.stroke(),c.length>1){for(var g=0,v=0,h=0,f=0,d=c.length,m=0;m<c.length;m++){var w=m*(t.width/c.length),b=c[m].realPercent;g+=b,v+=w,h+=w*b,f+=w*w}var O=v/d,S=g/d,y=(h-d*O*S)/(f-d*O*O);this.bRegressionLine=y,this.aRegressionLine=S-this.bRegressionLine*O,e.visualOptions.showTrendLine||(a.fillStyle=e.visualOptions.serieColorOk.valueOf().toString(),0>y&&(a.fillStyle=e.visualOptions.serieColorKo.valueOf().toString())),a.fill()}this.bRegressionLine&&e.visualOptions.showTrendLine&&(a.beginPath(),a.lineWidth=e.visualOptions.widthTrendLine,a.globalAlpha=parseFloat(e.visualOptions.seriesTransparency.valueOf().toString()),a.strokeStyle=e.visualOptions.serieColorNeutral.valueOf().toString(),this.bRegressionLine>0&&(a.strokeStyle=e.visualOptions.serieColorOk.valueOf().toString()),this.bRegressionLine<0&&(a.strokeStyle=e.visualOptions.serieColorKo.valueOf().toString()),a.moveTo(0,t.height*(1-this.aRegressionLine)),a.lineTo(t.width,t.height*(1-this.bRegressionLine*t.width-this.aRegressionLine)),a.closePath(),a.stroke(),a.fill(),a.strokeStyle=e.visualOptions.serieColorNeutral.valueOf().toString())}var A=parseFloat(l.toFixed(e.visualOptions.numberDecimals)).toLocaleString(e.visualOptions.valueLocale.toString());a.textAlign="center";var k=i(t,A,e.visualOptions.kpifontFamily.valueOf().toString(),n),C=e.visualOptions.kpiFontWeight;0>C?C=0:C>1&&(C=1),C*=k,a.font=C.toString()+"px "+e.visualOptions.kpifontFamily.valueOf().toString();var V=t.height/2+C/4;if(a.fillStyle=e.visualOptions.kpiColor.valueOf().toString(),a.globalAlpha=parseFloat(e.visualOptions.kpiTransparency.valueOf().toString()),"indi"==e.visualOptions.showMode.valueOf().toString()?"middle"==e.visualOptions.kpiVerticalAlign.valueOf().toString()?a.fillText(A,t.width/2,V):"top"==e.visualOptions.kpiVerticalAlign.valueOf().toString()?a.fillText(A,t.width/2,C/1.3):"bottom"==e.visualOptions.kpiVerticalAlign.valueOf().toString()?a.fillText(A,t.width/2,t.height-5):a.fillText(A,t.width/2,V):"both"==e.visualOptions.showMode.valueOf().toString()&&a.fillText(A,t.width/2,C/1.3),u&&0!=u){var x=l/u;A=parseFloat((100*x).toFixed(e.visualOptions.numberDecimals)).toLocaleString(e.visualOptions.valueLocale.toString())+"%",a.textAlign="center",k=i(t,A,e.visualOptions.kpifontFamily.valueOf().toString(),n),C=e.visualOptions.kpiFontWeight,0>C?C=0:C>1&&(C=1),C*=k,a.font=C.toString()+"px "+e.visualOptions.kpifontFamily.valueOf().toString(),"comp"==e.visualOptions.showMode.valueOf().toString()?"middle"==e.visualOptions.kpiVerticalAlign.valueOf().toString()?a.fillText(A,t.width/2,V):"top"==e.visualOptions.kpiVerticalAlign.valueOf().toString()?a.fillText(A,t.width/2,C/1.3):"bottom"==e.visualOptions.kpiVerticalAlign.valueOf().toString()?a.fillText(A,t.width/2,t.height-5):a.fillText(A,t.width/2,V):"both"==e.visualOptions.showMode.valueOf().toString()&&a.fillText(A,t.width/2,t.height-.01*t.height)}}}}(this.settings);var w=this.target.getElementsByTagName("canvas").item(0);w.height=this.target.offsetHeight,w.width=this.target.offsetWidth;w.getContext("2d")},t.parseSettings=function(i){return e.VisualSettings.parse(i)},t.prototype.enumerateObjectInstances=function(i){return e.VisualSettings.enumerateObjectInstances(this.settings||e.VisualSettings.getDefault(),i)},t}();e.Visual=t}(i=e.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG||(e.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG={}))}(i=e.visual||(e.visual={}))}(i=e.extensibility||(e.extensibility={}))}(powerbi||(powerbi={}));var powerbi;!function(e){var i;!function(i){var t;!function(i){i.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG={name:"kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG",displayName:"KPImg","class":"Visual",version:"1.0.2",apiVersion:"2.2.0",create:function(i){return new e.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.Visual(i)},custom:!0}}(t=i.plugins||(i.plugins={}))}(i=e.visuals||(e.visuals={}))}(powerbi||(powerbi={}));
+/*
+ *  Power BI Visualizations
+ *
+ *  Copyright (c) Microsoft Corporation
+ *  All rights reserved.
+ *  MIT License
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the ""Software""), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in
+ *  all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *  THE SOFTWARE.
+ */
+var powerbi;
+(function (powerbi) {
+    var extensibility;
+    (function (extensibility) {
+        var utils;
+        (function (utils) {
+            var dataview;
+            (function (dataview) {
+                // TODO: refactor & focus DataViewTransform into a service with well-defined dependencies.
+                var DataViewTransform;
+                (function (DataViewTransform) {
+                    // TODO: refactor this, setGrouped, and groupValues to a test helper to stop using it in the product
+                    function createValueColumns(values, valueIdentityFields, source) {
+                        if (values === void 0) { values = []; }
+                        var result = values;
+                        setGrouped(result);
+                        if (valueIdentityFields) {
+                            result.identityFields = valueIdentityFields;
+                        }
+                        if (source) {
+                            result.source = source;
+                        }
+                        return result;
+                    }
+                    DataViewTransform.createValueColumns = createValueColumns;
+                    function setGrouped(values, groupedResult) {
+                        values.grouped = groupedResult
+                            ? function () { return groupedResult; }
+                            : function () { return groupValues(values); };
+                    }
+                    DataViewTransform.setGrouped = setGrouped;
+                    /** Group together the values with a common identity. */
+                    function groupValues(values) {
+                        var groups = [], currentGroup;
+                        for (var i = 0, len = values.length; i < len; i++) {
+                            var value = values[i];
+                            if (!currentGroup || currentGroup.identity !== value.identity) {
+                                currentGroup = {
+                                    values: []
+                                };
+                                if (value.identity) {
+                                    currentGroup.identity = value.identity;
+                                    var source = value.source;
+                                    // allow null, which will be formatted as (Blank).
+                                    if (source.groupName !== undefined) {
+                                        currentGroup.name = source.groupName;
+                                    }
+                                    else if (source.displayName) {
+                                        currentGroup.name = source.displayName;
+                                    }
+                                }
+                                groups.push(currentGroup);
+                            }
+                            currentGroup.values.push(value);
+                        }
+                        return groups;
+                    }
+                    DataViewTransform.groupValues = groupValues;
+                })(DataViewTransform = dataview.DataViewTransform || (dataview.DataViewTransform = {}));
+            })(dataview = utils.dataview || (utils.dataview = {}));
+        })(utils = extensibility.utils || (extensibility.utils = {}));
+    })(extensibility = powerbi.extensibility || (powerbi.extensibility = {}));
+})(powerbi || (powerbi = {}));
+/*
+ *  Power BI Visualizations
+ *
+ *  Copyright (c) Microsoft Corporation
+ *  All rights reserved.
+ *  MIT License
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the ""Software""), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in
+ *  all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *  THE SOFTWARE.
+ */
+var powerbi;
+(function (powerbi) {
+    var extensibility;
+    (function (extensibility) {
+        var utils;
+        (function (utils) {
+            var dataview;
+            (function (dataview) {
+                var DataRoleHelper;
+                (function (DataRoleHelper) {
+                    function getMeasureIndexOfRole(grouped, roleName) {
+                        if (!grouped || !grouped.length) {
+                            return -1;
+                        }
+                        var firstGroup = grouped[0];
+                        if (firstGroup.values && firstGroup.values.length > 0) {
+                            for (var i = 0, len = firstGroup.values.length; i < len; ++i) {
+                                var value = firstGroup.values[i];
+                                if (value && value.source) {
+                                    if (hasRole(value.source, roleName)) {
+                                        return i;
+                                    }
+                                }
+                            }
+                        }
+                        return -1;
+                    }
+                    DataRoleHelper.getMeasureIndexOfRole = getMeasureIndexOfRole;
+                    function getCategoryIndexOfRole(categories, roleName) {
+                        if (categories && categories.length) {
+                            for (var i = 0, ilen = categories.length; i < ilen; i++) {
+                                if (hasRole(categories[i].source, roleName)) {
+                                    return i;
+                                }
+                            }
+                        }
+                        return -1;
+                    }
+                    DataRoleHelper.getCategoryIndexOfRole = getCategoryIndexOfRole;
+                    function hasRole(column, name) {
+                        var roles = column.roles;
+                        return roles && roles[name];
+                    }
+                    DataRoleHelper.hasRole = hasRole;
+                    function hasRoleInDataView(dataView, name) {
+                        return dataView != null
+                            && dataView.metadata != null
+                            && dataView.metadata.columns
+                            && dataView.metadata.columns.some(function (c) { return c.roles && c.roles[name] !== undefined; }); // any is an alias of some
+                    }
+                    DataRoleHelper.hasRoleInDataView = hasRoleInDataView;
+                    function hasRoleInValueColumn(valueColumn, name) {
+                        return valueColumn
+                            && valueColumn.source
+                            && valueColumn.source.roles
+                            && (valueColumn.source.roles[name] === true);
+                    }
+                    DataRoleHelper.hasRoleInValueColumn = hasRoleInValueColumn;
+                })(DataRoleHelper = dataview.DataRoleHelper || (dataview.DataRoleHelper = {}));
+            })(dataview = utils.dataview || (utils.dataview = {}));
+        })(utils = extensibility.utils || (extensibility.utils = {}));
+    })(extensibility = powerbi.extensibility || (powerbi.extensibility = {}));
+})(powerbi || (powerbi = {}));
+/*
+ *  Power BI Visualizations
+ *
+ *  Copyright (c) Microsoft Corporation
+ *  All rights reserved.
+ *  MIT License
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the ""Software""), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in
+ *  all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *  THE SOFTWARE.
+ */
+var powerbi;
+(function (powerbi) {
+    var extensibility;
+    (function (extensibility) {
+        var utils;
+        (function (utils) {
+            var dataview;
+            (function (dataview) {
+                var DataViewObject;
+                (function (DataViewObject) {
+                    function getValue(object, propertyName, defaultValue) {
+                        if (!object) {
+                            return defaultValue;
+                        }
+                        var propertyValue = object[propertyName];
+                        if (propertyValue === undefined) {
+                            return defaultValue;
+                        }
+                        return propertyValue;
+                    }
+                    DataViewObject.getValue = getValue;
+                    /** Gets the solid color from a fill property using only a propertyName */
+                    function getFillColorByPropertyName(object, propertyName, defaultColor) {
+                        var value = getValue(object, propertyName);
+                        if (!value || !value.solid) {
+                            return defaultColor;
+                        }
+                        return value.solid.color;
+                    }
+                    DataViewObject.getFillColorByPropertyName = getFillColorByPropertyName;
+                })(DataViewObject = dataview.DataViewObject || (dataview.DataViewObject = {}));
+            })(dataview = utils.dataview || (utils.dataview = {}));
+        })(utils = extensibility.utils || (extensibility.utils = {}));
+    })(extensibility = powerbi.extensibility || (powerbi.extensibility = {}));
+})(powerbi || (powerbi = {}));
+/*
+ *  Power BI Visualizations
+ *
+ *  Copyright (c) Microsoft Corporation
+ *  All rights reserved.
+ *  MIT License
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the ""Software""), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in
+ *  all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *  THE SOFTWARE.
+ */
+var powerbi;
+(function (powerbi) {
+    var extensibility;
+    (function (extensibility) {
+        var utils;
+        (function (utils) {
+            var dataview;
+            (function (dataview) {
+                var DataViewObjects;
+                (function (DataViewObjects) {
+                    /** Gets the value of the given object/property pair. */
+                    function getValue(objects, propertyId, defaultValue) {
+                        if (!objects) {
+                            return defaultValue;
+                        }
+                        return dataview.DataViewObject.getValue(objects[propertyId.objectName], propertyId.propertyName, defaultValue);
+                    }
+                    DataViewObjects.getValue = getValue;
+                    /** Gets an object from objects. */
+                    function getObject(objects, objectName, defaultValue) {
+                        if (objects && objects[objectName]) {
+                            return objects[objectName];
+                        }
+                        return defaultValue;
+                    }
+                    DataViewObjects.getObject = getObject;
+                    /** Gets the solid color from a fill property. */
+                    function getFillColor(objects, propertyId, defaultColor) {
+                        var value = getValue(objects, propertyId);
+                        if (!value || !value.solid) {
+                            return defaultColor;
+                        }
+                        return value.solid.color;
+                    }
+                    DataViewObjects.getFillColor = getFillColor;
+                    function getCommonValue(objects, propertyId, defaultValue) {
+                        var value = getValue(objects, propertyId, defaultValue);
+                        if (value && value.solid) {
+                            return value.solid.color;
+                        }
+                        if (value === undefined
+                            || value === null
+                            || (typeof value === "object" && !value.solid)) {
+                            return defaultValue;
+                        }
+                        return value;
+                    }
+                    DataViewObjects.getCommonValue = getCommonValue;
+                })(DataViewObjects = dataview.DataViewObjects || (dataview.DataViewObjects = {}));
+            })(dataview = utils.dataview || (utils.dataview = {}));
+        })(utils = extensibility.utils || (extensibility.utils = {}));
+    })(extensibility = powerbi.extensibility || (powerbi.extensibility = {}));
+})(powerbi || (powerbi = {}));
+/*
+ *  Power BI Visualizations
+ *
+ *  Copyright (c) Microsoft Corporation
+ *  All rights reserved.
+ *  MIT License
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the ""Software""), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in
+ *  all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *  THE SOFTWARE.
+ */
+var powerbi;
+(function (powerbi) {
+    var extensibility;
+    (function (extensibility) {
+        var utils;
+        (function (utils) {
+            var dataview;
+            (function (dataview) {
+                // powerbi.extensibility.utils.dataview
+                var DataRoleHelper = powerbi.extensibility.utils.dataview.DataRoleHelper;
+                var converterHelper;
+                (function (converterHelper) {
+                    function categoryIsAlsoSeriesRole(dataView, seriesRoleName, categoryRoleName) {
+                        if (dataView.categories && dataView.categories.length > 0) {
+                            // Need to pivot data if our category soure is a series role
+                            var category = dataView.categories[0];
+                            return category.source &&
+                                DataRoleHelper.hasRole(category.source, seriesRoleName) &&
+                                DataRoleHelper.hasRole(category.source, categoryRoleName);
+                        }
+                        return false;
+                    }
+                    converterHelper.categoryIsAlsoSeriesRole = categoryIsAlsoSeriesRole;
+                    function getSeriesName(source) {
+                        return (source.groupName !== undefined)
+                            ? source.groupName
+                            : source.queryName;
+                    }
+                    converterHelper.getSeriesName = getSeriesName;
+                    function isImageUrlColumn(column) {
+                        var misc = getMiscellaneousTypeDescriptor(column);
+                        return misc != null && misc.imageUrl === true;
+                    }
+                    converterHelper.isImageUrlColumn = isImageUrlColumn;
+                    function isWebUrlColumn(column) {
+                        var misc = getMiscellaneousTypeDescriptor(column);
+                        return misc != null && misc.webUrl === true;
+                    }
+                    converterHelper.isWebUrlColumn = isWebUrlColumn;
+                    function getMiscellaneousTypeDescriptor(column) {
+                        return column
+                            && column.type
+                            && column.type.misc;
+                    }
+                    converterHelper.getMiscellaneousTypeDescriptor = getMiscellaneousTypeDescriptor;
+                    function hasImageUrlColumn(dataView) {
+                        if (!dataView || !dataView.metadata || !dataView.metadata.columns || !dataView.metadata.columns.length) {
+                            return false;
+                        }
+                        return dataView.metadata.columns.some(function (column) { return isImageUrlColumn(column) === true; });
+                    }
+                    converterHelper.hasImageUrlColumn = hasImageUrlColumn;
+                })(converterHelper = dataview.converterHelper || (dataview.converterHelper = {}));
+            })(dataview = utils.dataview || (utils.dataview = {}));
+        })(utils = extensibility.utils || (extensibility.utils = {}));
+    })(extensibility = powerbi.extensibility || (powerbi.extensibility = {}));
+})(powerbi || (powerbi = {}));
+/*
+ *  Power BI Visualizations
+ *
+ *  Copyright (c) Microsoft Corporation
+ *  All rights reserved.
+ *  MIT License
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the ""Software""), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in
+ *  all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *  THE SOFTWARE.
+ */
+var powerbi;
+(function (powerbi) {
+    var extensibility;
+    (function (extensibility) {
+        var utils;
+        (function (utils) {
+            var dataview;
+            (function (dataview) {
+                var DataViewObjectsParser = (function () {
+                    function DataViewObjectsParser() {
+                    }
+                    DataViewObjectsParser.getDefault = function () {
+                        return new this();
+                    };
+                    DataViewObjectsParser.createPropertyIdentifier = function (objectName, propertyName) {
+                        return {
+                            objectName: objectName,
+                            propertyName: propertyName
+                        };
+                    };
+                    DataViewObjectsParser.parse = function (dataView) {
+                        var dataViewObjectParser = this.getDefault(), properties;
+                        if (!dataView || !dataView.metadata || !dataView.metadata.objects) {
+                            return dataViewObjectParser;
+                        }
+                        properties = dataViewObjectParser.getProperties();
+                        for (var objectName in properties) {
+                            for (var propertyName in properties[objectName]) {
+                                var defaultValue = dataViewObjectParser[objectName][propertyName];
+                                dataViewObjectParser[objectName][propertyName] = dataview.DataViewObjects.getCommonValue(dataView.metadata.objects, properties[objectName][propertyName], defaultValue);
+                            }
+                        }
+                        return dataViewObjectParser;
+                    };
+                    DataViewObjectsParser.isPropertyEnumerable = function (propertyName) {
+                        return !DataViewObjectsParser.InnumerablePropertyPrefix.test(propertyName);
+                    };
+                    DataViewObjectsParser.enumerateObjectInstances = function (dataViewObjectParser, options) {
+                        var dataViewProperties = dataViewObjectParser && dataViewObjectParser[options.objectName];
+                        if (!dataViewProperties) {
+                            return [];
+                        }
+                        var instance = {
+                            objectName: options.objectName,
+                            selector: null,
+                            properties: {}
+                        };
+                        for (var key in dataViewProperties) {
+                            if (dataViewProperties.hasOwnProperty(key)) {
+                                instance.properties[key] = dataViewProperties[key];
+                            }
+                        }
+                        return {
+                            instances: [instance]
+                        };
+                    };
+                    DataViewObjectsParser.prototype.getProperties = function () {
+                        var _this = this;
+                        var properties = {}, objectNames = Object.keys(this);
+                        objectNames.forEach(function (objectName) {
+                            if (DataViewObjectsParser.isPropertyEnumerable(objectName)) {
+                                var propertyNames = Object.keys(_this[objectName]);
+                                properties[objectName] = {};
+                                propertyNames.forEach(function (propertyName) {
+                                    if (DataViewObjectsParser.isPropertyEnumerable(objectName)) {
+                                        properties[objectName][propertyName] =
+                                            DataViewObjectsParser.createPropertyIdentifier(objectName, propertyName);
+                                    }
+                                });
+                            }
+                        });
+                        return properties;
+                    };
+                    return DataViewObjectsParser;
+                }());
+                DataViewObjectsParser.InnumerablePropertyPrefix = /^_/;
+                dataview.DataViewObjectsParser = DataViewObjectsParser;
+            })(dataview = utils.dataview || (utils.dataview = {}));
+        })(utils = extensibility.utils || (extensibility.utils = {}));
+    })(extensibility = powerbi.extensibility || (powerbi.extensibility = {}));
+})(powerbi || (powerbi = {}));
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+/*
+ *  Power BI Visualizations
+ *
+ *  Copyright (c) Microsoft Corporation
+ *  All rights reserved.
+ *  MIT License
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the ""Software""), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in
+ *  all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *  THE SOFTWARE.
+ */
+var powerbi;
+(function (powerbi) {
+    var extensibility;
+    (function (extensibility) {
+        var visual;
+        (function (visual) {
+            var kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG;
+            (function (kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG) {
+                "use strict";
+                var DataViewObjectsParser = powerbi.extensibility.utils.dataview.DataViewObjectsParser;
+                var VisualSettings = (function (_super) {
+                    __extends(VisualSettings, _super);
+                    function VisualSettings() {
+                        var _this = _super !== null && _super.apply(this, arguments) || this;
+                        _this.visualOptions = new visualOptions();
+                        return _this;
+                    }
+                    return VisualSettings;
+                }(DataViewObjectsParser));
+                kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.VisualSettings = VisualSettings;
+                var localeValues;
+                (function (localeValues) {
+                    localeValues[localeValues["arabic"] = "ar-SA"] = "arabic"; // Arabic (Saudi Arabia)
+                    localeValues[localeValues["bangladesh"] = "bn-BD"] = "bangladesh"; // Bangla (Bangladesh)
+                    localeValues[localeValues["india"] = "bn-IN"] = "india"; // Bangla (India)
+                    localeValues[localeValues["czech"] = "cs-CZ"] = "czech"; // Czech (Czech Republic)
+                    localeValues[localeValues["denmark"] = "da-DK"] = "denmark"; // Danish (Denmark)
+                    localeValues[localeValues["german"] = "de-AT"] = "german"; // Austrian German
+                    localeValues[localeValues["swiss"] = "de-CH"] = "swiss"; // "Swiss" German
+                    localeValues[localeValues["standardGerman"] = "de-DE"] = "standardGerman"; // Standard German (as spoken in Germany)
+                    localeValues[localeValues["greek"] = "el-GR"] = "greek"; //Modern Greek
+                    localeValues[localeValues["australian"] = "en-AU"] = "australian"; // Australian English
+                    localeValues[localeValues["canadian"] = "en-CA"] = "canadian"; // Canadian English
+                    localeValues[localeValues["british"] = "en-GB"] = "british"; // British English
+                    localeValues[localeValues["irish"] = "en-IE"] = "irish"; // Irish English
+                    localeValues[localeValues["indian"] = "en-IN"] = "indian"; // Indian English
+                    localeValues[localeValues["newZealand"] = "en-NZ"] = "newZealand"; // New Zealand English
+                    localeValues[localeValues["usEnglish"] = "en-US"] = "usEnglish"; // US English
+                    localeValues[localeValues["southAfrica"] = "en-ZA"] = "southAfrica"; // English (South Africa)
+                    localeValues[localeValues["argentine"] = "es-AR"] = "argentine"; // Argentine Spanish
+                    localeValues[localeValues["chilean"] = "es-CL"] = "chilean"; // Chilean Spanish
+                    localeValues[localeValues["colombian"] = "es-CO"] = "colombian"; // Colombian Spanish
+                    localeValues[localeValues["spanish"] = "es-ES"] = "spanish"; // Castilian Spanish (as spoken in Central-Northern Spain)
+                    localeValues[localeValues["mexican"] = "es-MX"] = "mexican"; // Mexican Spanish
+                    localeValues[localeValues["americanSpanish"] = "es-US"] = "americanSpanish"; // American Spanish
+                    localeValues[localeValues["finland"] = "fi-FI"] = "finland"; // Finnish (Finland)
+                    localeValues[localeValues["belgian"] = "fr-BE"] = "belgian"; // Belgian French
+                    localeValues[localeValues["canadianFrench"] = "fr-CA"] = "canadianFrench"; // Canadian French
+                    localeValues[localeValues["swissFrench"] = "fr-CH"] = "swissFrench"; // "Swiss" French
+                    localeValues[localeValues["french"] = "fr-FR"] = "french"; // Standard French (especially in France)
+                    localeValues[localeValues["israel"] = "he-IL"] = "israel"; // Hebrew (Israel)
+                    localeValues[localeValues["hindi"] = "hi-IN"] = "hindi"; // Hindi (India)
+                    localeValues[localeValues["hungarian"] = "hu-HU"] = "hungarian"; // Hungarian (Hungary)
+                    localeValues[localeValues["indonesian"] = "id-ID"] = "indonesian"; // Indonesian (Indonesia)
+                    localeValues[localeValues["italianSwiss"] = "it-CH"] = "italianSwiss"; // "Swiss" Italian
+                    localeValues[localeValues["italian"] = "it-IT"] = "italian"; // Standard Italian (as spoken in Italy)
+                    localeValues[localeValues["japanese"] = "jp-JP"] = "japanese"; // Japanese (Japan)
+                    localeValues[localeValues["korean"] = "ko-KR"] = "korean"; // Korean (Republic of Korea)
+                    localeValues[localeValues["belgianDutch"] = "nl-BE"] = "belgianDutch"; // Belgian Dutch
+                    localeValues[localeValues["dutch"] = "nl-NL"] = "dutch"; // Standard Dutch (as spoken in The Netherlands)
+                    localeValues[localeValues["norwegian"] = "no-NO"] = "norwegian"; // Norwegian (Norway)
+                    localeValues[localeValues["polish"] = "pl-PL"] = "polish"; // Polish (Poland)
+                    localeValues[localeValues["brazilianPortuguese"] = "pt-BR"] = "brazilianPortuguese"; // Brazilian Portuguese
+                    localeValues[localeValues["portuguese"] = "pt-PT"] = "portuguese"; // European Portuguese (as written and spoken in Portugal)
+                    localeValues[localeValues["romanian"] = "ro-RO"] = "romanian"; // Romanian (Romania)
+                    localeValues[localeValues["russian"] = "ru-RU"] = "russian"; // Russian (Russian Federation)
+                    localeValues[localeValues["slovak"] = "sk-SK"] = "slovak"; // Slovak (Slovakia)
+                    localeValues[localeValues["swedish"] = "sv-SE"] = "swedish"; // Swedish (Sweden)
+                    localeValues[localeValues["indianTamil"] = "ta-IN"] = "indianTamil"; // Indian Tamil
+                    localeValues[localeValues["sriLankan"] = "ta-LK"] = "sriLankan"; // Sri Lankan Tamil
+                    localeValues[localeValues["thai"] = "th-TH"] = "thai"; // Thai (Thailand)
+                    localeValues[localeValues["turkish"] = "tr-TR"] = "turkish"; // Turkish (Turkey)
+                    localeValues[localeValues["mainlandChina"] = "zh-CN"] = "mainlandChina"; // Mainland China, simplified characters
+                    localeValues[localeValues["hongKong"] = "zh-HK"] = "hongKong"; // Hong Kong, traditional characters
+                    localeValues[localeValues["taiwan"] = "zh-TW"] = "taiwan"; // Taiwan, traditional characters
+                })(localeValues = kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.localeValues || (kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.localeValues = {}));
+                var kpiFontFamilyOptions;
+                (function (kpiFontFamilyOptions) {
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["default"] = "helvetica, arial, sans-serif"] = "default";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["arial"] = "Arial"] = "arial";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["arialBlack"] = "\"Arial Black\""] = "arialBlack";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["arialUnicodeMS"] = "\"Arial Unicode MS\""] = "arialUnicodeMS";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["calibri"] = "Calibri"] = "calibri";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["cambria"] = "Cambria"] = "cambria";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["cambriaMath"] = "\"Cambria Math\""] = "cambriaMath";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["candara"] = "Candara"] = "candara";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["comicSansMS"] = "\"Comic Sans MS\""] = "comicSansMS";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["consolas"] = "Consolas"] = "consolas";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["constantia"] = "Constantia"] = "constantia";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["corbel"] = "Corbel"] = "corbel";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["corbelNew"] = "\"Courier New\""] = "corbelNew";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["georgia"] = "Georgia"] = "georgia";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["lucidaSansUnicode"] = "\"Lucida Sans Unicode\""] = "lucidaSansUnicode";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["segoeUIBold"] = "\"Segoe UI Bold\", wf_segoe-ui_bold, helvetica, arial, sans-serif"] = "segoeUIBold";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["segoeUI"] = "\"Segoe UI\", wf_segoe-ui_normal, helvetica, arial, sans-serif"] = "segoeUI";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["segoeUILight"] = "\"Segoe UI Light\", wf_segoe-ui_bold, helvetica, arial, sans-serif"] = "segoeUILight";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["symbol"] = "Symbol"] = "symbol";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["tahoma"] = "Tahoma"] = "tahoma";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["timesNewRoman"] = "\"Times New Roman\""] = "timesNewRoman";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["trebuchetMS"] = "\"Trebuchet MS\""] = "trebuchetMS";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["verdana"] = "Verdana"] = "verdana";
+                    kpiFontFamilyOptions[kpiFontFamilyOptions["wingdings"] = "Wingdings"] = "wingdings";
+                })(kpiFontFamilyOptions = kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.kpiFontFamilyOptions || (kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.kpiFontFamilyOptions = {}));
+                var alignOptions;
+                (function (alignOptions) {
+                    alignOptions[alignOptions["top"] = "top"] = "top";
+                    alignOptions[alignOptions["middle"] = "middle"] = "middle";
+                    alignOptions[alignOptions["bottom"] = "bottom"] = "bottom";
+                })(alignOptions = kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.alignOptions || (kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.alignOptions = {}));
+                var showModes;
+                (function (showModes) {
+                    showModes[showModes["comp"] = "comp"] = "comp";
+                    showModes[showModes["indi"] = "indi"] = "indi";
+                    showModes[showModes["both"] = "both"] = "both";
+                })(showModes = kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.showModes || (kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.showModes = {}));
+                var formatIndicators;
+                (function (formatIndicators) {
+                    formatIndicators[formatIndicators["auto"] = "auto"] = "auto";
+                    formatIndicators[formatIndicators["none"] = "none"] = "none";
+                    formatIndicators[formatIndicators["k"] = "k"] = "k";
+                    formatIndicators[formatIndicators["M"] = "M"] = "M";
+                    formatIndicators[formatIndicators["B"] = "B"] = "B";
+                    formatIndicators[formatIndicators["kB"] = "kB"] = "kB";
+                })(formatIndicators = kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.formatIndicators || (kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.formatIndicators = {}));
+                var visualOptions = (function () {
+                    function visualOptions() {
+                        this.urlImgOk = "";
+                        this.urlImgKo = "";
+                        /*
+                        public urlImgOk: string="https://s5.eestatic.com/2017/10/10/espana/Espana_253238302_49941798_1706x960.jpg";
+                        public urlImgKo: string="https://s4.eestatic.com/2017/10/10/espana/Espana_253237967_49932740_1706x960.jpg";
+                        */
+                        this.koPercentValue = 0.5;
+                        this.showTrendLine = true;
+                        this.showMode = showModes.both;
+                        this.formatIndicator = formatIndicators.auto;
+                        this.widthTrendLine = 5;
+                        this.kpiFontWeight = 1;
+                        //public valueLocale:string="en-US";
+                        this.valueLocale = localeValues.usEnglish;
+                        this.numberDecimals = 2;
+                        this.kpiColor = "#000000";
+                        this.kpifontFamily = kpiFontFamilyOptions.default;
+                        this.kpiTransparency = 1;
+                        this.kpiVerticalAlign = alignOptions.middle;
+                        this.serieColorOk = "#008000";
+                        this.serieColorKo = "#FF0000";
+                        this.serieColorNeutral = "#C0C0C0";
+                        this.seriesTransparency = 0.4;
+                    }
+                    return visualOptions;
+                }());
+                kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.visualOptions = visualOptions;
+            })(kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG = visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG || (visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG = {}));
+        })(visual = extensibility.visual || (extensibility.visual = {}));
+    })(extensibility = powerbi.extensibility || (powerbi.extensibility = {}));
+})(powerbi || (powerbi = {}));
+/*
+ *  Power BI Visual CLI
+ *
+ *  Copyright (c) Microsoft Corporation
+ *  All rights reserved.
+ *  MIT License
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the ""Software""), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in
+ *  all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *  THE SOFTWARE.
+ */
+var powerbi;
+(function (powerbi) {
+    var extensibility;
+    (function (extensibility) {
+        var visual;
+        (function (visual) {
+            var kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG;
+            (function (kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG) {
+                "use strict";
+                var myElementSerie = (function () {
+                    function myElementSerie() {
+                    }
+                    return myElementSerie;
+                }());
+                kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.myElementSerie = myElementSerie;
+                var Visual = (function () {
+                    function Visual(options) {
+                        this.target = options.element;
+                        var mycanvas = document.createElement("canvas");
+                        //mycanvas.id="mycanvas";
+                        this.target.appendChild(mycanvas);
+                        this.host = options.host;
+                    }
+                    Visual.prototype.update = function (options) {
+                        this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
+                        //data load
+                        var hasValue = false;
+                        var hasTarget = false;
+                        var hasCategories = false;
+                        var catValueIndex, catTargetIndex;
+                        if (options)
+                            if (options.dataViews)
+                                if (options.dataViews[0])
+                                    if (options.dataViews[0].categorical.categories)
+                                        hasCategories = true;
+                        if (options)
+                            if (options.dataViews)
+                                if (options.dataViews[0])
+                                    if (options.dataViews[0].categorical.values) {
+                                        if (options.dataViews[0].categorical.values.length == 2) {
+                                            hasValue = true;
+                                            hasTarget = true;
+                                            if (options.dataViews[0].categorical.values[0].source.roles.value) {
+                                                catValueIndex = 0;
+                                                catTargetIndex = 1;
+                                            }
+                                            else {
+                                                catValueIndex = 1;
+                                                catTargetIndex = 0;
+                                            }
+                                        }
+                                        else if (options.dataViews[0].categorical.values.length == 1) {
+                                            if (options.dataViews[0].categorical.values[0].source.roles.value) {
+                                                hasValue = true;
+                                                catValueIndex = 0;
+                                            }
+                                            else {
+                                                hasTarget = true;
+                                                catTargetIndex = 0;
+                                            }
+                                        }
+                                    }
+                        var globalValue = 0;
+                        var globalTarget = 0;
+                        var series = new Array();
+                        debugger;
+                        if (hasValue) {
+                            if (!hasCategories) {
+                                globalValue = parseFloat(options.dataViews[0].categorical.values[catValueIndex].values[0].valueOf().toString());
+                                if (hasTarget)
+                                    globalTarget = parseFloat(options.dataViews[0].categorical.values[catTargetIndex].values[0].valueOf().toString());
+                            }
+                            else {
+                                debugger;
+                                var minLocal, maxLocal;
+                                minLocal = options.dataViews[0].categorical.values[catValueIndex].minLocal;
+                                maxLocal = options.dataViews[0].categorical.values[catValueIndex].maxLocal;
+                                /*if(options.dataViews[0].categorical.values[0].source.roles.value){
+                                    minLocal=options.dataViews[0].categorical.values[0].minLocal;
+                                    maxLocal=options.dataViews[0].categorical.values[0].maxLocal;
+                                } else {
+                                    minLocal=options.dataViews[0].categorical.values[1].minLocal;
+                                    maxLocal=options.dataViews[0].categorical.values[1].maxLocal;
+                                }*/
+                                for (var i = 0; i < options.dataViews[0].categorical.categories[0].values.length; i++) {
+                                    var myelement = new myElementSerie();
+                                    myelement.name = options.dataViews[0].categorical.categories[0].values[i].valueOf().toString();
+                                    myelement.value = parseFloat(options.dataViews[0].categorical.values[0].values[i].valueOf().toString());
+                                    if (hasTarget)
+                                        myelement.target = parseFloat(options.dataViews[0].categorical.values[1].values[i].valueOf().toString());
+                                    myelement.percent = 0;
+                                    //if(myelement.target!=0) myelement.percent=myelement.value/myelement.target;
+                                    if ((maxLocal - minLocal) != 0)
+                                        myelement.percent = (myelement.value - minLocal) / (maxLocal - minLocal);
+                                    else
+                                        myelement.percent = 0.5;
+                                    myelement.realPercent = myelement.percent;
+                                    if (myelement.percent > 1)
+                                        myelement.percent = 1;
+                                    if (myelement.percent < 0)
+                                        myelement.percent = 0;
+                                    series.push(myelement);
+                                    globalValue += myelement.value;
+                                    if (hasTarget)
+                                        globalTarget += myelement.target;
+                                }
+                            }
+                        }
+                        //end data load
+                        // load ok image
+                        var myimg = document.createElement("img");
+                        if (this.settings.visualOptions.urlImgOk && this.settings.visualOptions.urlImgKo && this.settings.visualOptions.koPercentValue && hasValue && hasTarget) {
+                            var mysrc = "";
+                            if (globalTarget == 0 || globalValue == 0)
+                                mysrc = this.settings.visualOptions.urlImgKo.valueOf().toString();
+                            else {
+                                var currentPercent;
+                                if (hasTarget)
+                                    currentPercent = globalValue / globalTarget;
+                                else
+                                    currentPercent = globalValue;
+                                if (currentPercent >= this.settings.visualOptions.koPercentValue)
+                                    mysrc = this.settings.visualOptions.urlImgOk.valueOf().toString();
+                                else
+                                    mysrc = this.settings.visualOptions.urlImgKo.valueOf().toString();
+                            }
+                            myimg.setAttribute("src", mysrc);
+                        }
+                        else
+                            myimg.setAttribute("src", "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=");
+                        myimg.onload = (function (mysettings) {
+                            return function () {
+                                function calcMaxFontSize(can, strText, fontFamily, numIndicators) {
+                                    var canCtx = can.getContext("2d");
+                                    var maxSize = can.height / numIndicators;
+                                    if (can.width < maxSize)
+                                        maxSize = can.width;
+                                    var fontSize = maxSize;
+                                    canCtx.font = fontSize.toString() + "px " + fontFamily;
+                                    var myTextWidth = canCtx.measureText(strText).width;
+                                    while (myTextWidth > can.width) {
+                                        fontSize--;
+                                        canCtx.font = fontSize.toString() + "px " + fontFamily;
+                                        myTextWidth = canCtx.measureText(strText).width;
+                                    }
+                                    return fontSize;
+                                }
+                                function formatIndicator(indicator) {
+                                    var retorno = "";
+                                    if (indicator) {
+                                        switch (mysettings.visualOptions.formatIndicator.valueOf().toString()) {
+                                            case "none":
+                                                retorno = parseFloat(indicator.toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString());
+                                                break;
+                                            case "auto":
+                                                var currentValue = indicator;
+                                                var numDigitos = parseFloat(currentValue.toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()).length;
+                                                var numDivisiones = 0;
+                                                while (numDigitos > 4) {
+                                                    numDivisiones++;
+                                                    currentValue = currentValue / 1000.00;
+                                                    numDigitos = parseFloat(currentValue.toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()).length;
+                                                }
+                                                var escale = "";
+                                                if (numDivisiones == 1)
+                                                    escale = "k";
+                                                else if (numDivisiones == 2)
+                                                    escale = "M";
+                                                else if (numDivisiones == 3)
+                                                    escale = "B";
+                                                else if (numDivisiones >= 4)
+                                                    escale = "kB";
+                                                retorno = parseFloat(currentValue.toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + escale;
+                                                break;
+                                            case "k":
+                                                retorno = parseFloat((indicator / 1000).toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "k";
+                                                break;
+                                            case "M":
+                                                retorno = parseFloat((indicator / 1000000).toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "M";
+                                                break;
+                                            case "B":
+                                                retorno = parseFloat((indicator / 1000000000).toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "B";
+                                                break;
+                                            case "kB":
+                                                retorno = parseFloat((indicator / 1000000000000).toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "kB";
+                                                break;
+                                        }
+                                    }
+                                    return retorno;
+                                }
+                                var mycan = document.getElementsByTagName("canvas").item(0);
+                                var myCanCtx = mycan.getContext("2d");
+                                //myCanCtx.filter = "none";            
+                                myCanCtx.drawImage(myimg, 0, 0, mycan.width, mycan.height);
+                                var numberOfIndicators = 0;
+                                if (hasValue)
+                                    numberOfIndicators = 1;
+                                if (hasValue && hasTarget)
+                                    numberOfIndicators = 2;
+                                if (mysettings.visualOptions.showMode.valueOf().toString() == "indi")
+                                    numberOfIndicators = 1;
+                                if (mysettings.visualOptions.showMode.valueOf().toString() == "comp")
+                                    numberOfIndicators = 1;
+                                if (hasValue /*&& hasTarget*/) {
+                                    //draw series
+                                    if (series.length > 0) {
+                                        myCanCtx.beginPath();
+                                        myCanCtx.moveTo(0, mycan.height);
+                                        myCanCtx.lineWidth = 1;
+                                        myCanCtx.fillStyle = mysettings.visualOptions.serieColorNeutral.valueOf().toString();
+                                        if (series.length == 1) {
+                                            myCanCtx.lineTo(0, mycan.height - series[0].percent * mycan.height);
+                                            myCanCtx.lineTo(mycan.width, mycan.height - series[1].percent * mycan.height);
+                                        }
+                                        else
+                                            for (var i = 0; i < series.length; i++) {
+                                                myCanCtx.lineTo(i * mycan.width / (series.length - 1), mycan.height - series[i].percent * mycan.height);
+                                            }
+                                        myCanCtx.lineTo(mycan.width, mycan.height);
+                                        myCanCtx.globalAlpha = parseFloat(mysettings.visualOptions.seriesTransparency.valueOf().toString());
+                                        myCanCtx.closePath();
+                                        myCanCtx.stroke();
+                                        if (series.length > 1) {
+                                            //Calculate thend: minimun squares
+                                            var totalY = 0;
+                                            var totalX = 0;
+                                            var totalXY = 0;
+                                            var totalX2 = 0;
+                                            var totalN = series.length;
+                                            for (var numSer = 0; numSer < series.length; numSer++) {
+                                                //var x=numSer+1;
+                                                var x = numSer * (mycan.width / series.length);
+                                                var y = series[numSer].realPercent;
+                                                totalY += y;
+                                                totalX += x;
+                                                totalXY += x * y;
+                                                totalX2 += x * x;
+                                            }
+                                            var avgX = totalX / totalN;
+                                            var avgY = totalY / totalN;
+                                            //regression line: f(x)=a+bx. Calculate the factor b
+                                            var b = (totalXY - totalN * avgX * avgY) / (totalX2 - totalN * avgX * avgX);
+                                            // Calculate de a value for regression line: a=avgX
+                                            this.bRegressionLine = b;
+                                            this.aRegressionLine = avgY - this.bRegressionLine * avgX;
+                                            if (!mysettings.visualOptions.showTrendLine) {
+                                                myCanCtx.fillStyle = mysettings.visualOptions.serieColorOk.valueOf().toString();
+                                                if (b < 0)
+                                                    myCanCtx.fillStyle = mysettings.visualOptions.serieColorKo.valueOf().toString();
+                                            }
+                                            myCanCtx.fill();
+                                        }
+                                        //regression line
+                                        if (this.bRegressionLine && mysettings.visualOptions.showTrendLine) {
+                                            myCanCtx.beginPath();
+                                            myCanCtx.lineWidth = mysettings.visualOptions.widthTrendLine;
+                                            myCanCtx.globalAlpha = parseFloat(mysettings.visualOptions.seriesTransparency.valueOf().toString());
+                                            myCanCtx.strokeStyle = mysettings.visualOptions.serieColorNeutral.valueOf().toString();
+                                            if (this.bRegressionLine > 0)
+                                                myCanCtx.strokeStyle = mysettings.visualOptions.serieColorOk.valueOf().toString();
+                                            if (this.bRegressionLine < 0)
+                                                myCanCtx.strokeStyle = mysettings.visualOptions.serieColorKo.valueOf().toString();
+                                            //myCanCtx.moveTo(0,mycan.height*(1-this.aRegressionLine));
+                                            myCanCtx.moveTo(0, mycan.height * (1 - this.aRegressionLine));
+                                            //myCanCtx.lineTo(mycan.width,-this.bRegressionLine*mycan.width + mycan.height*(1-this.aRegressionLine));                            
+                                            myCanCtx.lineTo(mycan.width, mycan.height * (1 - this.bRegressionLine * mycan.width - this.aRegressionLine));
+                                            myCanCtx.closePath();
+                                            myCanCtx.stroke();
+                                            myCanCtx.fill();
+                                            myCanCtx.strokeStyle = mysettings.visualOptions.serieColorNeutral.valueOf().toString();
+                                        }
+                                    }
+                                    //end draw series
+                                    //show values
+                                    var indicator = globalValue;
+                                    //var mytext = parseFloat(globalValue.toFixed(mysettings.visualOptions.numberDecimals) as any).toLocaleString(mysettings.visualOptions.valueLocale.toString());
+                                    var mytext = formatIndicator(globalValue);
+                                    myCanCtx.textAlign = "center";
+                                    var fontSize = calcMaxFontSize(mycan, mytext, mysettings.visualOptions.kpifontFamily.valueOf().toString(), numberOfIndicators);
+                                    var myfontWeight = mysettings.visualOptions.kpiFontWeight;
+                                    if (myfontWeight < 0)
+                                        myfontWeight = 0;
+                                    else if (myfontWeight > 1)
+                                        myfontWeight = 1;
+                                    myfontWeight = myfontWeight * fontSize;
+                                    myCanCtx.font = (myfontWeight).toString() + "px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
+                                    var moveHeight = mycan.height / 2 + myfontWeight / 4;
+                                    myCanCtx.fillStyle = mysettings.visualOptions.kpiColor.valueOf().toString();
+                                    myCanCtx.globalAlpha = parseFloat(mysettings.visualOptions.kpiTransparency.valueOf().toString());
+                                    if (mysettings.visualOptions.showMode.valueOf().toString() == "indi") {
+                                        if (mysettings.visualOptions.kpiVerticalAlign.valueOf().toString() == "middle")
+                                            //middle align
+                                            myCanCtx.fillText(mytext, mycan.width / 2, moveHeight);
+                                        else if (mysettings.visualOptions.kpiVerticalAlign.valueOf().toString() == "top")
+                                            //top align
+                                            myCanCtx.fillText(mytext, mycan.width / 2, myfontWeight / 1.3);
+                                        else if (mysettings.visualOptions.kpiVerticalAlign.valueOf().toString() == "bottom")
+                                            //bottom align
+                                            myCanCtx.fillText(mytext, mycan.width / 2, mycan.height - 5);
+                                        else
+                                            myCanCtx.fillText(mytext, mycan.width / 2, moveHeight);
+                                    }
+                                    else if (mysettings.visualOptions.showMode.valueOf().toString() == "both") {
+                                        //top align
+                                        myCanCtx.fillText(mytext, mycan.width / 2, myfontWeight / 1.3);
+                                    }
+                                    //end show values
+                                    //show percentage
+                                    if (globalTarget)
+                                        if (globalTarget != 0) {
+                                            var targetIndicator = globalValue / globalTarget;
+                                            mytext = parseFloat((targetIndicator * 100).toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "%";
+                                            myCanCtx.textAlign = "center";
+                                            fontSize = calcMaxFontSize(mycan, mytext, mysettings.visualOptions.kpifontFamily.valueOf().toString(), numberOfIndicators);
+                                            myfontWeight = mysettings.visualOptions.kpiFontWeight;
+                                            if (myfontWeight < 0)
+                                                myfontWeight = 0;
+                                            else if (myfontWeight > 1)
+                                                myfontWeight = 1;
+                                            myfontWeight = myfontWeight * fontSize;
+                                            myCanCtx.font = (myfontWeight).toString() + "px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
+                                            if (mysettings.visualOptions.showMode.valueOf().toString() == "comp") {
+                                                if (mysettings.visualOptions.kpiVerticalAlign.valueOf().toString() == "middle")
+                                                    //middle align
+                                                    myCanCtx.fillText(mytext, mycan.width / 2, moveHeight);
+                                                else if (mysettings.visualOptions.kpiVerticalAlign.valueOf().toString() == "top")
+                                                    //top align
+                                                    myCanCtx.fillText(mytext, mycan.width / 2, myfontWeight / 1.3);
+                                                else if (mysettings.visualOptions.kpiVerticalAlign.valueOf().toString() == "bottom")
+                                                    //bottom align
+                                                    myCanCtx.fillText(mytext, mycan.width / 2, mycan.height - 5);
+                                                else
+                                                    myCanCtx.fillText(mytext, mycan.width / 2, moveHeight);
+                                            }
+                                            else if (mysettings.visualOptions.showMode.valueOf().toString() == "both") {
+                                                //bottom align
+                                                myCanCtx.fillText(mytext, mycan.width / 2, mycan.height - mycan.height * 0.01);
+                                            }
+                                        }
+                                }
+                                //end load indicator and series
+                            };
+                        })(this.settings);
+                        var mycan = this.target.getElementsByTagName("canvas").item(0);
+                        mycan.height = this.target.offsetHeight;
+                        mycan.width = this.target.offsetWidth;
+                        var myCanCtx = mycan.getContext("2d");
+                        //end load ok image
+                    };
+                    Visual.parseSettings = function (dataView) {
+                        //let parsedSettings : VisualSettings = VisualSettings.parse(dataView) as VisualSettings;
+                        return kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.VisualSettings.parse(dataView);
+                        //debugger;
+                        //return parsedSettings;
+                    };
+                    /**
+                     * This function gets called for each of the objects defined in the capabilities files and allows you to select which of the
+                     * objects and properties you want to expose to the users in the property pane.
+                     *
+                     */
+                    Visual.prototype.enumerateObjectInstances = function (options) {
+                        return kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.VisualSettings.enumerateObjectInstances(this.settings || kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.VisualSettings.getDefault(), options);
+                    };
+                    return Visual;
+                }());
+                kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.Visual = Visual;
+            })(kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG = visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG || (visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG = {}));
+        })(visual = extensibility.visual || (extensibility.visual = {}));
+    })(extensibility = powerbi.extensibility || (powerbi.extensibility = {}));
+})(powerbi || (powerbi = {}));
+var powerbi;
+(function (powerbi) {
+    var visuals;
+    (function (visuals) {
+        var plugins;
+        (function (plugins) {
+            plugins.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG_DEBUG = {
+                name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG_DEBUG',
+                displayName: 'KPImg',
+                class: 'Visual',
+                version: '1.0.2',
+                apiVersion: '2.2.0',
+                create: function (options) { return new powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.Visual(options); },
+                custom: true
+            };
+        })(plugins = visuals.plugins || (visuals.plugins = {}));
+    })(visuals = powerbi.visuals || (powerbi.visuals = {}));
+})(powerbi || (powerbi = {}));
+//# sourceMappingURL=visual.js.map

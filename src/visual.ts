@@ -160,6 +160,48 @@ module powerbi.extensibility.visual {
                         return fontSize;
                     }
 
+                    function formatIndicator (indicator:number):string{
+                        let retorno:string="";
+                        if(indicator){
+                            switch(mysettings.visualOptions.formatIndicator.valueOf().toString()){
+                                case "none":
+                                    retorno=parseFloat(indicator.toFixed(mysettings.visualOptions.numberDecimals) as any).toLocaleString(mysettings.visualOptions.valueLocale.toString());
+                                break;
+                                case "auto":
+                                    var currentValue = indicator;        
+                                    var numDigitos = parseFloat(currentValue.toFixed(mysettings.visualOptions.numberDecimals) as any).toLocaleString(mysettings.visualOptions.valueLocale.toString()).length;
+                                    var numDivisiones = 0;
+                                    
+                                    while (numDigitos > 4) {
+                                        numDivisiones++;
+                                        currentValue = currentValue / 1000.00;
+                                        numDigitos = parseFloat(currentValue.toFixed(mysettings.visualOptions.numberDecimals) as any).toLocaleString(mysettings.visualOptions.valueLocale.toString()).length;
+                                    }
+                                    var escale = "";
+                                    if (numDivisiones==1) escale="k";
+                                    else if (numDivisiones==2) escale="M";
+                                    else if (numDivisiones==3) escale="B";
+                                    else if (numDivisiones>=4) escale="kB";
+                                    
+                                    retorno=parseFloat(currentValue.toFixed(mysettings.visualOptions.numberDecimals) as any).toLocaleString(mysettings.visualOptions.valueLocale.toString())+escale;
+                                break;
+                                case "k":
+                                    retorno=parseFloat((indicator/1000).toFixed(mysettings.visualOptions.numberDecimals) as any).toLocaleString(mysettings.visualOptions.valueLocale.toString())+"k";
+                                break;
+                                case "M":
+                                    retorno=parseFloat((indicator/1000000).toFixed(mysettings.visualOptions.numberDecimals) as any).toLocaleString(mysettings.visualOptions.valueLocale.toString())+"M";
+                                break;
+                                case "B":
+                                    retorno=parseFloat((indicator/1000000000).toFixed(mysettings.visualOptions.numberDecimals) as any).toLocaleString(mysettings.visualOptions.valueLocale.toString())+"B";
+                                break;
+                                case "kB":
+                                    retorno=parseFloat((indicator/1000000000000).toFixed(mysettings.visualOptions.numberDecimals) as any).toLocaleString(mysettings.visualOptions.valueLocale.toString())+"kB";
+                                break;
+                            }
+                        }
+                        return retorno;
+                    }
+
                     let mycan : HTMLCanvasElement = document.getElementsByTagName("canvas").item(0);
                     let myCanCtx : CanvasRenderingContext2D = mycan.getContext("2d");
                     
@@ -254,14 +296,9 @@ module powerbi.extensibility.visual {
                         
 
                         //show values
-                        var indicator :number = globalValue;
-                        /*
-                        if(globalTarget!=0) indicator=globalValue/globalTarget;
-                        else indicator=globalValue;
-                        */
-                        var mytext = parseFloat(globalValue.toFixed(mysettings.visualOptions.numberDecimals) as any).toLocaleString(mysettings.visualOptions.valueLocale.toString());
-                        //if(globalTarget!=0) mytext = parseFloat((indicator*100).toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "%";
-
+                        var indicator :number = globalValue;                        
+                        //var mytext = parseFloat(globalValue.toFixed(mysettings.visualOptions.numberDecimals) as any).toLocaleString(mysettings.visualOptions.valueLocale.toString());
+                        var mytext = formatIndicator(globalValue);
                         myCanCtx.textAlign="center";
                         
                         let fontSize:number = calcMaxFontSize(mycan,mytext,mysettings.visualOptions.kpifontFamily.valueOf().toString(),numberOfIndicators); 

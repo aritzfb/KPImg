@@ -74,6 +74,37 @@
                         ]
                     }
                 }
+                , "formatIndicator":{
+                    "displayName":"Indicator format"
+                    , "type":{
+                        "enumeration":[
+                            {
+                                "displayName":"Auto"
+                                , "value":"auto"
+                            }
+                            ,{
+                                "displayName":"None"
+                                , "value":"none"
+                            }
+                            ,{
+                                "displayName":"k"
+                                , "value":"k"
+                            }
+                            ,{
+                                "displayName":"M"
+                                , "value":"M"
+                            }
+                            ,{
+                                "displayName":"B"
+                                , "value":"B"
+                            }
+                            ,{
+                                "displayName":"kB"
+                                , "value":"kB"
+                            }
+                        ]
+                    }
+                }
                 , "widthTrendLine":{
                     "displayName" : "Width Trend Line"
                     , "type":{

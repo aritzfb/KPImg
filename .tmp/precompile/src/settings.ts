@@ -129,6 +129,15 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
       , both = "both" as any
     }
 
+    export enum formatIndicators {
+      auto = "auto" as any
+      , none = "none" as any
+      , k = "k" as any
+      , M = "M" as any
+      , B = "B" as any
+      , kB = "kB" as any
+    }
+
      export class visualOptions {
        public urlImgOk: string="";
        public urlImgKo: string="";
@@ -139,6 +148,7 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
        public koPercentValue: number=0.5;
        public showTrendLine: boolean=true;
        public showMode: showModes = showModes.both;
+       public formatIndicator: formatIndicators = formatIndicators.auto;
        public widthTrendLine: number=5;
        
        public kpiFontWeight:number=1;

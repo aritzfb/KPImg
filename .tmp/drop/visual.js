@@ -651,6 +651,15 @@ var powerbi;
                     showModes[showModes["indi"] = "indi"] = "indi";
                     showModes[showModes["both"] = "both"] = "both";
                 })(showModes = kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.showModes || (kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.showModes = {}));
+                var formatIndicators;
+                (function (formatIndicators) {
+                    formatIndicators[formatIndicators["auto"] = "auto"] = "auto";
+                    formatIndicators[formatIndicators["none"] = "none"] = "none";
+                    formatIndicators[formatIndicators["k"] = "k"] = "k";
+                    formatIndicators[formatIndicators["M"] = "M"] = "M";
+                    formatIndicators[formatIndicators["B"] = "B"] = "B";
+                    formatIndicators[formatIndicators["kB"] = "kB"] = "kB";
+                })(formatIndicators = kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.formatIndicators || (kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.formatIndicators = {}));
                 var visualOptions = (function () {
                     function visualOptions() {
                         this.urlImgOk = "";
@@ -662,6 +671,7 @@ var powerbi;
                         this.koPercentValue = 0.5;
                         this.showTrendLine = true;
                         this.showMode = showModes.both;
+                        this.formatIndicator = formatIndicators.auto;
                         this.widthTrendLine = 5;
                         this.kpiFontWeight = 1;
                         //public valueLocale:string="en-US";
@@ -855,6 +865,49 @@ var powerbi;
                                     }
                                     return fontSize;
                                 }
+                                function formatIndicator(indicator) {
+                                    var retorno = "";
+                                    if (indicator) {
+                                        switch (mysettings.visualOptions.formatIndicator.valueOf().toString()) {
+                                            case "none":
+                                                retorno = parseFloat(indicator.toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString());
+                                                break;
+                                            case "auto":
+                                                var currentValue = indicator;
+                                                var numDigitos = parseFloat(currentValue.toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()).length;
+                                                var numDivisiones = 0;
+                                                while (numDigitos > 4) {
+                                                    numDivisiones++;
+                                                    currentValue = currentValue / 1000.00;
+                                                    numDigitos = parseFloat(currentValue.toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()).length;
+                                                }
+                                                var escale = "";
+                                                if (numDivisiones == 1)
+                                                    escale = "k";
+                                                else if (numDivisiones == 2)
+                                                    escale = "M";
+                                                else if (numDivisiones == 3)
+                                                    escale = "B";
+                                                else if (numDivisiones >= 4)
+                                                    escale = "kB";
+                                                retorno = parseFloat(currentValue.toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + escale;
+                                                break;
+                                            case "k":
+                                                retorno = parseFloat((indicator / 1000).toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "k";
+                                                break;
+                                            case "M":
+                                                retorno = parseFloat((indicator / 1000000).toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "M";
+                                                break;
+                                            case "B":
+                                                retorno = parseFloat((indicator / 1000000000).toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "B";
+                                                break;
+                                            case "kB":
+                                                retorno = parseFloat((indicator / 1000000000000).toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "kB";
+                                                break;
+                                        }
+                                    }
+                                    return retorno;
+                                }
                                 var mycan = document.getElementsByTagName("canvas").item(0);
                                 var myCanCtx = mycan.getContext("2d");
                                 //myCanCtx.filter = "none";            
@@ -940,12 +993,8 @@ var powerbi;
                                     //end draw series
                                     //show values
                                     var indicator = globalValue;
-                                    /*
-                                    if(globalTarget!=0) indicator=globalValue/globalTarget;
-                                    else indicator=globalValue;
-                                    */
-                                    var mytext = parseFloat(globalValue.toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString());
-                                    //if(globalTarget!=0) mytext = parseFloat((indicator*100).toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "%";
+                                    //var mytext = parseFloat(globalValue.toFixed(mysettings.visualOptions.numberDecimals) as any).toLocaleString(mysettings.visualOptions.valueLocale.toString());
+                                    var mytext = formatIndicator(globalValue);
                                     myCanCtx.textAlign = "center";
                                     var fontSize = calcMaxFontSize(mycan, mytext, mysettings.visualOptions.kpifontFamily.valueOf().toString(), numberOfIndicators);
                                     var myfontWeight = mysettings.visualOptions.kpiFontWeight;
@@ -1045,8 +1094,8 @@ var powerbi;
     (function (visuals) {
         var plugins;
         (function (plugins) {
-            plugins.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG = {
-                name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG',
+            plugins.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG_DEBUG = {
+                name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG_DEBUG',
                 displayName: 'KPImg',
                 class: 'Visual',
                 version: '1.0.2',
