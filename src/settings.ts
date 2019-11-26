@@ -152,6 +152,7 @@ module powerbi.extensibility.visual {
        public widthTrendLine: number=5;
        
        public kpiFontWeight:number=1;
+       public kpiFontWeightTarget:number=1;
        //public valueLocale:string="en-US";
        public valueLocale : localeValues = localeValues.usEnglish;
        public numberDecimals:number=2;

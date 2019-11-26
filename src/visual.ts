@@ -339,7 +339,7 @@ module powerbi.extensibility.visual {
                             myCanCtx.textAlign="center";
                         
                             fontSize = calcMaxFontSize(mycan,mytext,mysettings.visualOptions.kpifontFamily.valueOf().toString(),numberOfIndicators); 
-                            myfontWeight = mysettings.visualOptions.kpiFontWeight;
+                            myfontWeight = mysettings.visualOptions.kpiFontWeightTarget;
                             if (myfontWeight<0) myfontWeight=0;
                             else if (myfontWeight>1)myfontWeight=1;
                             myfontWeight = myfontWeight*fontSize;

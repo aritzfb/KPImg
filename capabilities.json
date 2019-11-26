@@ -112,11 +112,17 @@
                     }
                 }
                 , "kpiFontWeight":{
-                   "displayName":"Font Weight"
+                   "displayName":"Indicator Font Weight"
                     , "type":{
                         "numeric":true
                     }
                 }
+                , "kpiFontWeightTarget":{
+                    "displayName":"%Compilance Font Weight"
+                     , "type":{
+                         "numeric":true
+                     }
+                 }
                 , "valueLocale":{
                     "displayName":"Locale"
                     , "type":{

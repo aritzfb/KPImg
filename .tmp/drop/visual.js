@@ -674,6 +674,7 @@ var powerbi;
                         this.formatIndicator = formatIndicators.auto;
                         this.widthTrendLine = 5;
                         this.kpiFontWeight = 1;
+                        this.kpiFontWeightTarget = 1;
                         //public valueLocale:string="en-US";
                         this.valueLocale = localeValues.usEnglish;
                         this.numberDecimals = 2;
@@ -1032,7 +1033,7 @@ var powerbi;
                                             mytext = parseFloat((targetIndicator * 100).toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "%";
                                             myCanCtx.textAlign = "center";
                                             fontSize = calcMaxFontSize(mycan, mytext, mysettings.visualOptions.kpifontFamily.valueOf().toString(), numberOfIndicators);
-                                            myfontWeight = mysettings.visualOptions.kpiFontWeight;
+                                            myfontWeight = mysettings.visualOptions.kpiFontWeightTarget;
                                             if (myfontWeight < 0)
                                                 myfontWeight = 0;
                                             else if (myfontWeight > 1)
