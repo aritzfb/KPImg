@@ -157,6 +157,7 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
        public valueLocale : localeValues = localeValues.usEnglish;
        public numberDecimals:number=2;
        public kpiColor: string = "#000000";
+       public kpiColorTarget: string = "#000000";
        public kpifontFamily: kpiFontFamilyOptions = kpiFontFamilyOptions.default;
        public kpiTransparency: number=1;
        public kpiVerticalAlign: alignOptions=alignOptions.middle;

@@ -345,7 +345,7 @@ module powerbi.extensibility.visual {
                             myfontWeight = myfontWeight*fontSize;
                             
                             myCanCtx.font=(myfontWeight).toString()+"px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
-                            
+                            myCanCtx.fillStyle = mysettings.visualOptions.kpiColorTarget.valueOf().toString();
                             if (mysettings.visualOptions.showMode.valueOf().toString()=="comp"){
                                 if(mysettings.visualOptions.kpiVerticalAlign.valueOf().toString()=="middle")
                                 //middle align

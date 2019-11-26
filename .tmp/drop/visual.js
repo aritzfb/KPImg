@@ -679,6 +679,7 @@ var powerbi;
                         this.valueLocale = localeValues.usEnglish;
                         this.numberDecimals = 2;
                         this.kpiColor = "#000000";
+                        this.kpiColorTarget = "#000000";
                         this.kpifontFamily = kpiFontFamilyOptions.default;
                         this.kpiTransparency = 1;
                         this.kpiVerticalAlign = alignOptions.middle;
@@ -1040,6 +1041,7 @@ var powerbi;
                                                 myfontWeight = 1;
                                             myfontWeight = myfontWeight * fontSize;
                                             myCanCtx.font = (myfontWeight).toString() + "px " + mysettings.visualOptions.kpifontFamily.valueOf().toString();
+                                            myCanCtx.fillStyle = mysettings.visualOptions.kpiColorTarget.valueOf().toString();
                                             if (mysettings.visualOptions.showMode.valueOf().toString() == "comp") {
                                                 if (mysettings.visualOptions.kpiVerticalAlign.valueOf().toString() == "middle")
                                                     //middle align

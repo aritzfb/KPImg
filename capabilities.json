@@ -118,7 +118,7 @@
                     }
                 }
                 , "kpiFontWeightTarget":{
-                    "displayName":"%Compilance Font Weight"
+                    "displayName":"% Compilance Font Weight"
                      , "type":{
                          "numeric":true
                      }
@@ -350,7 +350,17 @@
                     }
                 }
                 , "kpiColor":{
-                    "displayName":"Font Color"
+                    "displayName":"Indicator Font Color"
+                    , "type":{
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+                , "kpiColorTarget":{
+                    "displayName":"% Compilance Font Color"
                     , "type":{
                         "fill": {
                             "solid": {
