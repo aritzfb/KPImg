@@ -785,7 +785,6 @@ var powerbi;
                         var globalValue = 0;
                         var globalTarget = 0;
                         var series = new Array();
-                        debugger;
                         if (hasValue) {
                             if (!hasCategories) {
                                 globalValue = parseFloat(options.dataViews[0].categorical.values[catValueIndex].values[0].valueOf().toString());
@@ -793,7 +792,6 @@ var powerbi;
                                     globalTarget = parseFloat(options.dataViews[0].categorical.values[catTargetIndex].values[0].valueOf().toString());
                             }
                             else {
-                                debugger;
                                 var minLocal, maxLocal;
                                 minLocal = options.dataViews[0].categorical.values[catValueIndex].minLocal;
                                 maxLocal = options.dataViews[0].categorical.values[catValueIndex].maxLocal;
@@ -850,7 +848,7 @@ var powerbi;
                         }
                         else
                             myimg.setAttribute("src", "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=");
-                        myimg.onload = (function (mysettings) {
+                        myimg.onload = (function (mysettings, mytarget) {
                             return function () {
                                 function calcMaxFontSize(can, strText, fontFamily, numIndicators) {
                                     var canCtx = can.getContext("2d");
@@ -949,22 +947,61 @@ var powerbi;
                                             var totalXY = 0;
                                             var totalX2 = 0;
                                             var totalN = series.length;
+                                            var realTotalY = 0;
+                                            var realTotalX = 0;
+                                            var realTotalXY = 0;
+                                            var realTotalX2 = 0;
                                             for (var numSer = 0; numSer < series.length; numSer++) {
                                                 //var x=numSer+1;
                                                 var x = numSer * (mycan.width / series.length);
                                                 var y = series[numSer].realPercent;
+                                                var realX = numSer;
+                                                var realY = series[numSer].value;
                                                 totalY += y;
+                                                realTotalY += realY;
                                                 totalX += x;
+                                                realTotalX += realX;
                                                 totalXY += x * y;
+                                                realTotalXY += realX * realY;
                                                 totalX2 += x * x;
+                                                realTotalX2 += realX * realX;
                                             }
                                             var avgX = totalX / totalN;
                                             var avgY = totalY / totalN;
+                                            var realAvgX = realTotalX / totalN;
+                                            var realAvgY = realTotalY / totalN;
                                             //regression line: f(x)=a+bx. Calculate the factor b
                                             var b = (totalXY - totalN * avgX * avgY) / (totalX2 - totalN * avgX * avgX);
+                                            var realBRegressionLine = (realTotalXY - totalN * realAvgX * realAvgY) / (realTotalX2 - totalN * realAvgX * realAvgY);
                                             // Calculate de a value for regression line: a=avgX
                                             this.bRegressionLine = b;
                                             this.aRegressionLine = avgY - this.bRegressionLine * avgX;
+                                            var realARegressionLine = realAvgY - realBRegressionLine * realAvgX;
+                                            //calculate real correlation
+                                            var parteArriba = 0, parteAbajo1 = 0, parteAbajo2 = 0;
+                                            for (var numSer = 0; numSer < series.length; numSer++) {
+                                                var x = numSer;
+                                                var y = series[numSer].value;
+                                                parteArriba += (x - realAvgX) * (y - realAvgY);
+                                                parteAbajo1 += (x - realAvgX) * (x - realAvgX);
+                                                parteAbajo2 += (y - realAvgY) * (y - realAvgY);
+                                            }
+                                            this.covariance = parteArriba / (Math.sqrt(parteAbajo1) * Math.sqrt(parteAbajo2));
+                                            this.predictedValue = realARegressionLine + realBRegressionLine * (series.length + 1) / series.length;
+                                            mycan.onmouseover = (function (mytarget, mycovariance, mypredictedValue) {
+                                                return function () {
+                                                    mycan.hidden = true;
+                                                    var myAlternateText = document.createElement("div");
+                                                    myAlternateText.id = "kpimgalternatetext";
+                                                    myAlternateText.innerHTML = "<p>Predicted value: " + mypredictedValue.toFixed(4) + "</p>";
+                                                    myAlternateText.innerHTML += "<p>Reliability: " + Math.abs(mycovariance.toFixed(2)) + "%</p>";
+                                                    mytarget.appendChild(myAlternateText);
+                                                };
+                                            })(mytarget, this.covariance, this.predictedValue);
+                                            mycan.onmouseleave = function (e) {
+                                                mycan.hidden = false;
+                                                document.getElementById("kpimgalternatetext").remove();
+                                            };
                                             if (!mysettings.visualOptions.showTrendLine) {
                                                 myCanCtx.fillStyle = mysettings.visualOptions.serieColorOk.valueOf().toString();
                                                 if (b < 0)
@@ -1032,6 +1069,7 @@ var powerbi;
                                         if (globalTarget != 0) {
                                             var targetIndicator = globalValue / globalTarget;
                                             mytext = parseFloat((targetIndicator * 100).toFixed(mysettings.visualOptions.numberDecimals)).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "%";
+                                            //mytext = parseFloat((Math.abs(this.covariance)*100).toFixed(mysettings.visualOptions.numberDecimals) as any).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "%";
                                             myCanCtx.textAlign = "center";
                                             fontSize = calcMaxFontSize(mycan, mytext, mysettings.visualOptions.kpifontFamily.valueOf().toString(), numberOfIndicators);
                                             myfontWeight = mysettings.visualOptions.kpiFontWeightTarget;
@@ -1063,7 +1101,7 @@ var powerbi;
                                 }
                                 //end load indicator and series
                             };
-                        })(this.settings);
+                        })(this.settings, this.target);
                         var mycan = this.target.getElementsByTagName("canvas").item(0);
                         mycan.height = this.target.offsetHeight;
                         mycan.width = this.target.offsetWidth;
@@ -1073,7 +1111,6 @@ var powerbi;
                     Visual.parseSettings = function (dataView) {
                         //let parsedSettings : VisualSettings = VisualSettings.parse(dataView) as VisualSettings;
                         return kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.VisualSettings.parse(dataView);
-                        //debugger;
                         //return parsedSettings;
                     };
                     /**

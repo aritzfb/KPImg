@@ -35,6 +35,8 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
         public realPercent:number;
         public aRegressionLine:number;
         public bRegressionLine:number;
+        public covariance: number;
+        public predictedValue:number;
                 
     }
     export class Visual implements IVisual {
@@ -55,7 +57,7 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
         public update(options: VisualUpdateOptions) {
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
             
-
+            
             //data load
             let hasValue : boolean = false;
             let hasTarget : boolean = false;
@@ -89,13 +91,11 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
             let globalValue : number = 0;
             let globalTarget : number = 0;
             let series : Array<myElementSerie> = new Array();
-            debugger;
             if(/*hasTarget &&*/ hasValue){
                 if(!hasCategories){
                     globalValue = parseFloat(options.dataViews[0].categorical.values[catValueIndex].values[0].valueOf().toString());
                     if(hasTarget) globalTarget = parseFloat(options.dataViews[0].categorical.values[catTargetIndex].values[0].valueOf().toString());
                 } else {
-                    debugger;
                     var minLocal,maxLocal;
                     minLocal=options.dataViews[0].categorical.values[catValueIndex].minLocal;
                     maxLocal=options.dataViews[0].categorical.values[catValueIndex].maxLocal;
@@ -143,7 +143,7 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
             } else myimg.setAttribute("src","data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=");
 
             
-            myimg.onload = (function(mysettings){
+            myimg.onload = (function(mysettings,mytarget){
                 return function(){
                     function calcMaxFontSize (can : HTMLCanvasElement,strText:string, fontFamily:string, numIndicators:number) :number {
                         let canCtx : CanvasRenderingContext2D = can.getContext("2d");                    
@@ -244,22 +244,64 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
                                 var totalXY = 0;
                                 var totalX2 = 0;
                                 var totalN = series.length;
+                                var realTotalY = 0;
+                                var realTotalX = 0;
+                                var realTotalXY = 0;
+                                var realTotalX2 = 0;
                                 for(var numSer=0;numSer<series.length;numSer++){                    
                                     //var x=numSer+1;
                                     var x=numSer*(mycan.width/series.length);
                                     var y=series[numSer].realPercent;
+                                    var realX = numSer;
+                                    var realY = series[numSer].value;
                                     totalY+=y;
+                                    realTotalY+=realY;
                                     totalX+=x;
+                                    realTotalX+=realX;
                                     totalXY+=x*y;
-                                    totalX2+=x*x;                                    
+                                    realTotalXY+=realX*realY;
+                                    totalX2+=x*x;
+                                    realTotalX2+=realX*realX;                                    
                                 }
                                 var avgX=totalX/totalN;
                                 var avgY=totalY/totalN;
+                                var realAvgX=realTotalX/totalN;
+                                var realAvgY=realTotalY/totalN;
                                 //regression line: f(x)=a+bx. Calculate the factor b
                                 var b=(totalXY-totalN*avgX*avgY)/(totalX2-totalN*avgX*avgX);
+                                var realBRegressionLine=(realTotalXY-totalN*realAvgX*realAvgY)/(realTotalX2-totalN*realAvgX*realAvgY);
                                 // Calculate de a value for regression line: a=avgX
                                 this.bRegressionLine = b;
                                 this.aRegressionLine = avgY-this.bRegressionLine*avgX;
+                                var realARegressionLine = realAvgY-realBRegressionLine*realAvgX;
+                                //calculate real correlation
+                                var parteArriba=0, parteAbajo1=0, parteAbajo2=0;
+                                for(var numSer=0;numSer<series.length;numSer++){ 
+                                    var x=numSer;
+                                    var y=series[numSer].value;
+                                    parteArriba += (x-realAvgX)*(y-realAvgY);
+                                    parteAbajo1 += (x-realAvgX)*(x-realAvgX);
+                                    parteAbajo2 += (y-realAvgY)*(y-realAvgY);
+
+                                }
+                                this.covariance = parteArriba / (Math.sqrt(parteAbajo1)*Math.sqrt(parteAbajo2));
+                                this.predictedValue = realARegressionLine+realBRegressionLine*(series.length+1)/series.length;
+                                
+                                mycan.onmouseover= (function(mytarget,mycovariance,mypredictedValue) {                
+                                    return function(){
+                                        mycan.hidden=true;
+                                        var myAlternateText = document.createElement("div");
+                                        myAlternateText.id="kpimgalternatetext";
+                                        myAlternateText.innerHTML="<p>Predicted value: " + mypredictedValue.toFixed(4) + "</p>";
+                                        myAlternateText.innerHTML+="<p>Reliability: " + Math.abs(mycovariance.toFixed(2)) + "%</p>";
+                                        mytarget.appendChild(myAlternateText);
+                                    }                                    
+                                })(mytarget,this.covariance,this.predictedValue);                                
+                                mycan.onmouseleave = function(e){
+                                    mycan.hidden=false;
+                                    document.getElementById("kpimgalternatetext").remove();
+                                }
+
                                 if (!mysettings.visualOptions.showTrendLine){
                                     myCanCtx.fillStyle=mysettings.visualOptions.serieColorOk.valueOf().toString();
                                     if (b<0) myCanCtx.fillStyle=mysettings.visualOptions.serieColorKo.valueOf().toString();
@@ -336,6 +378,7 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
                         if (globalTarget) if (globalTarget!=0) {
                             var targetIndicator : number = globalValue/globalTarget;
                             mytext = parseFloat((targetIndicator*100).toFixed(mysettings.visualOptions.numberDecimals) as any).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "%";
+                            //mytext = parseFloat((Math.abs(this.covariance)*100).toFixed(mysettings.visualOptions.numberDecimals) as any).toLocaleString(mysettings.visualOptions.valueLocale.toString()) + "%";
                             myCanCtx.textAlign="center";
                         
                             fontSize = calcMaxFontSize(mycan,mytext,mysettings.visualOptions.kpifontFamily.valueOf().toString(),numberOfIndicators); 
@@ -370,13 +413,16 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
                     //end load indicator and series
 
                 }
-            })(this.settings);
+            })(this.settings, this.target);
             
 
             let mycan : HTMLCanvasElement = this.target.getElementsByTagName("canvas").item(0);
             mycan.height=this.target.offsetHeight;
             mycan.width=this.target.offsetWidth;
             let myCanCtx : CanvasRenderingContext2D = mycan.getContext("2d");
+
+            
+            
             
             //end load ok image
             
@@ -386,7 +432,6 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
         private static parseSettings(dataView: DataView): VisualSettings {
             //let parsedSettings : VisualSettings = VisualSettings.parse(dataView) as VisualSettings;
             return VisualSettings.parse(dataView) as VisualSettings;
-            //debugger;
             
             //return parsedSettings;
         }
