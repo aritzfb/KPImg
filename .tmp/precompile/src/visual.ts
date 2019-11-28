@@ -285,19 +285,23 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
 
                                 }
                                 this.covariance = parteArriba / (Math.sqrt(parteAbajo1)*Math.sqrt(parteAbajo2));
-                                this.predictedValue = realARegressionLine+realBRegressionLine*(series.length+1)/series.length;
+                                //this.predictedValue = realARegressionLine+realBRegressionLine*(series.length+1)/series.length;
+                                this.predictedValue = realARegressionLine+realBRegressionLine*(series.length+1);
                                 
-                                mycan.onmouseover= (function(mytarget,mycovariance,mypredictedValue) {                
+                                mytarget.onmouseover= (function(mytarget,mycovariance,mypredictedValue) {                
                                     return function(){
-                                        mycan.hidden=true;
-                                        var myAlternateText = document.createElement("div");
-                                        myAlternateText.id="kpimgalternatetext";
-                                        myAlternateText.innerHTML="<p>Predicted value: " + mypredictedValue.toFixed(4) + "</p>";
-                                        myAlternateText.innerHTML+="<p>Reliability: " + Math.abs(mycovariance.toFixed(2)) + "%</p>";
-                                        mytarget.appendChild(myAlternateText);
+                                        if(!document.getElementById("kpimgalternatetext")){
+                                            mycan.hidden=true;
+                                            var myAlternateText = document.createElement("div");
+                                            myAlternateText.id="kpimgalternatetext";
+                                            myAlternateText.innerHTML="<p>Predicted value: " + mypredictedValue.toFixed(4) + "</p>";
+                                            myAlternateText.innerHTML+="<p>Reliability: " + Math.abs(mycovariance.toFixed(2)) + "%</p>";
+                                            mytarget.appendChild(myAlternateText);
+                                        }
+                                        
                                     }                                    
                                 })(mytarget,this.covariance,this.predictedValue);                                
-                                mycan.onmouseleave = function(e){
+                                mytarget.onmouseleave = function(e){
                                     mycan.hidden=false;
                                     document.getElementById("kpimgalternatetext").remove();
                                 }
