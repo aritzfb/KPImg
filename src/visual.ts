@@ -288,17 +288,21 @@ module powerbi.extensibility.visual {
                                 //this.predictedValue = realARegressionLine+realBRegressionLine*(series.length+1)/series.length;
                                 this.predictedValue = realARegressionLine+realBRegressionLine*(series.length+1);
                                 
+
                                 mytarget.onmouseover= (function(mytarget,mycovariance,mypredictedValue) {                
                                     return function(){
                                         if(!document.getElementById("kpimgalternatetext")){
+
                                             mycan.hidden=true;
                                             var myAlternateText = document.createElement("div");
                                             myAlternateText.id="kpimgalternatetext";
-                                            myAlternateText.innerHTML="<p>Predicted value: " + mypredictedValue.toFixed(4) + "</p>";
-                                            myAlternateText.innerHTML+="<p>Reliability: " + Math.abs(mycovariance.toFixed(2)) + "%</p>";
+                                            //myAlternateText.innerHTML="<p>Predicted value: " +  mypredictedValue.toFixed(4) + "</p>";
+
+                                            myAlternateText.innerHTML="<p>Last element name: " +  series[series.length-1].name + "</p>";
+                                            myAlternateText.innerHTML+="<p>Predicted value for next element: " +  formatIndicator(mypredictedValue) + "</p>";
+                                            myAlternateText.innerHTML+="<p>Reliability: " + Math.abs(mycovariance).toFixed(2) + "%</p>";
                                             mytarget.appendChild(myAlternateText);
                                         }
-                                        
                                     }                                    
                                 })(mytarget,this.covariance,this.predictedValue);                                
                                 mytarget.onmouseleave = function(e){
