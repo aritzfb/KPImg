@@ -64,6 +64,8 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
             let hasCategories : boolean = false;
 
             let catValueIndex, catTargetIndex:number;
+            let minValue :number = 0;
+            let maxValue : number = 0;
 
             if(options) if(options.dataViews) if (options.dataViews[0]) if(options.dataViews[0].categorical.categories) hasCategories=true;
             if(options) if(options.dataViews) if (options.dataViews[0]) if(options.dataViews[0].categorical.values){
@@ -99,6 +101,8 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
                     var minLocal,maxLocal;
                     minLocal=options.dataViews[0].categorical.values[catValueIndex].minLocal;
                     maxLocal=options.dataViews[0].categorical.values[catValueIndex].maxLocal;
+                    minValue = minLocal;
+                    maxValue = maxLocal;
                     /*if(options.dataViews[0].categorical.values[0].source.roles.value){
                         minLocal=options.dataViews[0].categorical.values[0].minLocal;
                         maxLocal=options.dataViews[0].categorical.values[0].maxLocal;
@@ -251,8 +255,10 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
                                 for(var numSer=0;numSer<series.length;numSer++){                    
                                     //var x=numSer+1;
                                     var x=numSer*(mycan.width/series.length);
+                                    //var x=(numSer+1)*(mycan.width/series.length);
                                     var y=series[numSer].realPercent;
                                     var realX = numSer;
+                                    //var realX = numSer+1;
                                     var realY = series[numSer].value;
                                     totalY+=y;
                                     realTotalY+=realY;
@@ -268,16 +274,24 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
                                 var realAvgX=realTotalX/totalN;
                                 var realAvgY=realTotalY/totalN;
                                 //regression line: f(x)=a+bx. Calculate the factor b
-                                var b=(totalXY-totalN*avgX*avgY)/(totalX2-totalN*avgX*avgX);
-                                var realBRegressionLine=(realTotalXY-totalN*realAvgX*realAvgY)/(realTotalX2-totalN*realAvgX*realAvgY);
+                                //var b=(totalXY-totalN*avgX*avgY)/(totalX2-totalN*avgX*avgX);
+                                var b= ( totalN*totalXY - totalX*totalY) / ( totalN*totalX2 - totalX*totalX);
+
+                                //var realBRegressionLine=(realTotalXY-totalN*realAvgX*realAvgY)/(realTotalX2-totalN*realAvgX*realAvgY);
+                                var realBRegressionLine=( (totalN*realTotalXY) - (realTotalX*realTotalY) ) / ( (totalN*realTotalX2) - (realTotalX*realTotalX) );
                                 // Calculate de a value for regression line: a=avgX
                                 this.bRegressionLine = b;
-                                this.aRegressionLine = avgY-this.bRegressionLine*avgX;
-                                var realARegressionLine = realAvgY-realBRegressionLine*realAvgX;
+                                
+                                //this.aRegressionLine = avgY-this.bRegressionLine*avgX;
+                                this.aRegressionLine = ( totalY - this.bRegressionLine*totalX) / totalN;                                
+                                //var realARegressionLine = realAvgY-realBRegressionLine*realAvgX;
+                                var realARegressionLine = (realTotalY - realBRegressionLine*realTotalX) / totalN;
+                                
                                 //calculate real correlation
                                 var parteArriba=0, parteAbajo1=0, parteAbajo2=0;
                                 for(var numSer=0;numSer<series.length;numSer++){ 
                                     var x=numSer;
+                                    //var x=numSer + 1;
                                     var y=series[numSer].value;
                                     parteArriba += (x-realAvgX)*(y-realAvgY);
                                     parteAbajo1 += (x-realAvgX)*(x-realAvgX);
@@ -286,7 +300,9 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
                                 }
                                 this.covariance = parteArriba / (Math.sqrt(parteAbajo1)*Math.sqrt(parteAbajo2));
                                 //this.predictedValue = realARegressionLine+realBRegressionLine*(series.length+1)/series.length;
-                                this.predictedValue = realARegressionLine+realBRegressionLine*(series.length+1);
+                                
+                                //this.predictedValue = realARegressionLine+realBRegressionLine*(series.length+1);
+                                this.predictedValue = realARegressionLine+realBRegressionLine*(series.length);
                                 
 
                                 mytarget.onmouseover= (function(mytarget,mycovariance,mypredictedValue) {                
@@ -297,8 +313,9 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
                                             var myAlternateText = document.createElement("div");
                                             myAlternateText.id="kpimgalternatetext";
                                             //myAlternateText.innerHTML="<p>Predicted value: " +  mypredictedValue.toFixed(4) + "</p>";
+                                            
 
-                                            myAlternateText.innerHTML="<p>Last element name: " +  series[series.length-1].name + "</p>";
+                                            myAlternateText.innerHTML+="<p>Last element name: " +  series[series.length-1].name + "</p>";
                                             myAlternateText.innerHTML+="<p>Predicted value for next element: " +  formatIndicator(mypredictedValue) + "</p>";
                                             myAlternateText.innerHTML+="<p>Reliability: " + Math.abs(mycovariance).toFixed(2) + "%</p>";
                                             mytarget.appendChild(myAlternateText);
@@ -329,10 +346,13 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
                                 myCanCtx.strokeStyle=mysettings.visualOptions.serieColorNeutral.valueOf().toString();
                                 if (this.bRegressionLine>0) myCanCtx.strokeStyle=mysettings.visualOptions.serieColorOk.valueOf().toString();
                                 if (this.bRegressionLine<0) myCanCtx.strokeStyle=mysettings.visualOptions.serieColorKo.valueOf().toString();
-                                //myCanCtx.moveTo(0,mycan.height*(1-this.aRegressionLine));
+                                
                                 myCanCtx.moveTo(0,mycan.height*(1-this.aRegressionLine));
-                                //myCanCtx.lineTo(mycan.width,-this.bRegressionLine*mycan.width + mycan.height*(1-this.aRegressionLine));                            
+                                //myCanCtx.moveTo(0,mycan.height*(1-(realARegressionLine-minLocal)/(maxLocal-minLocal)));
+                                
                                 myCanCtx.lineTo(mycan.width,mycan.height*(1-this.bRegressionLine*mycan.width -this.aRegressionLine));
+                                //myCanCtx.lineTo(mycan.width,mycan.height*(1-realBRegressionLine*mycan.width/(maxLocal-minLocal) -realARegressionLine/(maxLocal-minLocal)));
+                                
                                 myCanCtx.closePath();
                                 myCanCtx.stroke();
                                 myCanCtx.fill();
