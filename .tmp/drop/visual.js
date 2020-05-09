@@ -787,6 +787,7 @@ var powerbi;
                         var globalValue = 0;
                         var globalTarget = 0;
                         var series = new Array();
+                        debugger;
                         if (hasValue) {
                             if (!hasCategories) {
                                 globalValue = parseFloat(options.dataViews[0].categorical.values[catValueIndex].values[0].valueOf().toString());
@@ -1011,6 +1012,7 @@ var powerbi;
                                                         myAlternateText.innerHTML += "<p>Last element name: " + series[series.length - 1].name + "</p>";
                                                         myAlternateText.innerHTML += "<p>Predicted value for next element: " + formatIndicator(mypredictedValue) + "</p>";
                                                         myAlternateText.innerHTML += "<p>Reliability: " + Math.abs(mycovariance).toFixed(2) + "%</p>";
+                                                        myAlternateText.innerHTML += "<p>b: " + realBRegressionLine + ";a: " + realARegressionLine + "</p>";
                                                         mytarget.appendChild(myAlternateText);
                                                     }
                                                 };
@@ -1036,10 +1038,23 @@ var powerbi;
                                                 myCanCtx.strokeStyle = mysettings.visualOptions.serieColorOk.valueOf().toString();
                                             if (this.bRegressionLine < 0)
                                                 myCanCtx.strokeStyle = mysettings.visualOptions.serieColorKo.valueOf().toString();
-                                            myCanCtx.moveTo(0, mycan.height * (1 - this.aRegressionLine));
+                                            var initialYreg = mycan.height - ytrans(realARegressionLine);
+                                            var finalXreg = mycan.height - ytrans(totalN * realBRegressionLine + realARegressionLine);
+                                            //debugger;
+                                            //initialYreg = mycan.height;
+                                            //finalXreg = -mycan.height/2;
+                                            myCanCtx.moveTo(0, initialYreg);
+                                            myCanCtx.lineTo(mycan.width, finalXreg);
+                                            //myCanCtx.moveTo(0,mycan.height*(1-this.aRegressionLine));
                                             //myCanCtx.moveTo(0,mycan.height*(1-(realARegressionLine-minLocal)/(maxLocal-minLocal)));
-                                            myCanCtx.lineTo(mycan.width, mycan.height * (1 - this.bRegressionLine * mycan.width - this.aRegressionLine));
-                                            //myCanCtx.lineTo(mycan.width,mycan.height*(1-realBRegressionLine*mycan.width/(maxLocal-minLocal) -realARegressionLine/(maxLocal-minLocal)));
+                                            //myCanCtx.moveTo(0,mycan.height);
+                                            //myCanCtx.moveTo(0,mycan.height*(1-this.aRegressionLine));
+                                            //myCanCtx.moveTo(0,mycan.height-this.aRegressionLine);
+                                            //myCanCtx.lineTo(mycan.width,mycan.height*(1-this.bRegressionLine*mycan.width -this.aRegressionLine));
+                                            //myCanCtx.lineTo(mycan.width,-mycan.height/(maxLocal-minLocal)*(realBRegressionLine*mycan.width -realARegressionLine));
+                                            //myCanCtx.lineTo(mycan.width,-mycan.height/2);
+                                            //myCanCtx.lineTo(mycan.width,-mycan.height/mycan.width);
+                                            //myCanCtx.lineTo(mycan.width,mycan.height*(1-this.bRegressionLine*mycan.width -this.aRegressionLine));
                                             myCanCtx.closePath();
                                             myCanCtx.stroke();
                                             myCanCtx.fill();
@@ -1119,6 +1134,9 @@ var powerbi;
                                 //end load indicator and series
                             };
                         })(this.settings, this.target);
+                        function ytrans(x) {
+                            return mycan.height / (maxLocal - minLocal) * (x - minLocal);
+                        }
                         var mycan = this.target.getElementsByTagName("canvas").item(0);
                         mycan.height = this.target.offsetHeight;
                         mycan.width = this.target.offsetWidth;
@@ -1155,7 +1173,7 @@ var powerbi;
                 name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG',
                 displayName: 'KPImg',
                 class: 'Visual',
-                version: '1.0.2',
+                version: '1.0.3',
                 apiVersion: '2.2.0',
                 create: function (options) { return new powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.Visual(options); },
                 custom: true

@@ -93,6 +93,7 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
             let globalValue : number = 0;
             let globalTarget : number = 0;
             let series : Array<myElementSerie> = new Array();
+            debugger;
             if(/*hasTarget &&*/ hasValue){
                 if(!hasCategories){
                     globalValue = parseFloat(options.dataViews[0].categorical.values[catValueIndex].values[0].valueOf().toString());
@@ -318,6 +319,7 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
                                             myAlternateText.innerHTML+="<p>Last element name: " +  series[series.length-1].name + "</p>";
                                             myAlternateText.innerHTML+="<p>Predicted value for next element: " +  formatIndicator(mypredictedValue) + "</p>";
                                             myAlternateText.innerHTML+="<p>Reliability: " + Math.abs(mycovariance).toFixed(2) + "%</p>";
+                                            myAlternateText.innerHTML+="<p>b: " + realBRegressionLine+ ";a: " + realARegressionLine +"</p>";
                                             mytarget.appendChild(myAlternateText);
                                         }
                                     }                                    
@@ -347,11 +349,30 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
                                 if (this.bRegressionLine>0) myCanCtx.strokeStyle=mysettings.visualOptions.serieColorOk.valueOf().toString();
                                 if (this.bRegressionLine<0) myCanCtx.strokeStyle=mysettings.visualOptions.serieColorKo.valueOf().toString();
                                 
-                                myCanCtx.moveTo(0,mycan.height*(1-this.aRegressionLine));
-                                //myCanCtx.moveTo(0,mycan.height*(1-(realARegressionLine-minLocal)/(maxLocal-minLocal)));
                                 
-                                myCanCtx.lineTo(mycan.width,mycan.height*(1-this.bRegressionLine*mycan.width -this.aRegressionLine));
-                                //myCanCtx.lineTo(mycan.width,mycan.height*(1-realBRegressionLine*mycan.width/(maxLocal-minLocal) -realARegressionLine/(maxLocal-minLocal)));
+                                
+                                
+                                var initialYreg = mycan.height-ytrans(realARegressionLine);
+
+                                var finalXreg = mycan.height-ytrans(totalN*realBRegressionLine+realARegressionLine);
+                                //debugger;
+                                //initialYreg = mycan.height;
+                                //finalXreg = -mycan.height/2;
+                                
+                                myCanCtx.moveTo(0,initialYreg);
+                                myCanCtx.lineTo(mycan.width,finalXreg);
+
+                                //myCanCtx.moveTo(0,mycan.height*(1-this.aRegressionLine));
+                                //myCanCtx.moveTo(0,mycan.height*(1-(realARegressionLine-minLocal)/(maxLocal-minLocal)));
+                                //myCanCtx.moveTo(0,mycan.height);
+                                //myCanCtx.moveTo(0,mycan.height*(1-this.aRegressionLine));
+                                //myCanCtx.moveTo(0,mycan.height-this.aRegressionLine);
+
+                                //myCanCtx.lineTo(mycan.width,mycan.height*(1-this.bRegressionLine*mycan.width -this.aRegressionLine));
+                                //myCanCtx.lineTo(mycan.width,-mycan.height/(maxLocal-minLocal)*(realBRegressionLine*mycan.width -realARegressionLine));
+                                //myCanCtx.lineTo(mycan.width,-mycan.height/2);
+                                //myCanCtx.lineTo(mycan.width,-mycan.height/mycan.width);
+                                //myCanCtx.lineTo(mycan.width,mycan.height*(1-this.bRegressionLine*mycan.width -this.aRegressionLine));
                                 
                                 myCanCtx.closePath();
                                 myCanCtx.stroke();
@@ -442,7 +463,9 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
 
                 }
             })(this.settings, this.target);
-            
+            function ytrans(x){
+                return mycan.height/(maxLocal-minLocal)*(x-minLocal);
+            }
 
             let mycan : HTMLCanvasElement = this.target.getElementsByTagName("canvas").item(0);
             mycan.height=this.target.offsetHeight;
