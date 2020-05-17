@@ -542,8 +542,8 @@ var powerbi;
     (function (extensibility) {
         var visual;
         (function (visual) {
-            var kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG;
-            (function (kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG) {
+            var kPImg0051F6D5AD8348148E01E9E4B31C9F41;
+            (function (kPImg0051F6D5AD8348148E01E9E4B31C9F41) {
                 "use strict";
                 var DataViewObjectsParser = powerbi.extensibility.utils.dataview.DataViewObjectsParser;
                 var VisualSettings = (function (_super) {
@@ -555,7 +555,7 @@ var powerbi;
                     }
                     return VisualSettings;
                 }(DataViewObjectsParser));
-                kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.VisualSettings = VisualSettings;
+                kPImg0051F6D5AD8348148E01E9E4B31C9F41.VisualSettings = VisualSettings;
                 var localeValues;
                 (function (localeValues) {
                     localeValues[localeValues["arabic"] = "ar-SA"] = "arabic"; // Arabic (Saudi Arabia)
@@ -611,7 +611,7 @@ var powerbi;
                     localeValues[localeValues["mainlandChina"] = "zh-CN"] = "mainlandChina"; // Mainland China, simplified characters
                     localeValues[localeValues["hongKong"] = "zh-HK"] = "hongKong"; // Hong Kong, traditional characters
                     localeValues[localeValues["taiwan"] = "zh-TW"] = "taiwan"; // Taiwan, traditional characters
-                })(localeValues = kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.localeValues || (kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.localeValues = {}));
+                })(localeValues = kPImg0051F6D5AD8348148E01E9E4B31C9F41.localeValues || (kPImg0051F6D5AD8348148E01E9E4B31C9F41.localeValues = {}));
                 var kpiFontFamilyOptions;
                 (function (kpiFontFamilyOptions) {
                     kpiFontFamilyOptions[kpiFontFamilyOptions["default"] = "helvetica, arial, sans-serif"] = "default";
@@ -638,19 +638,19 @@ var powerbi;
                     kpiFontFamilyOptions[kpiFontFamilyOptions["trebuchetMS"] = "\"Trebuchet MS\""] = "trebuchetMS";
                     kpiFontFamilyOptions[kpiFontFamilyOptions["verdana"] = "Verdana"] = "verdana";
                     kpiFontFamilyOptions[kpiFontFamilyOptions["wingdings"] = "Wingdings"] = "wingdings";
-                })(kpiFontFamilyOptions = kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.kpiFontFamilyOptions || (kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.kpiFontFamilyOptions = {}));
+                })(kpiFontFamilyOptions = kPImg0051F6D5AD8348148E01E9E4B31C9F41.kpiFontFamilyOptions || (kPImg0051F6D5AD8348148E01E9E4B31C9F41.kpiFontFamilyOptions = {}));
                 var alignOptions;
                 (function (alignOptions) {
                     alignOptions[alignOptions["top"] = "top"] = "top";
                     alignOptions[alignOptions["middle"] = "middle"] = "middle";
                     alignOptions[alignOptions["bottom"] = "bottom"] = "bottom";
-                })(alignOptions = kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.alignOptions || (kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.alignOptions = {}));
+                })(alignOptions = kPImg0051F6D5AD8348148E01E9E4B31C9F41.alignOptions || (kPImg0051F6D5AD8348148E01E9E4B31C9F41.alignOptions = {}));
                 var showModes;
                 (function (showModes) {
                     showModes[showModes["comp"] = "comp"] = "comp";
                     showModes[showModes["indi"] = "indi"] = "indi";
                     showModes[showModes["both"] = "both"] = "both";
-                })(showModes = kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.showModes || (kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.showModes = {}));
+                })(showModes = kPImg0051F6D5AD8348148E01E9E4B31C9F41.showModes || (kPImg0051F6D5AD8348148E01E9E4B31C9F41.showModes = {}));
                 var formatIndicators;
                 (function (formatIndicators) {
                     formatIndicators[formatIndicators["auto"] = "auto"] = "auto";
@@ -659,7 +659,7 @@ var powerbi;
                     formatIndicators[formatIndicators["M"] = "M"] = "M";
                     formatIndicators[formatIndicators["B"] = "B"] = "B";
                     formatIndicators[formatIndicators["kB"] = "kB"] = "kB";
-                })(formatIndicators = kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.formatIndicators || (kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.formatIndicators = {}));
+                })(formatIndicators = kPImg0051F6D5AD8348148E01E9E4B31C9F41.formatIndicators || (kPImg0051F6D5AD8348148E01E9E4B31C9F41.formatIndicators = {}));
                 var visualOptions = (function () {
                     function visualOptions() {
                         this.urlImgOk = "";
@@ -690,8 +690,8 @@ var powerbi;
                     }
                     return visualOptions;
                 }());
-                kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.visualOptions = visualOptions;
-            })(kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG = visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG || (visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG = {}));
+                kPImg0051F6D5AD8348148E01E9E4B31C9F41.visualOptions = visualOptions;
+            })(kPImg0051F6D5AD8348148E01E9E4B31C9F41 = visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41 || (visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41 = {}));
         })(visual = extensibility.visual || (extensibility.visual = {}));
     })(extensibility = powerbi.extensibility || (powerbi.extensibility = {}));
 })(powerbi || (powerbi = {}));
@@ -726,15 +726,15 @@ var powerbi;
     (function (extensibility) {
         var visual;
         (function (visual) {
-            var kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG;
-            (function (kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG) {
+            var kPImg0051F6D5AD8348148E01E9E4B31C9F41;
+            (function (kPImg0051F6D5AD8348148E01E9E4B31C9F41) {
                 "use strict";
                 var myElementSerie = (function () {
                     function myElementSerie() {
                     }
                     return myElementSerie;
                 }());
-                kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.myElementSerie = myElementSerie;
+                kPImg0051F6D5AD8348148E01E9E4B31C9F41.myElementSerie = myElementSerie;
                 var Visual = (function () {
                     function Visual(options) {
                         this.target = options.element;
@@ -1200,7 +1200,7 @@ var powerbi;
                     };
                     Visual.parseSettings = function (dataView) {
                         //let parsedSettings : VisualSettings = VisualSettings.parse(dataView) as VisualSettings;
-                        return kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.VisualSettings.parse(dataView);
+                        return kPImg0051F6D5AD8348148E01E9E4B31C9F41.VisualSettings.parse(dataView);
                         //return parsedSettings;
                     };
                     /**
@@ -1209,12 +1209,12 @@ var powerbi;
                      *
                      */
                     Visual.prototype.enumerateObjectInstances = function (options) {
-                        return kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.VisualSettings.enumerateObjectInstances(this.settings || kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.VisualSettings.getDefault(), options);
+                        return kPImg0051F6D5AD8348148E01E9E4B31C9F41.VisualSettings.enumerateObjectInstances(this.settings || kPImg0051F6D5AD8348148E01E9E4B31C9F41.VisualSettings.getDefault(), options);
                     };
                     return Visual;
                 }());
-                kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.Visual = Visual;
-            })(kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG = visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG || (visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG = {}));
+                kPImg0051F6D5AD8348148E01E9E4B31C9F41.Visual = Visual;
+            })(kPImg0051F6D5AD8348148E01E9E4B31C9F41 = visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41 || (visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41 = {}));
         })(visual = extensibility.visual || (extensibility.visual = {}));
     })(extensibility = powerbi.extensibility || (powerbi.extensibility = {}));
 })(powerbi || (powerbi = {}));
@@ -1224,13 +1224,13 @@ var powerbi;
     (function (visuals) {
         var plugins;
         (function (plugins) {
-            plugins.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG = {
-                name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG',
+            plugins.kPImg0051F6D5AD8348148E01E9E4B31C9F41 = {
+                name: 'kPImg0051F6D5AD8348148E01E9E4B31C9F41',
                 displayName: 'KPImg',
                 class: 'Visual',
                 version: '1.0.3',
                 apiVersion: '2.2.0',
-                create: function (options) { return new powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG.Visual(options); },
+                create: function (options) { return new powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41.Visual(options); },
                 custom: true
             };
         })(plugins = visuals.plugins || (visuals.plugins = {}));
