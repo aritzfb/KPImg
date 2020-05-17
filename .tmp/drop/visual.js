@@ -958,7 +958,6 @@ var powerbi;
                                         numberOfIndicators = 1;
                                     if (mysettings.visualOptions.showMode.valueOf().toString() == "comp")
                                         numberOfIndicators = 1;
-                                    debugger;
                                     if (hasValue /*&& hasTarget*/) {
                                         //draw series
                                         if (series.length > 0) {
@@ -1078,7 +1077,6 @@ var powerbi;
                                                 //var finalXreg = mycan.height-ytrans(totalN*realBRegressionLine+realARegressionLine);
                                                 var finalXreg = mycan.height - ytrans((totalN - 1) * realBRegressionLine + realARegressionLine);
                                                 //var finalXreg = mycan.height-ytrans(totalN*realBRegressionLine)+ytrans(realARegressionLine);;
-                                                //debugger;
                                                 //initialYreg = mycan.height
                                                 //finalXreg = -mycan.height/2;
                                                 myCanCtx.moveTo(0, initialYreg);

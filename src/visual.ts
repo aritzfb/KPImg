@@ -248,7 +248,6 @@ module powerbi.extensibility.visual {
                         if (hasValue && hasTarget) numberOfIndicators=2;
                         if (mysettings.visualOptions.showMode.valueOf().toString() == "indi") numberOfIndicators=1;
                         if (mysettings.visualOptions.showMode.valueOf().toString() == "comp") numberOfIndicators=1;
-                        debugger;  
                         if(hasValue /*&& hasTarget*/){
                                 
                             //draw series
@@ -389,7 +388,6 @@ module powerbi.extensibility.visual {
                                     //var finalXreg = mycan.height-ytrans(totalN*realBRegressionLine+realARegressionLine);
                                     var finalXreg = mycan.height-ytrans((totalN-1)*realBRegressionLine+realARegressionLine);
                                     //var finalXreg = mycan.height-ytrans(totalN*realBRegressionLine)+ytrans(realARegressionLine);;
-                                    //debugger;
                                     //initialYreg = mycan.height
                                     //finalXreg = -mycan.height/2;
                                     
