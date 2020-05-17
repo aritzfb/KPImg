@@ -772,7 +772,6 @@ var powerbi;
                             if (options.dataViews)
                                 if (options.dataViews[0])
                                     if (options.dataViews[0].categorical.values) {
-                                        debugger;
                                         if (options.dataViews[0].categorical.values.length == 2) {
                                             hasValue = true;
                                             hasTarget = true;
@@ -814,13 +813,15 @@ var powerbi;
                         mycan.width = this.target.offsetWidth;
                         var myCanCtx = mycan.getContext("2d");
                         mycan.hidden = false;
-                        var myDivNoValue = document.createElement("div");
-                        myDivNoValue.id = "kpimgnovalue";
-                        myDivNoValue.hidden = true;
                         var globalValue = 0;
                         var globalTarget = 0;
                         var series = new Array();
                         if (hasValue) {
+                            if (document.getElementById("kpimgnovalue"))
+                                document.getElementById("kpimgnovalue").remove();
+                            if (document.getElementById("kpimgalternatetext"))
+                                document.getElementById("kpimgalternatetext").remove();
+                            //kpimgalternatetext
                             if (!hasCategories) {
                                 globalValue = parseFloat(options.dataViews[0].categorical.values[catValueIndex].values[0].valueOf().toString());
                                 if (hasTarget)
@@ -1174,13 +1175,20 @@ var powerbi;
                             ///////////////moved
                         } // end of hasvalue=true
                         else {
+                            var myDivNoValue = document.getElementById("kpimgnovalue");
+                            if (!myDivNoValue)
+                                myDivNoValue = document.createElement("div");
+                            myDivNoValue.id = "kpimgnovalue";
+                            myDivNoValue.hidden = true;
+                            myDivNoValue.innerHTML = "<p>The fields 'Value' and 'Target' must contains a numeric column.</p>";
+                            if (myDivNoValue.hidden) {
+                                mycan.hidden = true;
+                                myDivNoValue.hidden = false;
+                                //myAlternateText.innerHTML+="<p>b: " + realBRegressionLine+ ";a: " + realARegressionLine +"</p>";
+                                this.target.appendChild(myDivNoValue);
+                            }
                             // no value
                             //myAlternateText.innerHTML="<p>Predicted value: " +  mypredictedValue.toFixed(4) + "</p>";
-                            mycan.hidden = true;
-                            myDivNoValue.hidden = false;
-                            myDivNoValue.innerHTML = "<p>The field Value must contains a numeric column.</p>";
-                            //myAlternateText.innerHTML+="<p>b: " + realBRegressionLine+ ";a: " + realARegressionLine +"</p>";
-                            this.target.appendChild(myDivNoValue);
                         }
                         function ytrans(x) {
                             var retorno = mycan.height / (maxLocal - minLocal) * (x - minLocal);

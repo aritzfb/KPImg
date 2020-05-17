@@ -81,7 +81,6 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
 
             if(options) if(options.dataViews) if (options.dataViews[0]) if(options.dataViews[0].categorical.categories) hasCategories=true;
             if(options) if(options.dataViews) if (options.dataViews[0]) if(options.dataViews[0].categorical.values){
-                debugger;
                 if(options.dataViews[0].categorical.values.length==2) {
                     hasValue=true;
                     hasTarget=true;
@@ -116,15 +115,15 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
             let myCanCtx : CanvasRenderingContext2D = mycan.getContext("2d");
             mycan.hidden=false;
 
-            var myDivNoValue = document.createElement("div");
-            myDivNoValue.id="kpimgnovalue";
-            myDivNoValue.hidden = true;
-
+            
             let globalValue : number = 0;
             let globalTarget : number = 0;
             let series : Array<myElementSerie> = new Array();
             
             if(/*hasTarget &&*/ hasValue){
+                if (document.getElementById("kpimgnovalue")) document.getElementById("kpimgnovalue").remove();
+                if (document.getElementById("kpimgalternatetext")) document.getElementById("kpimgalternatetext").remove();
+                //kpimgalternatetext
                 if(!hasCategories){
                     globalValue = parseFloat(options.dataViews[0].categorical.values[catValueIndex].values[0].valueOf().toString());
                     if(hasTarget) globalTarget = parseFloat(options.dataViews[0].categorical.values[catTargetIndex].values[0].valueOf().toString());
@@ -505,15 +504,24 @@ module powerbi.extensibility.visual.kPImg0051F6D5AD8348148E01E9E4B31C9F41_DEBUG 
             
             } // end of hasvalue=true
             else {
+                var myDivNoValue = document.getElementById("kpimgnovalue");
+                if (!myDivNoValue) myDivNoValue = document.createElement("div");
+                myDivNoValue.id="kpimgnovalue";
+                myDivNoValue.hidden = true;
+                myDivNoValue.innerHTML="<p>The fields 'Value' and 'Target' must contains a numeric column.</p>";
+
+                if (myDivNoValue.hidden){
+                    mycan.hidden=true;
+                    myDivNoValue.hidden = false;
+
+                    
+                    //myAlternateText.innerHTML+="<p>b: " + realBRegressionLine+ ";a: " + realARegressionLine +"</p>";
+                    this.target.appendChild(myDivNoValue);
+                }
                 // no value
                 
                 //myAlternateText.innerHTML="<p>Predicted value: " +  mypredictedValue.toFixed(4) + "</p>";
-                mycan.hidden=true;
-                myDivNoValue.hidden = false;
-
-                myDivNoValue.innerHTML="<p>The field Value must contains a numeric column.</p>";
-                //myAlternateText.innerHTML+="<p>b: " + realBRegressionLine+ ";a: " + realARegressionLine +"</p>";
-                this.target.appendChild(myDivNoValue);
+                
             }
             
             function ytrans(x){
